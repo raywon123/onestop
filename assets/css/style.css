@@ -1,0 +1,76 @@
+#jumbotron {
+    background: teal;
+    /*design idea: add a background for a major city if selected--probably a future dev idea, though, unless we can find a good API for the images*/
+    color: white;
+  }
+  .logo {
+    float: left;
+    color: #444;
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    background: white;
+    padding: 20px;
+    margin: 20px;
+  }
+  .lead {
+    float: left;
+  }
+  #register, #login {
+    float: right;
+    padding: 8px;
+    margin-right: 10px;
+    border: none;
+  }
+.header {
+    float: left;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 3px;
+    width: 100%;
+}
+
+.search-bar {
+
+    padding: 11px;
+}
+
+.options {
+    clear: both;
+    float: left;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+    padding: 3px;
+}
+
+.food,
+.dates,
+.itinerary,
+.events,
+.movies {
+    padding: 10px;
+    background: teal;
+    border-radius: 3px;
+    text-align: center;
+    color: white;
+}
+
+.location {
+    padding: 11px;
+    text-transform: capitalize;
+}
+
+.user-info,
+.search-bar,
+.dates,
+.itinerary {
+    padding: 8px;
+}
+
+.iconic-sprite {
+    fill: #fff;
+    height: 20px;
+}
