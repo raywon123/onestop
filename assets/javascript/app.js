@@ -1,26 +1,25 @@
-<<<<<<< HEAD
 $(document).ready(function() {
-    $('.food').on('click', function () {
+    $('#food').on('click', function () {
         console.log('food clicked');
         //set up ajax function for pulling restaurant data
         //change button color to show active
     })
-    $('.events').on('click', function () {
+    $('#events').on('click', function () {
         console.log('events clicked');
         //set up ajax function for pulling event data
         //change button color to show active
     })
-    $('.movies').on('click', function () {
+    $('#movies').on('click', function () {
         console.log('movies clicked');
         //set up ajax function for pulling movie data
         //change button color to show active
     })
-    $('.dates').on('click', function () {
+    $('#user-dates').on('click', function () {
         console.log('dates clicked');
         //display calendar
         //save date
     })
-    $('.itinerary').on('click', function () {
+    $('#itin').on('click', function () {
         console.log('itinerary clicked');
         //go to itinerary page
         //divide each into yes, maybe or saving for later
@@ -29,10 +28,23 @@ $(document).ready(function() {
         console.log('search clicked');
         let response = $('.search').val();
         console.log(response);
-        $('.location').html(response);
+        $('#location').html(response);
         $('.search').val('');
         //get city data, populate results for food/events/movies
-=======
+    })
+    $('#dropdownMenuButton').on('click', function () {
+        console.log('dropdown clicked');
+        //clicked, but no dropdown
+    })
+    $('#register').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-title').text('New message to ' + recipient)
+        modal.find('.modal-body input').val(recipient)
+      })
 var config = {
     apiKey: "AIzaSyCXn1sbvI8TkwpdQuURWkamAsfmNpencYA",
     authDomain: "project1auth.firebaseapp.com",
@@ -42,8 +54,6 @@ var config = {
     messagingSenderId: "658376280287"
 };
 firebase.initializeApp(config);
-
-$(document).ready(function () {
 
     //get elements
     const txtEmail = document.getElementById('txtEmail');
@@ -82,6 +92,5 @@ $(document).ready(function () {
         } else {
             console.log("not logged in")
         }
->>>>>>> a643d9d3b79ca0802faecc9b841aa0eda265edf5
     })
 })
