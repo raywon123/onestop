@@ -1,5 +1,14 @@
-<<<<<<< HEAD
-$(document).ready(function() {
+var config = {
+    apiKey: "AIzaSyCXn1sbvI8TkwpdQuURWkamAsfmNpencYA",
+    authDomain: "project1auth.firebaseapp.com",
+    databaseURL: "https://project1auth.firebaseio.com",
+    projectId: "project1auth",
+    storageBucket: "project1auth.appspot.com",
+    messagingSenderId: "658376280287"
+};
+firebase.initializeApp(config);
+
+$(document).ready(function () {
     $('.food').on('click', function () {
         console.log('food clicked');
         //set up ajax function for pulling restaurant data
@@ -32,16 +41,11 @@ $(document).ready(function() {
         $('.location').html(response);
         $('.search').val('');
         //get city data, populate results for food/events/movies
-=======
-var config = {
-    apiKey: "AIzaSyCXn1sbvI8TkwpdQuURWkamAsfmNpencYA",
-    authDomain: "project1auth.firebaseapp.com",
-    databaseURL: "https://project1auth.firebaseio.com",
-    projectId: "project1auth",
-    storageBucket: "project1auth.appspot.com",
-    messagingSenderId: "658376280287"
-};
-firebase.initializeApp(config);
+
+    })
+})
+
+
 
 $(document).ready(function () {
 
@@ -82,6 +86,5 @@ $(document).ready(function () {
         } else {
             console.log("not logged in")
         }
->>>>>>> a643d9d3b79ca0802faecc9b841aa0eda265edf5
     })
 })
