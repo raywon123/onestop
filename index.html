@@ -1,34 +1,65 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js">
-<!--<![endif]-->
+
+<!doctype html>
+<html lang="en">
 
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Event</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+        <link rel="stylesheet" href="assets/css/style.css">
+    <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
+    <title>OneStop</title>
 </head>
 
 <body>
-    <div class="container">
+    <div class="jumbotron jumbotron-fluid" id="jumbotron">
+        <div class="logo">logo</div>
+        <div class="container">
+
+            <h1 class="display-4">1Stop</h1>
+            <p class="lead">Your stop for planning your next outing.</p>
+        </div>
+
+
             <input id = "txtEmail" type="text" name="username" placeholder="Username" required>
             <input id = "txtPassword" type="password" name="password" placeholder="Password" required>
             <input id = "btnLogin" type="submit" value="Login">
             <input id = "btnSignUp" type="submit" value="Signup">
+
+    </div>
+    <div class="header">
+        <div class="user-info">User Info (Placeholder)</div>
+
+        <div class="dates">Dates
+            <span class="oi oi-shield" title="icon name"></span>
+        </div>
+        <div class="itinerary">Itinerary</div>
+    </div>
+    <span class="search-bar">Search:
+        <input class="search"></input>
+        <button class='search-button'>Submit</button>
+    </span>
+    <div class="location">Location (placeholder; displays city entered)</div>
+    <div class="options">
+        <div class="food">Food</div>
+        <div class="events">Events</div>
+        <div class="movies">Movies</div>
     </div>
 
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
     <script src="assets/javascript/app.js" async defer></script>
+
+
+
 </body>
 
-</html> 
+</html>
