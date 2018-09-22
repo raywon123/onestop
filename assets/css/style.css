@@ -1,0 +1,110 @@
+#jumbotron {
+    background: url("../images/pexels-photo-356830.jpeg");
+    opacity: 0.75;
+   color: white;
+  }
+  .logo {
+    float: left;
+    color: #444;
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    background: white;
+    padding: 20px;
+    margin: 20px;
+  }
+  .lead {
+    float: left;
+  }
+  #register, #login {
+    float: right;
+    padding: 8px;
+    margin-right: 10px;
+    border: none;
+  }
+
+#setup {
+  padding: 10px; 
+
+}
+.username, .button {
+    float: left;
+
+}
+.search-bar {
+
+    padding: 11px;
+}
+
+#options {
+    clear: both;
+    /*float: left;
+    display: grid;*/
+    grid-gap: 5px;
+    margin: 0 3px;
+    /*grid-template-columns: 1fr 1fr 1fr;
+    padding: 3px;*/
+}
+
+#food,
+.dates,
+.itinerary,
+#events,
+#movies {
+    padding: 10px;
+    background: #C0C0C0	;
+    border-radius: 3px;
+    border: 2px solid white;
+    text-align: center;
+    color: white;
+}
+
+#location {
+    /*padding: 11px;*/
+    text-transform: capitalize;
+    color: white;
+}
+.user-dates, .itin {
+    margin-right: 10px;
+    background: #6c757d;
+    padding: 4px;
+    border-radius: 4px;
+    color: white;
+}
+.user-info,
+.search-bar,
+.dates,
+.itinerary {
+    padding: 8px;
+}
+
+.iconic-sprite {
+    fill: #fff;
+    height: 20px;
+}
+#itinerary {
+    text-align: right;
+}
+#header {
+    background: #C0C0C0	;
+    padding: 10px;
+    margin: 0 5px;
+}
+#modal-register, #modal-signin {
+    color: black;
+}
+.close { text-align: right;
+margin-right: 10px;}
+
+#txtEmail, #txtPassword {
+    max-width: 200px;
+}
+
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+    #select, #location, #itinerary {
+        text-align: center;
+        margin-bottom: 8px;
+    }
+}
+
