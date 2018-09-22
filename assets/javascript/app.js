@@ -109,27 +109,23 @@ function meetupApi() {
             console.log(result);
             data.push.apply(data, result.data.events);
             console.log(data);
-            appendtoHTML(data);
+
+            let group = "<div> ";
+            data.forEach(e => {
+                let button = "<button>"
+                let events = "";
+                //appents event name
+                events += "<h5>" + e.group.who;
+                events += "<h4>" + (e.name);
+
+                //appends venue
+                if (e.venue) events += "<h5>" + e.venue.name + "</h5><h6>" + e.venue.address_1
+                events += "<a href = &qout" + e.link + "&qout></a>"
+                button += (events)
+                group += (button)
+            })
+            $('.events').append(group)
         }
     })
 }
 
-//FUNCTION TO APPEND VALUES TO HTML
-function appendtoHTML(array) {
-
-    let group = "<div> ";
-    data.forEach(e => {
-        let button = "<button>"
-        let events = "";
-        //appents event name
-        events += "<h5>" + e.group.who;
-        events += "<h4>" + (e.name);
-
-        //appends venue
-        if (e.venue) events += "<h5>" + e.venue.name + "</h5><h6>" + e.venue.address_1
-        events += "<a href = &qout" + e.link + "&qout></a>"
-        button += (events)
-        group += (button)
-    })
-    $('.events').append(group)
-}
