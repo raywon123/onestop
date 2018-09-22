@@ -127,7 +127,7 @@ $(document).ready(function () {
 
 //GETS MEETUP API
 function meetupApi(date) {
-    let queryUrl = "https://api.meetup.com/find/upcoming_events?photo-host=public&start_date_range=" + date + "&page=10&text=austin&sign=true&key=883432577b254a175d755a767f1467"
+    let queryUrl = "https://api.meetup.com/find/upcoming_events?photo-host=public&order=time&start_date_range=" + date + "&page=10&text=austin&sign=true&key=883432577b254a175d755a767f1467"
     let data = [];
 
     //runs ajax get
@@ -146,12 +146,20 @@ function meetupApi(date) {
                 let button = "<button>"
                 let events = "";
                 //appents event name
-                events += "<h5>" + e.group.who;
+                events += "<h6>" + e.group.name;
                 events += "<h4>" + (e.name);
-
+                
                 //appends venue
                 if (e.venue) events += "<h5>" + e.venue.name + "</h5><h6>" + e.venue.address_1
                 events += "<a href = &qout" + e.link + "&qout></a>"
+
+                //appends time
+                let time;
+                if(e.local_time > 13) time = local_time - 12 + "PM";
+                else time = e.local_time + "AM"
+                events += "<h6>" + time
+
+                
                 button += (events)
                 group += (button)
             })
