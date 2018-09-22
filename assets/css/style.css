@@ -1,9 +1,10 @@
 #jumbotron {
     background: url("../images/pexels-photo-356830.jpeg");
     opacity: 0.75;
-   color: white;
-  }
-  .logo {
+    color: white;
+}
+
+.logo {
     float: left;
     color: #444;
     text-align: center;
@@ -12,18 +13,21 @@
     background: white;
     padding: 20px;
     margin: 20px;
-  }
-  .lead {
+}
+
+.lead {
     float: left;
-  }
-  #register, #login {
+}
+
+#register, #login {
     float: right;
     padding: 8px;
     margin-right: 10px;
     border: none;
-  }
+}
 
 #setup {
+
   padding: 10px; 
 }
 .home {
@@ -39,13 +43,14 @@ a {
 }
 a:hover {
     color: #6c757d;
+
 }
+
 .username, .button {
     float: left;
-
 }
-.search-bar {
 
+.search-bar {
     padding: 11px;
 }
 
@@ -63,8 +68,9 @@ a:hover {
 .dates,
 #meetups,
 #movies {
+
     padding: 10px;
-    background: #C0C0C0	;
+    background: #C0C0C0;
     border-radius: 3px;
    
     text-align: center;
@@ -79,6 +85,7 @@ a:hover {
     text-transform: capitalize;
     color: white;
 }
+
 .user-dates, .itin {
     margin-right: 10px;
     background: #6c757d;
@@ -86,10 +93,8 @@ a:hover {
     border-radius: 4px;
     color: white;
 }
-.user-info,
-.search-bar,
-.dates,
-.itinerary {
+
+.user-info, .search-bar, .dates, .itinerary {
     padding: 8px;
 }
 #foodContainer, #meetupsContainer, #moviesContainer {
@@ -100,19 +105,25 @@ background: #C0C0C0;
     fill: #fff;
     height: 20px;
 }
+
 .itin {
-float: right;
+
 }
+
 #header {
-    background: #C0C0C0	;
+    background: #C0C0C0;
     padding: 10px;
     margin: 0 3px;
 }
+
 #modal-register, #modal-signin {
     color: black;
 }
-.close { text-align: right;
-margin-right: 10px;}
+
+.close {
+    text-align: right;
+    margin-right: 10px;
+}
 
 #txtEmail, #txtPassword {
     max-width: 200px;
@@ -121,8 +132,19 @@ margin-right: 10px;}
 @media only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px) {
     #select, #location, .form-control, #itinerary {
+      
         text-align: center;
         margin-bottom: 8px;
     }
+/* Date Picker  */
+.datetimepicker {
+    width: 70px;
+    background: white;
+    border: 1px solid #555;
+    color:  #6c757d;
 }
 
+.hide {
+    display: none;
+}
+}
