@@ -111,6 +111,9 @@
     color:  #6c757d;
 }
 
+.hide {
+    display: none;
+}
 
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
     #select, #location, #itinerary {

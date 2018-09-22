@@ -18,17 +18,17 @@ console.log(dateUsed)
 $(document).ready(function () {
     meetupApi(dateUsed);
 
-    $('.food').on('click', function () {
+    $('#food').on('click', function () {
         console.log('food clicked');
         //set up ajax function for pulling restaurant data
         //change button color to show active
     })
-    $('.events').on('click', function () {
+    $('#meetups').on('click', function () {
         console.log('events clicked');
         //set up ajax function for pulling event data
         //change button color to show active
     })
-    $('.movies').on('click', function () {
+    $('#movies').on('click', function () {
         console.log('movies clicked');
         //set up ajax function for pulling movie data
         //change button color to show active
@@ -154,17 +154,15 @@ function meetupApi(date) {
                 events += "<a href = &qout" + e.link + "&qout></a>"
 
                 //appends time
-                let time;
-                if(e.local_time > 13) time = local_time - 12 + "PM";
-                else time = e.local_time + "AM"
+                let time = moment(e.local_time, 'HH:mm').format('hh:mm a')
                 events += "<h6>" + time
 
                 
                 button += (events)
-                group += (button)
+                group += (button)   
             })
-            $('#events').empty();
-            $('#events').append(group)
+            $('#meetups').empty();
+            $('#meetups').append(group)
         }
     })
 }
