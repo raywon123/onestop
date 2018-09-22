@@ -1,50 +1,3 @@
-$(document).ready(function() {
-    $('#food').on('click', function () {
-        console.log('food clicked');
-        //set up ajax function for pulling restaurant data
-        //change button color to show active
-    })
-    $('#events').on('click', function () {
-        console.log('events clicked');
-        //set up ajax function for pulling event data
-        //change button color to show active
-    })
-    $('#movies').on('click', function () {
-        console.log('movies clicked');
-        //set up ajax function for pulling movie data
-        //change button color to show active
-    })
-    $('#user-dates').on('click', function () {
-        console.log('dates clicked');
-        //display calendar
-        //save date
-    })
-    $('#itin').on('click', function () {
-        console.log('itinerary clicked');
-        //go to itinerary page
-        //divide each into yes, maybe or saving for later
-    })
-    $('.search-button').on('click', function () {
-        console.log('search clicked');
-        let response = $('.search').val();
-        console.log(response);
-        $('#location').html(response);
-        $('.search').val('');
-        //get city data, populate results for food/events/movies
-    })
-    $('#dropdownMenuButton').on('click', function () {
-        console.log('dropdown clicked');
-        //clicked, but no dropdown
-    })
-    $('#register').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var recipient = button.data('whatever') // Extract info from data-* attributes
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var modal = $(this)
-        modal.find('.modal-title').text('New message to ' + recipient)
-        modal.find('.modal-body input').val(recipient)
-      })
 var config = {
     apiKey: "AIzaSyCXn1sbvI8TkwpdQuURWkamAsfmNpencYA",
     authDomain: "project1auth.firebaseapp.com",
@@ -55,6 +8,52 @@ var config = {
 };
 firebase.initializeApp(config);
 
+//variables
+let data;
+
+$(document).ready(function () {
+    $('.food').on('click', function () {
+        console.log('food clicked');
+        //set up ajax function for pulling restaurant data
+        //change button color to show active
+    })
+    $('.events').on('click', function () {
+        console.log('events clicked');
+        //set up ajax function for pulling event data
+        //change button color to show active
+    })
+    $('.movies').on('click', function () {
+        console.log('movies clicked');
+        //set up ajax function for pulling movie data
+        //change button color to show active
+    })
+    $('.dates').on('click', function () {
+        console.log('dates clicked');
+        //display calendar
+        //save date
+    })
+    $('.itinerary').on('click', function () {
+        console.log('itinerary clicked');
+        //go to itinerary page
+        //divide each into yes, maybe or saving for later
+    })
+    $('.search-button').on('click', function () {
+        console.log('search clicked');
+        let response = $('.search').val();
+        console.log(response);
+        $('.location').html(response);
+        $('.search').val('');
+        //get city data, populate results for food/events/movies
+
+    })
+})
+
+
+//google auth
+$(document).ready(function () {
+
+
+    meetupApi();
     //get elements
     const txtEmail = document.getElementById('txtEmail');
     const txtPassword = document.getElementById('txtPassword');
@@ -93,4 +92,44 @@ firebase.initializeApp(config);
             console.log("not logged in")
         }
     })
-})
+});
+
+//GETS MEETUP API
+function meetupApi() {
+    let queryUrl = "https://api.meetup.com/find/upcoming_events?photo-host=public&page=10&text=austin&sign=true&key=883432577b254a175d755a767f1467"
+    if (!data) data = [];
+
+    //runs ajax get
+    $.ajax({
+
+        dataType: 'jsonp',
+        method: 'get',
+        url: queryUrl,
+        success: function (result) {
+            console.log(result);
+            data.push.apply(data, result.data.events);
+            console.log(data);
+            appendtoHTML(data);
+        }
+    })
+}
+
+//FUNCTION TO APPEND VALUES TO HTML
+function appendtoHTML(array) {
+
+    let group = "<div> ";
+    data.forEach(e => {
+        let button = "<button>"
+        let events = "";
+        //appents event name
+        events += "<h5>" + e.group.who;
+        events += "<h4>" + (e.name);
+
+        //appends venue
+        if (e.venue) events += "<h5>" + e.venue.name + "</h5><h6>" + e.venue.address_1
+        events += "<a href = &qout" + e.link + "&qout></a>"
+        button += (events)
+        group += (button)
+    })
+    $('.events').append(group)
+}
