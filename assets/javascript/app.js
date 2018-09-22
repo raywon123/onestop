@@ -10,6 +10,8 @@ firebase.initializeApp(config);
 
 //variables
 let data;
+let datepick = "";
+
 
 $(document).ready(function () {
     $('.food').on('click', function () {
@@ -27,11 +29,35 @@ $(document).ready(function () {
         //set up ajax function for pulling movie data
         //change button color to show active
     })
-    $('.dates').on('click', function () {
-        console.log('dates clicked');
-        //display calendar
-        //save date
-    })
+
+    // -- Calendar Date Picker -- begins
+
+    // $('.dates').on('click', function () {
+    //     console.log('dates clicked');
+    //     //display calendar
+    //     //save date
+    // })
+
+    $(function () {
+        $('.datetimepicker').datetimepicker(
+            {
+                format: 'MM/DD',                  
+            });
+    });
+
+    $(".datetimepicker").on("dp.change", function (e) {
+        // $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+        console.log(e.date);
+        console.log(e.date._d);
+
+        console.log(moment(e.date._d).format('YYYYMMDD'));
+        datepick = e.date._d;
+    });
+
+    console.log(moment(datepick).format('YYYYMMDD'));
+ 
+    // --- Calendar Date Picker -- ends
+ 
     $('.itinerary').on('click', function () {
         console.log('itinerary clicked');
         //go to itinerary page
