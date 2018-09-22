@@ -11,9 +11,13 @@ firebase.initializeApp(config);
 //variables
 let data;
 let datepick = "";
+let dateUsed = moment().format('YYYY-MM-DDTHH:mm');
+console.log(dateUsed)
 
 
 $(document).ready(function () {
+    meetupApi(dateUsed);
+
     $('.food').on('click', function () {
         console.log('food clicked');
         //set up ajax function for pulling restaurant data
@@ -41,7 +45,7 @@ $(document).ready(function () {
     $(function () {
         $('.datetimepicker').datetimepicker(
             {
-                format: 'MM/DD',                  
+                format: 'MM/DD',
             });
     });
 
@@ -52,12 +56,16 @@ $(document).ready(function () {
 
         console.log(moment(e.date._d).format('YYYYMMDD'));
         datepick = e.date._d;
+        //converting to utc for meetup api
+        dateUsed = moment(datepick, 'MM/DD/YYYY').format('YYYY-MM-DDTHH:mm')
+        meetupApi(dateUsed);
+        console.log(dateUsed)
     });
 
     console.log(moment(datepick).format('YYYYMMDD'));
- 
+
     // --- Calendar Date Picker -- ends
- 
+
     $('.itinerary').on('click', function () {
         console.log('itinerary clicked');
         //go to itinerary page
@@ -77,9 +85,6 @@ $(document).ready(function () {
 
 //google auth
 $(document).ready(function () {
-
-
-    meetupApi();
     //get elements
     const txtEmail = document.getElementById('txtEmail');
     const txtPassword = document.getElementById('txtPassword');
@@ -121,9 +126,9 @@ $(document).ready(function () {
 });
 
 //GETS MEETUP API
-function meetupApi() {
-    let queryUrl = "https://api.meetup.com/find/upcoming_events?photo-host=public&page=10&text=austin&sign=true&key=883432577b254a175d755a767f1467"
-    if (!data) data = [];
+function meetupApi(date) {
+    let queryUrl = "https://api.meetup.com/find/upcoming_events?photo-host=public&start_date_range=" + date + "&page=10&text=austin&sign=true&key=883432577b254a175d755a767f1467"
+    let data = [];
 
     //runs ajax get
     $.ajax({
@@ -150,7 +155,8 @@ function meetupApi() {
                 button += (events)
                 group += (button)
             })
-            $('.events').append(group)
+            $('#events').empty();
+            $('#events').append(group)
         }
     })
 }
