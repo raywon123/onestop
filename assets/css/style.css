@@ -1,9 +1,10 @@
 #jumbotron {
     background: url("../images/pexels-photo-356830.jpeg");
     opacity: 0.75;
-   color: white;
-  }
-  .logo {
+    color: white;
+}
+
+.logo {
     float: left;
     color: #444;
     text-align: center;
@@ -12,27 +13,28 @@
     background: white;
     padding: 20px;
     margin: 20px;
-  }
-  .lead {
+}
+
+.lead {
     float: left;
-  }
-  #register, #login {
+}
+
+#register, #login {
     float: right;
     padding: 8px;
     margin-right: 10px;
     border: none;
-  }
+}
 
 #setup {
-  padding: 10px; 
-
+    padding: 10px;
 }
+
 .username, .button {
     float: left;
-
 }
-.search-bar {
 
+.search-bar {
     padding: 11px;
 }
 
@@ -46,13 +48,9 @@
     padding: 3px;*/
 }
 
-#food,
-.dates,
-.itinerary,
-#events,
-#movies {
+#food, .dates, .itinerary, #events, #movies {
     padding: 10px;
-    background: #C0C0C0	;
+    background: #C0C0C0;
     border-radius: 3px;
     border: 2px solid white;
     text-align: center;
@@ -64,6 +62,7 @@
     text-transform: capitalize;
     color: white;
 }
+
 .user-dates, .itin {
     margin-right: 10px;
     background: #6c757d;
@@ -71,10 +70,8 @@
     border-radius: 4px;
     color: white;
 }
-.user-info,
-.search-bar,
-.dates,
-.itinerary {
+
+.user-info, .search-bar, .dates, .itinerary {
     padding: 8px;
 }
 
@@ -82,29 +79,42 @@
     fill: #fff;
     height: 20px;
 }
+
 #itinerary {
     text-align: right;
 }
+
 #header {
-    background: #C0C0C0	;
+    background: #C0C0C0;
     padding: 10px;
     margin: 0 5px;
 }
+
 #modal-register, #modal-signin {
     color: black;
 }
-.close { text-align: right;
-margin-right: 10px;}
+
+.close {
+    text-align: right;
+    margin-right: 10px;
+}
 
 #txtEmail, #txtPassword {
     max-width: 200px;
 }
 
-@media only screen and (max-width: 760px),
-(min-device-width: 768px) and (max-device-width: 1024px) {
+/* Date Picker  */
+.datetimepicker {
+    width: 70px;
+    background: white;
+    border: 1px solid #555;
+    color:  #6c757d;
+}
+
+
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
     #select, #location, #itinerary {
         text-align: center;
         margin-bottom: 8px;
     }
 }
-
