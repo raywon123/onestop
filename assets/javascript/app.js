@@ -11,20 +11,24 @@ firebase.initializeApp(config);
 //variables
 let data;
 let datepick = "";
+let dateUsed = moment().format('YYYY-MM-DDTHH:mm');
+console.log(dateUsed)
 
 
 $(document).ready(function () {
-    $('.food').on('click', function () {
+    meetupApi(dateUsed);
+
+    $('#food').on('click', function () {
         console.log('food clicked');
         //set up ajax function for pulling restaurant data
         //change button color to show active
     })
-    $('.events').on('click', function () {
+    $('#meetups').on('click', function () {
         console.log('events clicked');
         //set up ajax function for pulling event data
         //change button color to show active
     })
-    $('.movies').on('click', function () {
+    $('#movies').on('click', function () {
         console.log('movies clicked');
         //set up ajax function for pulling movie data
         //change button color to show active
@@ -41,7 +45,7 @@ $(document).ready(function () {
     $(function () {
         $('.datetimepicker').datetimepicker(
             {
-                format: 'MM/DD',                  
+                format: 'MM/DD',
             });
     });
 
@@ -52,12 +56,16 @@ $(document).ready(function () {
 
         console.log(moment(e.date._d).format('YYYYMMDD'));
         datepick = e.date._d;
+        //converting to utc for meetup api
+        dateUsed = moment(datepick, 'MM/DD/YYYY').format('YYYY-MM-DDTHH:mm')
+        meetupApi(dateUsed);
+        console.log(dateUsed)
     });
 
     console.log(moment(datepick).format('YYYYMMDD'));
- 
+
     // --- Calendar Date Picker -- ends
- 
+
     $('.itinerary').on('click', function () {
         console.log('itinerary clicked');
         //go to itinerary page
@@ -77,9 +85,6 @@ $(document).ready(function () {
 
 //google auth
 $(document).ready(function () {
-
-
-    meetupApi();
     //get elements
     const txtEmail = document.getElementById('txtEmail');
     const txtPassword = document.getElementById('txtPassword');
@@ -121,9 +126,9 @@ $(document).ready(function () {
 });
 
 //GETS MEETUP API
-function meetupApi() {
-    let queryUrl = "https://api.meetup.com/find/upcoming_events?photo-host=public&page=10&text=austin&sign=true&key=883432577b254a175d755a767f1467"
-    if (!data) data = [];
+function meetupApi(date) {
+    let queryUrl = "https://api.meetup.com/find/upcoming_events?photo-host=public&order=time&start_date_range=" + date + "&page=10&text=austin&sign=true&key=883432577b254a175d755a767f1467"
+    let data = [];
 
     //runs ajax get
     $.ajax({
@@ -135,27 +140,30 @@ function meetupApi() {
             console.log(result);
             data.push.apply(data, result.data.events);
             console.log(data);
-            appendtoHTML(data);
+
+            let group = "<div> ";
+            data.forEach(e => {
+                let button = "<button>"
+                let events = "";
+                //appents event name
+                events += "<h6>" + e.group.name;
+                events += "<h4>" + (e.name);
+                
+                //appends venue
+                if (e.venue) events += "<h5>" + e.venue.name + "</h5><h6>" + e.venue.address_1
+                events += "<a href = &qout" + e.link + "&qout></a>"
+
+                //appends time
+                let time = moment(e.local_time, 'HH:mm').format('hh:mm a')
+                events += "<h6>" + time
+
+                
+                button += (events)
+                group += (button)   
+            })
+            $('#meetups').empty();
+            $('#meetups').append(group)
         }
     })
 }
 
-//FUNCTION TO APPEND VALUES TO HTML
-function appendtoHTML(array) {
-
-    let group = "<div> ";
-    data.forEach(e => {
-        let button = "<button>"
-        let events = "";
-        //appents event name
-        events += "<h5>" + e.group.who;
-        events += "<h4>" + (e.name);
-
-        //appends venue
-        if (e.venue) events += "<h5>" + e.venue.name + "</h5><h6>" + e.venue.address_1
-        events += "<a href = &qout" + e.link + "&qout></a>"
-        button += (events)
-        group += (button)
-    })
-    $('.events').append(group)
-}
