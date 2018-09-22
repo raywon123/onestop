@@ -48,17 +48,19 @@
 
 #food,
 .dates,
-.itinerary,
-#events,
+#meetups,
 #movies {
     padding: 10px;
     background: #C0C0C0	;
     border-radius: 3px;
-    border: 2px solid white;
+   
     text-align: center;
     color: white;
 }
-
+.form-control {
+    width: 70px;
+    text-align: center;
+}
 #location {
     /*padding: 11px;*/
     text-transform: capitalize;
@@ -77,13 +79,16 @@
 .itinerary {
     padding: 8px;
 }
-
+#foodContainer, #meetupsContainer, #moviesContainer {
+color: white;
+background: #C0C0C0;
+}
 .iconic-sprite {
     fill: #fff;
     height: 20px;
 }
-#itinerary {
-    text-align: right;
+.itin {
+float: right;
 }
 #header {
     background: #C0C0C0	;
@@ -102,7 +107,7 @@ margin-right: 10px;}
 
 @media only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px) {
-    #select, #location, #itinerary {
+    #select, #location, .form-control, #itinerary {
         text-align: center;
         margin-bottom: 8px;
     }
