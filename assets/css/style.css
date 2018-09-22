@@ -25,7 +25,21 @@
 
 #setup {
   padding: 10px; 
-
+}
+.home {
+    width: 100px;
+    text-align: center;
+    background: #E98576;
+    color: white;
+    float: right;
+   
+}
+a {
+    text-decoration: none !important;
+    color: white;
+}
+a:hover {
+    color: #6c757d;
 }
 .username, .button {
     float: left;
@@ -93,7 +107,7 @@ float: right;
 #header {
     background: #C0C0C0	;
     padding: 10px;
-    margin: 0 5px;
+    margin: 0 3px;
 }
 #modal-register, #modal-signin {
     color: black;
