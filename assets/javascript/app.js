@@ -14,6 +14,7 @@ let datepick = "";
 let dateUsed = moment().format('YYYY-MM-DDTHH:mm');
 console.log(dateUsed)
 
+let food_limit = 10;
 
 $(document).ready(function () {
     meetupApi(dateUsed);
@@ -167,3 +168,118 @@ function meetupApi(date) {
     })
 }
 
+// -- Zomato API - begins
+
+function searchZomato(location) {
+
+    // API data
+    // -- search by city id (not by city name)
+    // https://developers.zomato.com/api/v2.1/search?entity_id=278&entity_type=city&count=10&cuisines=55&sort=rating
+
+    // -- search by lat long
+    // https://developers.zomato.com/api/v2.1/search?count=10&lat=30.403009&lon=-97.724746&cuisines=55%2C1%2C3%2C73&sort=real_distance
+
+    // location id: Austin=278, Round Rock=10903,  Pflugerville=10902, 
+    //                cedar park=10897,    
+    //                -- using lat long
+    //                domain=30.403009,-97.724746 (first number is lat, second number is long)
+    //                arboretum=30.393348,-97.743028
+    //                downtown=30.271505,-97.754029
+    //                UT campus=30.283684,-97.737435
+    //                sunset valley=30.228064,-97.812052
+    //                slaughter ln=30.167162,-97.785891
+    //                -- using locality
+    //                locality=tarrytown
+    //                locality=hyde park
+    //                locality=downtown
+    //                locality=west campus
+    //                locality=cheerywood
+    //                locality=zilker
+    // cuisine id: italian=55, Amercian=1, asian=3, bbq=193, burger=168, chinese=25, fast_food=40, 
+    //             japanese=60, korean=67, mexican=73, pizza=82, sandwich=304, taco=997
+    // establishment id: cafe=1
+    // collection_id
+    // category_id
+    // sort by: rating, cost, real_distance
+    // order 
+
+    
+
+    let url = "https://developers.zomato.com/api/v2.1/search";
+    url += '?' + $.param({
+        'entity_id': "278",
+        'entity_type': "city",
+        'lat': "",
+        'lon': "",
+        'cuisines': "55, 1, 3, 73",
+        'count': food_limit,
+        'sort': "rating"
+
+    });
+
+    $.ajax({
+        url: url,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("user-key", '8c68943a2837727c29f3dd83fe86245e');
+        },
+        method: 'GET',
+        dataType: 'json',
+
+    }).done(function (response) {
+        console.log(response);
+        apiObject = response;
+        displayZomato(response);
+    }).fail(function (err) {
+        throw err;
+    });
+
+
+};
+
+function displayZomato(data) {
+   
+    let foodCards = $("#food");
+
+    foodCards.empty();
+
+    for (let i = 0; i < food_limit; i++) {
+
+        // data 
+        let thumb_picture = data.restaurants[i].restaurant.thumb;
+        let name = data.restaurants[i].restaurant.name;
+        let address = data.restaurants[i].restaurant.location.address;
+        let price_range = data.restaurants[i].restaurant.price_range;
+        let cost = data.restaurants[i].restaurant.average_cost_for_two;
+        let rating = data.restaurants[i].restaurant.user_rating.aggregate_rating;
+        
+
+        // console.log(data.restaurants[i].restaurant.thumb);
+        // console.log(data.restaurants[i].restaurant.name);
+        // console.log(data.restaurants[i].restaurant.location.address);
+        // console.log(data.restaurants[i].restaurant.price_range);
+        // console.log(data.restaurants[i].restaurant.average_cost_for_two);
+        // console.log(data.restaurants[i].restaurant.user_rating.aggregate_rating);
+        
+
+        // clickable image element
+        let imgButton = $("<button>");
+        let imgElement = $("<img>");
+
+        // // Adding a class
+        imgElement.addClass("thumb-food");
+        // // Adding a data-attribute with a value of index i
+        imgElement.attr("data-foodindex", i);
+        imgElement.attr("src", thumb_picture);
+        imgButton.append(imgElement);
+        
+        imgButton.append("<p class=\"foodname\">" + name + "</p>");
+        imgButton.append("<p class=\"foodaddress\">" + address + "</p>");
+        imgButton.append("<p class=\"foodcost\">" + "Cost for Two : $" + cost + "</p>");
+        foodCards.append(imgButton);
+    }
+
+};
+// -- Zomato API -- ends
+
+// -- main program
+searchZomato("Austin");
