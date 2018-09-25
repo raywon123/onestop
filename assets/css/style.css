@@ -46,8 +46,20 @@ a:hover {
 
 }
 
+button {
+    width: 400px;
+    background-color: rgb(77, 67, 67);
+    color: white;
+    margin-bottom: 25px;
+}
+
 .username, .button {
     float: left;
+}
+
+.search-button {
+    width: 80px;
+    text-align: center;
 }
 
 .search-bar {
@@ -63,6 +75,7 @@ a:hover {
     /*grid-template-columns: 1fr 1fr 1fr;
     padding: 3px;*/
 }
+
 
 #food,
 .dates,
@@ -97,13 +110,27 @@ a:hover {
 .user-info, .search-bar, .dates, .itinerary {
     padding: 8px;
 }
-#foodContainer, #meetupsContainer, #moviesContainer {
-color: white;
-background: #C0C0C0;
-}
+
 .iconic-sprite {
     fill: #fff;
     height: 20px;
+}
+
+#foodContainer {
+    background: url("../images/food.jpg");
+    text-align: center;
+    color: white;
+}
+
+#meetupsContainer {
+    background-color: rgb(73, 74, 77);
+    text-align: center;
+    color: white;
+}
+
+#moviesContainer {
+    background: url("../images/movies.jpg");
+    text-align: center;
 }
 
 .itin {
@@ -111,7 +138,7 @@ background: #C0C0C0;
 }
 
 #header {
-    background: #C0C0C0;
+    background: rgb(97, 219, 209);
     padding: 10px;
     margin: 0 3px;
 }
