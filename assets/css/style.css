@@ -27,7 +27,23 @@
 }
 
 #setup {
-    padding: 10px;
+
+  padding: 10px; 
+}
+.home {
+    width: 100px;
+    text-align: center;
+    background: #E98576;
+    color: white;
+    float: right;
+}
+a {
+    text-decoration: none !important;
+    color: white;
+}
+a:hover {
+    color: #6c757d;
+
 }
 
 .username, .button {
@@ -48,15 +64,22 @@
     padding: 3px;*/
 }
 
-#food, .dates, .itinerary, #events, #movies {
+#food,
+.dates,
+#meetups,
+#movies {
+
     padding: 10px;
     background: #C0C0C0;
     border-radius: 3px;
-    border: 2px solid white;
+   
     text-align: center;
     color: white;
 }
-
+.form-control {
+    width: 70px;
+    text-align: center;
+}
 #location {
     /*padding: 11px;*/
     text-transform: capitalize;
@@ -74,20 +97,23 @@
 .user-info, .search-bar, .dates, .itinerary {
     padding: 8px;
 }
-
+#foodContainer, #meetupsContainer, #moviesContainer {
+color: white;
+background: #C0C0C0;
+}
 .iconic-sprite {
     fill: #fff;
     height: 20px;
 }
 
-#itinerary {
-    text-align: right;
+.itin {
+
 }
 
 #header {
     background: #C0C0C0;
     padding: 10px;
-    margin: 0 5px;
+    margin: 0 3px;
 }
 
 #modal-register, #modal-signin {
@@ -103,6 +129,13 @@
     max-width: 200px;
 }
 
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+    #select, #location, .form-control, #itinerary {
+      
+        text-align: center;
+        margin-bottom: 8px;
+    }
 /* Date Picker  */
 .datetimepicker {
     width: 70px;
@@ -114,10 +147,4 @@
 .hide {
     display: none;
 }
-
-@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
-    #select, #location, #itinerary {
-        text-align: center;
-        margin-bottom: 8px;
-    }
 }
