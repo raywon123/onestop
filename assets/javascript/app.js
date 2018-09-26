@@ -93,6 +93,10 @@ $(document).ready(function () {
     $("#food").on("click", ".foodchoice", function () {
 
         let foodindex = $(this).data('foodindex');
+        $('.initialDisplay').removeClass("d-none");
+        $('html,body').animate({
+            scrollTop: $(".headDisplay").offset().top},
+            'slow');
         console.log(foodindex);
         console.log(foodObject.restaurants[foodindex]);
 

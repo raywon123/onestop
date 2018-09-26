@@ -17,60 +17,14 @@
 <body>
     <div class="jumbotron jumbotron-fluid" id="jumbotron">
 
-        <div class="container">
+        <div class="container headDisplay">
             <div class="row" id="jumbotron-1">
                 <div class="col-sm" id="main">(logo here)
                     <h1 class="display-4">OneStop</h1>
                 </div>
                 <div class="col-sm"></div>
-                <div class="col-sm">
-                    <!--<div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            Sign In/Register
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#signin" data-toggle="modal">Log in</a>
-                            <a class="dropdown-item" href="#register" data-toggle="modal">Sign up</a>
-
-                        </div>-->
-                </div>
-
-                <!-- <div class="modal fade" id="signin" data-target="#signin">
-                    <div class="modal-dialog">
-
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <div class="modal-header" id="modal-signin">
-                                Login
-                            </div>
-
-                            <input id="txtEmail" type="text" name="username" placeholder="Username" required>
-                            <input id="txtPassword" type="password" name="password" placeholder="Password" required>
-                            <input id="btnLogin" type="submit" value="Login"> </div>
-                    </div>
-                </div>
-            
-            <div class="modal fade" id="register" data-target="#register">
-                <div class="modal-dialog">
-
-                    <div class="modal-content">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <div class="modal-header" id="modal-register">
-                            Register
-                        </div>
-
-                        <input id="txtEmail" type="text" name="username" placeholder="Username" required>
-                        <input id="txtPassword" type="password" name="password" placeholder="Password" required>
-                        <input id="btnSignUp" type="submit" value="Signup"> </div>
-                </div>
-            </div>-->
+                <div class="col-sm"></div>
             </div>
-        </div>
 
             <div class="container">
                 <div class="row" id="jumbotron-2">
@@ -81,8 +35,7 @@
                         <input id="txtEmail" type="text" name="username" placeholder="Username" required>
                         <input id="btnLogin" type="submit" value="Login"> </div>
                 </div>
-            </div>
-            <div class="container">
+
                 <div class="row" id="jumbotron-3">
                     <div class="col-sm" id="main"></div>
                     <div class="col-sm"></div>
@@ -90,8 +43,7 @@
                         <input id="txtPassword" type="password" name="password" placeholder="Password" required>
                         <input id="btnSignUp" type="submit" value="Signup"> </div>
                 </div>
-            </div>
-            <div class="container">
+
                 <div class="row" id="jumbotron-4">
                     <div class="col-sm"></div>
                     <div class="col-sm"></div>
@@ -102,35 +54,51 @@
 
     </div>
 
-    <div class="row" id="header">
-        <div class="col-sm" id="select">
-            <input class="search" placeholder="Choose a city"></input>
-            <button class='search-button'>Submit</button>
-        </div>
-        <div class="col-sm" id="location">Location (Placeholder)</div>
+    
+            
 
-        <div class="col-sm" id="itinerary">
-            <input type='text' class="form-control datetimepicker" placeholder="Dates" /> 
-            <span class="itin">Itinerary</span>
-        </div>
-    </div>
+    <div class="container-fluid border border-0">
+        <div class="row" id="header">
+            <div class="col-sm" id="select">
+                <input class="search" placeholder="Choose a city"></input>
+                <button class='search-button'>Submit</button>
+            </div>
+            <div class="col-sm" id="location">Location (Placeholder)</div>
 
-    <div class="row" id="options">
-        <div class="col-lg-4" id="foodContainer">
-            <h1>Food</h1>
-            <div class="col-sm" id="food">
-
+            <div class="col-sm" id="itinerary">
+                <input type='text' class="form-control datetimepicker" placeholder="Dates" />
+                <span class="itin">Itinerary</span>
             </div>
         </div>
-        <div class="col-lg-4" id="meetupsContainer">
-            <h1>Local Meetups</h1>
-            <div class="col-sm" id="meetups"></div>
+
+        <div class="mx-5 row initialDisplay d-none my-2">
+                <div class="col-lg-2 mt-2">
+                    <img src="https://via.placeholder.com/150x150">
+                </div>
+                <div class="col-lg-8 ">
+                    <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</span>
+                    
+                </div>
+            <button type="button" class="w-100 float-right col-lg-2 btn btn-light btn-lg addBtn h-25 mt-5"> Add Event</button>
+             
+            </div>
+
+        <div class="row" id="options">
+            <div class="col-lg-4" id="foodContainer">
+                <h1>Food</h1>
+                <div class="col-sm" id="food">
+
+                </div>
+            </div>
+            <div class="col-lg-4" id="meetupsContainer">
+                <h1>Local Meetups</h1>
+                <div class="col-sm" id="meetups"></div>
+            </div>
+            <div class="col-lg-4" id="moviesContainer">
+                <h1>Movies</h1>
+                <div class="col-sm" id="movies"></div>
+            </div>
         </div>
-        <div class="col-lg-4" id="moviesContainer">
-            <h1>Movies</h1>
-            <div class="col-sm" id="movies"></div>
-        </div>
-    </div>
 
     </div>
     <!-- Optional JavaScript -->
