@@ -22,9 +22,12 @@ let foodObject = {};
 let meetupObject = [];
 
 function initialApp() {
-    meetupApi(dateUsed);
-    movieApi(movieDateUsed);
+    $("#food").empty();
+    $("#meetups").empty();
+    $("#movies").empty();
     searchZomato("Austin");
+    meetupApi(dateUsed);
+    movieApi(movieDateUsed);    
 }
 
 $(document).ready(function () {
@@ -182,11 +185,12 @@ function meetupApi(date) {
         method: 'get',
         url: queryUrl,
         success: function (result) {
-
+           
+            meetupObject=[];
             console.log(result);
             meetupObject.push.apply(meetupObject, result.data.events);
             console.log(data);
-
+            
             let group = "<div>";
             let key = 0;
             meetupObject.forEach(e => {
@@ -210,7 +214,7 @@ function meetupApi(date) {
                 group += (button)
             })
             $('#meetups').empty();
-            $('#meetups').append(group)
+            $('#meetups').append(group);
         }
     })
 }
@@ -331,10 +335,8 @@ function displayZomato(data) {
     }
 
 };
-// -- Zomato API -- ends
+// -- Zomato API ends ----
 
-// -- main program
-// searchZomato("Austin");
 
 //GET Movies API data
 function movieApi(date) {
