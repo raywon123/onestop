@@ -15,6 +15,7 @@ let dateUsed = moment().format('YYYY-MM-DDTHH:mm');
 console.log(dateUsed)
 
 let food_limit = 10;
+let foodObject = {};
 
 $(document).ready(function () {
     meetupApi(dateUsed);
@@ -81,6 +82,17 @@ $(document).ready(function () {
         //get city data, populate results for food/events/movies
 
     })
+
+
+    // using daynamicly created food buttons
+
+    $("#food").on("click", ".foodchoice", function () {
+
+        let foodindex = $(this).data('foodindex');
+        console.log(foodindex);
+        console.log(foodObject.restaurants[foodindex]);
+
+    });
 })
 
 
@@ -149,7 +161,7 @@ function meetupApi(date) {
                 //appents event name
                 events += "<h6>" + e.group.name;
                 events += "<h4>" + (e.name);
-                
+
                 //appends venue
                 if (e.venue) events += "<h5>" + e.venue.name + "</h5><h6>" + e.venue.address_1
                 events += "<a href = &qout" + e.link + "&qout></a>"
@@ -158,9 +170,9 @@ function meetupApi(date) {
                 let time = moment(e.local_time, 'HH:mm').format('hh:mm a')
                 events += "<h6>" + time
 
-                
+
                 button += (events)
-                group += (button)   
+                group += (button)
             })
             $('#meetups').empty();
             $('#meetups').append(group)
@@ -203,7 +215,7 @@ function searchZomato(location) {
     // sort by: rating, cost, real_distance
     // order 
 
-    
+
 
     let url = "https://developers.zomato.com/api/v2.1/search";
     url += '?' + $.param({
@@ -227,7 +239,10 @@ function searchZomato(location) {
 
     }).done(function (response) {
         console.log(response);
-        apiObject = response;
+
+        foodObject = response;
+        console.log(foodObject);
+
         displayZomato(response);
     }).fail(function (err) {
         throw err;
@@ -237,7 +252,7 @@ function searchZomato(location) {
 };
 
 function displayZomato(data) {
-   
+
     let foodCards = $("#food");
 
     foodCards.empty();
@@ -251,7 +266,7 @@ function displayZomato(data) {
         let price_range = data.restaurants[i].restaurant.price_range;
         let cost = data.restaurants[i].restaurant.average_cost_for_two;
         let rating = data.restaurants[i].restaurant.user_rating.aggregate_rating;
-        
+
 
         // console.log(data.restaurants[i].restaurant.thumb);
         // console.log(data.restaurants[i].restaurant.name);
@@ -259,19 +274,21 @@ function displayZomato(data) {
         // console.log(data.restaurants[i].restaurant.price_range);
         // console.log(data.restaurants[i].restaurant.average_cost_for_two);
         // console.log(data.restaurants[i].restaurant.user_rating.aggregate_rating);
-        
+
 
         // clickable image element
         let imgButton = $("<button>");
         let imgElement = $("<img>");
 
         // // Adding a class
+        imgButton.addClass("foodchoice");
         imgElement.addClass("thumb-food");
+
         // // Adding a data-attribute with a value of index i
-        imgElement.attr("data-foodindex", i);
+        imgButton.attr("data-foodindex", i);
         imgElement.attr("src", thumb_picture);
         imgButton.append(imgElement);
-        
+
         imgButton.append("<p class=\"foodname\">" + name + "</p>");
         imgButton.append("<p class=\"foodaddress\">" + address + "</p>");
         imgButton.append("<p class=\"foodcost\">" + "Cost for Two : $" + cost + "</p>");
