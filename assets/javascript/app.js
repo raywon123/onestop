@@ -34,6 +34,10 @@ $(document).ready(function () {
         console.log($(this).data("key"));
         let key =  $(this).data("key");
         console.log(meetupObject[key])
+        $('.initialDisplay').removeClass("d-none");
+        $('html,body').animate({
+            scrollTop: $(".headDisplay").offset().top},
+            'slow');
         //set up ajax function for pulling event data
         //change button color to show active
     })
