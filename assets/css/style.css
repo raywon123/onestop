@@ -1,3 +1,7 @@
+body, HTML {
+    background: black;  
+}
+
 #jumbotron {
     background: url("../images/pexels-photo-356830.jpeg");
     opacity: 0.75;
@@ -181,7 +185,3 @@ button {
     color:  #6c757d;
 }
 
-.hide {
-    display: none;
-}
-}
