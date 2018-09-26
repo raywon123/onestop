@@ -43,6 +43,11 @@ $(document).ready(function () {
     })
     $('#movies').on('click', function () {
         console.log('movies clicked');
+        $('.initialDisplay').removeClass("d-none");
+        $('html,body').animate({
+            scrollTop: $(".headDisplay").offset().top},
+            'slow');
+        //set up ajax fun
         //set up ajax function for pulling movie data
         //change button color to show active
     })
