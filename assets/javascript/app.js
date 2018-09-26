@@ -62,8 +62,7 @@ $(document).ready(function () {
         //change button color to show active
     })
 
-    // -- Calendar Date Picker -- begins
-
+    // -- Calendar Date Picker begins ----
     // $('.dates').on('click', function () {
     //     console.log('dates clicked');
     //     //display calendar
@@ -79,8 +78,8 @@ $(document).ready(function () {
 
     $(".datetimepicker").on("dp.change", function (e) {
         // $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-        console.log(e.date);
-        console.log(e.date._d);
+        // console.log(e.date);
+        // console.log(e.date._d);
 
         console.log(moment(e.date._d).format('YYYYMMDD'));
         datepick = e.date._d;
@@ -94,7 +93,7 @@ $(document).ready(function () {
 
     // console.log(moment(datepick).format('YYYYMMDD'));
 
-    // --- Calendar Date Picker -- ends
+    // --- Calendar Date Picker ends -------
 
     $('.itinerary').on('click', function () {
         console.log('itinerary clicked');
@@ -274,10 +273,10 @@ function searchZomato(location) {
         dataType: 'json',
 
     }).done(function (response) {
-        console.log(response);
+        // console.log(response);
 
         foodObject = response;
-        console.log(foodObject);
+        // console.log(foodObject);
 
         displayZomato(response);
     }).fail(function (err) {
@@ -342,22 +341,22 @@ function movieApi(date) {
     $('#movies').empty();
     let movieQueryUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=szt5azey9rbbjqc8jypd7cvw";
     //if error on movieQueryURL persists, try this key:p54wc8q9rw4m9bezu48fs7cg
-    console.log('movieQueryUrl: ', movieQueryUrl)
+    // console.log('movieQueryUrl: ', movieQueryUrl)
     let movieData = [];
     let movieLimit = movieData.slice(0, 24);
-    console.log('movieLimit', movieLimit);
+    // console.log('movieLimit', movieLimit);
 
     $.ajax({
         //dataType: 'jsonp',
         url: movieQueryUrl,
         method: "GET"
     }).then(function (data) {
-        console.log('Initial data: ', data);
+        // console.log('Initial data: ', data);
         let moviesLimit = data.slice(0, 25);
         let movieArray = [];
         movieArray.push(moviesLimit);
-        console.log('movieArray: ', movieArray);
-        console.log('25 movies: ', moviesLimit);
+        // console.log('movieArray: ', movieArray);
+        // console.log('25 movies: ', moviesLimit);
 
         let movieTimeFormat = moment("2018-09-26T11:00", 'YYYY-MM-DDTHH:mm').format('LT');
         console.log('MOVIE TIME FORMAT: ', movieTimeFormat)
@@ -365,8 +364,8 @@ function movieApi(date) {
         for (let n = 0; n < moviesLimit.length; n++) {
             let movieTitles = moviesLimit[n].title;
             let description = moviesLimit[n].shortDescription;
-            console.log('description: ', description);
-            console.log('movieTitles: ', movieTitles);
+            // console.log('description: ', description);
+            // console.log('movieTitles: ', movieTitles);
 
             let movieButtons = $('<button>');
             movieButtons.addClass('movie-btn');
@@ -377,14 +376,14 @@ function movieApi(date) {
 
             let theatreNames;
             for (let m = 0; m < movieTimes.length; m++) {
-                console.log('m: ', m);
+                // console.log('m: ', m);
                 theatreNames = movieTimes[m].theatre.name;
                 movieHour = movieTimes[m].dateTime;
-                console.log('theaterNames: ', theatreNames);
+                // console.log('theaterNames: ', theatreNames);
                 newMovieTime = moment(movieHour).format('LT');
-                console.log('newMovieTime', newMovieTime);
+                // console.log('newMovieTime', newMovieTime);
             }
-            console.log('movieTimes: ', movieTimes);
+            // console.log('movieTimes: ', movieTimes);
 
             movieButtons.html('<h4><em>' + movieTitles + '</em></h4><h5>' + theatreNames + '</h5><h6>' + newMovieTime + '</h6>');
 
