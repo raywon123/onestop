@@ -23,13 +23,15 @@ let meetupObject = [];
 
 let lat_meetup = "30.299699783325195";
 let lon_meetup = "-97.7223892211914";
+let lat = lat_meetup;
+let lon = lon_meetup;
 let isMeetupChosen = false;
 
 function initialApp() {
     $("#food").empty();
     $("#meetups").empty();
     $("#movies").empty();
-    searchZomato("Austin");
+    searchZomato("Austin", lat, lon);
     meetupApi(dateUsed);
     movieApi(movieDateUsed);
 }
@@ -64,7 +66,15 @@ $(document).ready(function () {
     $('#meetups').on('click', '.meetupKey', function () {
         console.log($(this).data("key"));
         let key = $(this).data("key");
-        console.log(meetupObject[key])
+        console.log(meetupObject[key]);
+
+        // console.log(meetupObject[key].group.lat);
+        // console.log(meetupObject[key].group.lon);
+        lat = meetupObject[key].group.lat;
+        lon = meetupObject[key].group.lon;
+        isMeetupChosen = true;
+        searchZomato("Autsin", lat, lon);
+
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
             scrollTop: $(".headDisplay").offset().top
@@ -254,7 +264,7 @@ function meetupApi(date) {
 
 // -- Zomato API - begins
 
-function searchZomato(location) {
+function searchZomato(location, lat, lon) {
 
     // API data
     // -- search by city id (not by city name)
@@ -296,8 +306,8 @@ function searchZomato(location) {
         url += '?' + $.param({
             'entity_id': "278",
             'entity_type': "city",
-            'lat': lat_meetup,
-            'lon': lon_meetup,
+            'lat': lat,
+            'lon': lon,
             'cuisines': "55, 1, 3, 73",
             'count': food_limit,
             'sort': "real_distance"
@@ -339,7 +349,7 @@ function searchZomato(location) {
         throw err;
     });
 
-
+    isMeetupChosen = false;
 };
 
 function displayZomato(data) {
