@@ -21,6 +21,9 @@ let meetupObject = [];
 
 $(document).ready(function () {
     meetupApi(dateUsed);
+    movieDateUsed = moment(dateUsed).format('YYYY-MM-DD');
+    movieApi(movieDateUsed);
+
 
     $('#food').on('click', function () {
         console.log('food clicked');
