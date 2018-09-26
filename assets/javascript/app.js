@@ -21,13 +21,17 @@ let foodObject = {};
 
 let meetupObject = [];
 
+let lat_meetup = "30.299699783325195";
+let lon_meetup = "-97.7223892211914";
+let isMeetupClicked = true;
+
 function initialApp() {
     $("#food").empty();
     $("#meetups").empty();
     $("#movies").empty();
     searchZomato("Austin");
     meetupApi(dateUsed);
-    movieApi(movieDateUsed);    
+    movieApi(movieDateUsed);
 }
 
 $(document).ready(function () {
@@ -185,12 +189,36 @@ function meetupApi(date) {
         method: 'get',
         url: queryUrl,
         success: function (result) {
-           
-            meetupObject=[];
+
+            meetupObject = [];
             console.log(result);
             meetupObject.push.apply(meetupObject, result.data.events);
-            console.log(data);
-            
+            // console.log(data);
+
+            // -- Not all events have all the data
+            // -- detailed event:
+            // console.log(result.data.events[0].name);
+            // console.log(result.data.events[0].description);
+            // console.log(result.data.events[0].venue.name);
+            // console.log(result.data.events[0].venue.lat);
+            // console.log(result.data.events[0].venue.lon);
+            // console.log(result.data.events[0].local_date);
+            // console.log(result.data.events[0].local_time);
+            // console.log(result.data.events[0].fee.amount);
+            // console.log(result.data.events[0].link);
+
+            // -- non-detailed event:
+            //  console.log(result.data.events[0].name);
+            //  console.log(result.data.events[0].group.lat);
+            //  console.log(result.data.events[0].group.lon);
+            //  console.log(result.data.events[0].local_date);
+            //  console.log(result.data.events[0].local_time);
+            //  console.log(result.data.events[0].link);
+
+            lat_meetup = result.data.events[0].group.lat;
+            lon_meetup = result.data.events[0].group.lon;
+
+
             let group = "<div>";
             let key = 0;
             meetupObject.forEach(e => {
@@ -254,19 +282,38 @@ function searchZomato(location) {
     // sort by: rating, cost, real_distance
     // order 
 
-
-
+    // -- search by city if nothing clicked
+    //    search by lat long if meetup is clicked
     let url = "https://developers.zomato.com/api/v2.1/search";
-    url += '?' + $.param({
-        'entity_id': "278",
-        'entity_type': "city",
-        'lat': "",
-        'lon': "",
-        'cuisines': "55, 1, 3, 73",
-        'count': food_limit,
-        'sort': "rating"
+    if (isMeetupClicked) {
 
-    });
+        // -- search by lat long
+        url += '?' + $.param({
+            'entity_id': "278",
+            'entity_type': "city",
+            'lat': lat_meetup,
+            'lon': lon_meetup,
+            'cuisines': "55, 1, 3, 73",
+            'count': food_limit,
+            'sort': "real_distance"
+
+        });
+
+    }
+    else {
+
+        // -- search by city
+        url += '?' + $.param({
+            'entity_id': "278",
+            'entity_type': "city",
+            'lat': "",
+            'lon': "",
+            'cuisines': "55, 1, 3, 73",
+            'count': food_limit,
+            'sort': "rating"
+        });
+    }
+
 
     $.ajax({
         url: url,
@@ -325,7 +372,17 @@ function displayZomato(data) {
 
         // // Adding a data-attribute with a value of index i
         imgButton.attr("data-foodindex", i);
-        imgElement.attr("src", thumb_picture);
+
+        // -- food picture
+        // note: not all restaurants have pictures
+        // imgElement.attr("src", thumb_picture);
+        if (thumb_picture === "") {
+            imgElement.attr("src", "assets/images/food_default.png");
+        }
+        else {
+            imgElement.attr("src", thumb_picture);
+        }
+
         imgButton.append(imgElement);
 
         imgButton.append("<p class=\"foodname\">" + name + "</p>");
