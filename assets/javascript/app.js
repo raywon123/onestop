@@ -12,18 +12,26 @@ firebase.initializeApp(config);
 let data;
 let datepick = "";
 let dateUsed = moment().format('YYYY-MM-DDTHH:mm');
-console.log(dateUsed)
+let movieDateUsed = moment(dateUsed).format('YYYY-MM-DD');
+console.log(dateUsed);
+console.log(movieDateUsed);
 
 let food_limit = 10;
 let foodObject = {};
 
 let meetupObject = [];
 
-$(document).ready(function () {
+function initialApp() {
     meetupApi(dateUsed);
-    movieDateUsed = moment(dateUsed).format('YYYY-MM-DD');
     movieApi(movieDateUsed);
+    searchZomato("Austin");
+}
 
+$(document).ready(function () {
+    // meetupApi(dateUsed);
+    // movieDateUsed = moment(dateUsed).format('YYYY-MM-DD');
+    // movieApi(movieDateUsed);
+    initialApp();
 
     $('#food').on('click', function () {
         console.log('food clicked');
@@ -32,11 +40,12 @@ $(document).ready(function () {
     })
     $('#meetups').on('click', '.meetupKey', function () {
         console.log($(this).data("key"));
-        let key =  $(this).data("key");
+        let key = $(this).data("key");
         console.log(meetupObject[key])
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
-            scrollTop: $(".headDisplay").offset().top},
+            scrollTop: $(".headDisplay").offset().top
+        },
             'slow');
         //set up ajax function for pulling event data
         //change button color to show active
@@ -45,7 +54,8 @@ $(document).ready(function () {
         console.log('movies clicked');
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
-            scrollTop: $(".headDisplay").offset().top},
+            scrollTop: $(".headDisplay").offset().top
+        },
             'slow');
         //set up ajax fun
         //set up ajax function for pulling movie data
@@ -82,7 +92,7 @@ $(document).ready(function () {
         movieApi(movieDateUsed);
     });
 
-    console.log(moment(datepick).format('YYYYMMDD'));
+    // console.log(moment(datepick).format('YYYYMMDD'));
 
     // --- Calendar Date Picker -- ends
 
@@ -91,6 +101,7 @@ $(document).ready(function () {
         //go to itinerary page
         //divide each into yes, maybe or saving for later
     })
+
     $('.search-button').on('click', function () {
         console.log('search clicked');
         let response = $('.search').val();
@@ -109,7 +120,8 @@ $(document).ready(function () {
         let foodindex = $(this).data('foodindex');
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
-            scrollTop: $(".headDisplay").offset().top},
+            scrollTop: $(".headDisplay").offset().top
+        },
             'slow');
         console.log(foodindex);
         console.log(foodObject.restaurants[foodindex]);
@@ -171,12 +183,13 @@ function meetupApi(date) {
         method: 'get',
         url: queryUrl,
         success: function (result) {
+
             console.log(result);
             meetupObject.push.apply(meetupObject, result.data.events);
             console.log(data);
 
             let group = "<div>";
-            let key=0;
+            let key = 0;
             meetupObject.forEach(e => {
                 let button = `<button data-key="${key}" class="meetupKey">`;
                 let events = "";
@@ -322,7 +335,7 @@ function displayZomato(data) {
 // -- Zomato API -- ends
 
 // -- main program
-searchZomato("Austin");
+// searchZomato("Austin");
 
 //GET Movies API data
 function movieApi(date) {
@@ -347,12 +360,12 @@ function movieApi(date) {
         console.log('25 movies: ', moviesLimit);
 
         let movieTimeFormat = moment("2018-09-26T11:00", 'YYYY-MM-DDTHH:mm').format('LT');
-        console.log('MOVIE TIME FORMAT: ',movieTimeFormat)
+        console.log('MOVIE TIME FORMAT: ', movieTimeFormat)
 
         for (let n = 0; n < moviesLimit.length; n++) {
             let movieTitles = moviesLimit[n].title;
             let description = moviesLimit[n].shortDescription;
-            console.log('description: ',description);
+            console.log('description: ', description);
             console.log('movieTitles: ', movieTitles);
 
             let movieButtons = $('<button>');
@@ -361,19 +374,19 @@ function movieApi(date) {
             let movieTimes = moviesLimit[n].showtimes;
             let movieHour;
             let newMovieTime;
-            
+
             let theatreNames;
             for (let m = 0; m < movieTimes.length; m++) {
                 console.log('m: ', m);
                 theatreNames = movieTimes[m].theatre.name;
                 movieHour = movieTimes[m].dateTime;
                 console.log('theaterNames: ', theatreNames);
-                 newMovieTime = moment(movieHour).format('LT');
-                console.log('newMovieTime',newMovieTime);
+                newMovieTime = moment(movieHour).format('LT');
+                console.log('newMovieTime', newMovieTime);
             }
             console.log('movieTimes: ', movieTimes);
 
-            movieButtons.html('<h4><em>' + movieTitles + '</em></h4><h5>' +theatreNames +'</h5><h6>'+newMovieTime+'</h6>');
+            movieButtons.html('<h4><em>' + movieTitles + '</em></h4><h5>' + theatreNames + '</h5><h6>' + newMovieTime + '</h6>');
 
             $('#movies').append(movieButtons);
 
