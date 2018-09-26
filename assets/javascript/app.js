@@ -40,11 +40,27 @@ $(document).ready(function () {
     // movieApi(movieDateUsed);
     initialApp();
 
-    $('#food').on('click', function () {
-        console.log('food clicked');
-        //set up ajax function for pulling restaurant data
-        //change button color to show active
-    })
+    // $('#food').on('click', function () {
+    //     console.log('food clicked');
+    //     //set up ajax function for pulling restaurant data
+    //     //change button color to show active
+    // })
+
+    // Daynamically created Buttons clicked - food, meetup, movies - begins
+
+    $("#food").on("click", ".foodchoice", function () {
+
+        let foodindex = $(this).data('foodindex');
+        $('.initialDisplay').removeClass("d-none");
+        $('html,body').animate({
+            scrollTop: $(".headDisplay").offset().top
+        },
+            'slow');
+        console.log(foodindex);
+        console.log(foodObject.restaurants[foodindex]);
+
+    });
+
     $('#meetups').on('click', '.meetupKey', function () {
         console.log($(this).data("key"));
         let key = $(this).data("key");
@@ -68,6 +84,8 @@ $(document).ready(function () {
         //set up ajax function for pulling movie data
         //change button color to show active
     })
+
+    // --- Daynamically created Buttons clicked - food, meetup, movies  ends
 
     // -- Calendar Date Picker begins ----
     // $('.dates').on('click', function () {
@@ -119,20 +137,7 @@ $(document).ready(function () {
     })
 
 
-    // using daynamicly created food buttons
 
-    $("#food").on("click", ".foodchoice", function () {
-
-        let foodindex = $(this).data('foodindex');
-        $('.initialDisplay').removeClass("d-none");
-        $('html,body').animate({
-            scrollTop: $(".headDisplay").offset().top
-        },
-            'slow');
-        console.log(foodindex);
-        console.log(foodObject.restaurants[foodindex]);
-
-    });
 })
 
 
