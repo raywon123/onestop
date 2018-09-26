@@ -23,7 +23,7 @@ let meetupObject = [];
 
 let lat_meetup = "30.299699783325195";
 let lon_meetup = "-97.7223892211914";
-let isMeetupClicked = true;
+let isMeetupClicked = false;
 
 function initialApp() {
     $("#food").empty();
