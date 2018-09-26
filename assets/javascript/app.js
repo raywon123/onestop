@@ -17,6 +17,8 @@ console.log(dateUsed)
 let food_limit = 10;
 let foodObject = {};
 
+let meetupObject = [];
+
 $(document).ready(function () {
     meetupApi(dateUsed);
 
@@ -25,8 +27,10 @@ $(document).ready(function () {
         //set up ajax function for pulling restaurant data
         //change button color to show active
     })
-    $('#meetups').on('click', function () {
-        console.log('events clicked');
+    $('#meetups').on('click', '.meetupKey', function () {
+        console.log($(this).data("key"));
+        let key =  $(this).data("key");
+        console.log(meetupObject[key])
         //set up ajax function for pulling event data
         //change button color to show active
     })
@@ -140,8 +144,7 @@ $(document).ready(function () {
 
 //GETS MEETUP API
 function meetupApi(date) {
-    let queryUrl = "https://api.meetup.com/find/upcoming_events?photo-host=public&order=time&start_date_range=" + date + "&page=10&text=austin&sign=true&key=883432577b254a175d755a767f1467"
-    let data = [];
+    let queryUrl = "https://api.meetup.com/find/upcoming_events?photo-host=public&order=time&start_date_range=" + date + "&page=10&text=austin&sign=true&key=883432577b254a175d755a767f1467";
 
     //runs ajax get
     $.ajax({
@@ -151,13 +154,16 @@ function meetupApi(date) {
         url: queryUrl,
         success: function (result) {
             console.log(result);
-            data.push.apply(data, result.data.events);
+            meetupObject.push.apply(meetupObject, result.data.events);
             console.log(data);
 
-            let group = "<div> ";
-            data.forEach(e => {
-                let button = "<button>"
+            let group = "<div>";
+            let key=0;
+            meetupObject.forEach(e => {
+                let button = `<button data-key="${key}" class="meetupKey">`;
                 let events = "";
+                key++;
+
                 //appents event name
                 events += "<h6>" + e.group.name;
                 events += "<h4>" + (e.name);
@@ -169,7 +175,6 @@ function meetupApi(date) {
                 //appends time
                 let time = moment(e.local_time, 'HH:mm').format('hh:mm a')
                 events += "<h6>" + time
-
 
                 button += (events)
                 group += (button)
