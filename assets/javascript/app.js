@@ -65,7 +65,9 @@ $(document).ready(function () {
         //converting to utc for meetup api
         dateUsed = moment(datepick, 'MM/DD/YYYY').format('YYYY-MM-DDTHH:mm')
         meetupApi(dateUsed);
-        console.log(dateUsed)
+        console.log(dateUsed);
+        movieDateUsed = moment(datepick, 'MM/DD/YYYY').format('YYYY-MM-DD')
+        movieApi(movieDateUsed);
     });
 
     console.log(moment(datepick).format('YYYYMMDD'));
@@ -309,3 +311,62 @@ function displayZomato(data) {
 
 // -- main program
 searchZomato("Austin");
+
+//GET Movies API data
+function movieApi(date) {
+    $('#movies').empty();
+    let movieQueryUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=szt5azey9rbbjqc8jypd7cvw";
+    //if error on movieQueryURL persists, try this key:p54wc8q9rw4m9bezu48fs7cg
+    console.log('movieQueryUrl: ', movieQueryUrl)
+    let movieData = [];
+    let movieLimit = movieData.slice(0, 24);
+    console.log('movieLimit', movieLimit);
+
+    $.ajax({
+        //dataType: 'jsonp',
+        url: movieQueryUrl,
+        method: "GET"
+    }).then(function (data) {
+        console.log('Initial data: ', data);
+        let moviesLimit = data.slice(0, 25);
+        let movieArray = [];
+        movieArray.push(moviesLimit);
+        console.log('movieArray: ', movieArray);
+        console.log('25 movies: ', moviesLimit);
+
+        let movieTimeFormat = moment("2018-09-26T11:00", 'YYYY-MM-DDTHH:mm').format('LT');
+        console.log('MOVIE TIME FORMAT: ',movieTimeFormat)
+
+        for (let n = 0; n < moviesLimit.length; n++) {
+            let movieTitles = moviesLimit[n].title;
+            let description = moviesLimit[n].shortDescription;
+            console.log('description: ',description);
+            console.log('movieTitles: ', movieTitles);
+
+            let movieButtons = $('<button>');
+            movieButtons.addClass('movie-btn');
+            movieButtons.attr('data-movies', movieTitles);
+            let movieTimes = moviesLimit[n].showtimes;
+            let movieHour;
+            let newMovieTime;
+            
+            let theatreNames;
+            for (let m = 0; m < movieTimes.length; m++) {
+                console.log('m: ', m);
+                theatreNames = movieTimes[m].theatre.name;
+                movieHour = movieTimes[m].dateTime;
+                console.log('theaterNames: ', theatreNames);
+                 newMovieTime = moment(movieHour).format('LT');
+                console.log('newMovieTime',newMovieTime);
+            }
+            console.log('movieTimes: ', movieTimes);
+
+            movieButtons.html('<h4><em>' + movieTitles + '</em></h4><h5>' +theatreNames +'</h5><h6>'+newMovieTime+'</h6>');
+
+            $('#movies').append(movieButtons);
+
+        }
+
+
+    })
+}
