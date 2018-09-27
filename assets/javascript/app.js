@@ -21,6 +21,8 @@ let food_limit = 10;
 let foodObject = {};
 
 let meetupObject = [];
+let movieObject = {};
+let omdbObject = [];
 
 let lat_meetup = "30.299699783325195";
 let lon_meetup = "-97.7223892211914";
@@ -95,6 +97,8 @@ $(document).ready(function () {
     })
     $('#movies').on('click', function () {
         console.log('movies clicked');
+        let index = $(this).data("movieindex");
+        displayMovieChosen(movieObject[index], omdbObject[index]);
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
             scrollTop: $("#location").offset().top
@@ -126,7 +130,7 @@ $(document).ready(function () {
             $("#options").removeClass("d-none")
             $("#itineraryContent").removeClass("d-none");
             $("#location").text("Austin, Texas");
-            $(".loginRow").hide("slow");
+            $(".loginRow").hide("slow   ");
 
 
             console.log("loggedin")
@@ -181,9 +185,22 @@ $(document).ready(function () {
             // })
 
             $(".addBtn").on('click', function () {
+                $('html,body').animate({
+                    scrollTop: $("#calendar").offset().top
+                },
+                    'fast');
                 console.log("clicked")
                 $("#calendar").show('fade-in');
-                let Date = moment(clickedObject.Date).format('MM-DD-YYYY')
+                let Date = moment(clickedObject.Date).format('YYYY-MM-DDTHH:mm')
+                database.ref().child(Date).on('value', function(snapshot) {
+                    snapshot.forEach(function(snapchild) {
+                        console.log(snapchild.val().Name);
+                        if(snapchild.val().Name == clickedObject.Name) return;
+                    })
+                })
+
+                //ASK ANDREW
+
                 if (clickedObject.Type == "Meetup") {
                     database.ref().child(Date).push({
                         Type: clickedObject.Type,
@@ -286,8 +303,8 @@ $(document).ready(function () {
                     center: ' title ',
                     right: 'next'
                 },
-                height: 400,
-                themeSystem: 'jquery-ui',
+                height: 400,    
+                themeSystem:'bootstrap3',  
                 themeButtonIcons: {
                     prev: 'circle-triangle-w',
                     next: 'circle-triangle-e',
@@ -630,9 +647,11 @@ function displayFoodChosen(data) {
 //GET Movies API data
 function movieApi(date) {
     $('#movies').empty();
-    let movieQueryUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=p54wc8q9rw4m9bezu48fs7cg";
+    let movieQueryUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=acy2x82ygb3ce5v3v36f8b7p";
     //if error on movieQueryURL persists, try this key:p54wc8q9rw4m9bezu48fs7cg
     // console.log('movieQueryUrl: ', movieQueryUrl)
+    
+    omdbObject = [];
     let movieData = [];
     let movieLimit = movieData.slice(0, 24);
     // console.log('movieLimit', movieLimit);
@@ -648,7 +667,7 @@ function movieApi(date) {
         movieArray.push(moviesLimit);
         // console.log('movieArray: ', movieArray);
         // console.log('25 movies: ', moviesLimit);
-
+        movieObject = data;
         let movieTimeFormat = moment("2018-09-26T11:00", 'YYYY-MM-DDTHH:mm').format('LT');
         // console.log('MOVIE TIME FORMAT: ', movieTimeFormat)
 
@@ -659,8 +678,9 @@ function movieApi(date) {
             // console.log('movieTitles: ', movieTitles);
 
             let movieButtons = $('<button>');
-            movieButtons.addClass('movie-btn');
+            movieButtons.addClass('movie-btn movieChosen');
             movieButtons.attr('data-movies', movieTitles);
+            movieButtons.attr('data-movieindex', n);
             let movieTimes = moviesLimit[n].showtimes;
             let movieHour;
             let newMovieTime;
@@ -681,6 +701,7 @@ function movieApi(date) {
             $.get(omdbURL).then(data => {
                 plot = data.Plot;
                 poster = data.Poster;
+                omdbObject[n] = JSON.stringify(data);
                 // console.log("POSTER: ", poster);
                 // console.log('PLOT: ', plot)
                 // console.log('data response: ', data.Response)
@@ -814,3 +835,94 @@ function displayMeetup(data) {
     
 
 };
+
+
+// function used for when user click the meetup, it will display more info
+function displayMovieChosen(movie, omdbS) {
+
+    let movieCard = $(".initialDisplay");
+    let omdb = JSON.parse(omdbS);
+    console.log(omdb)
+    console.log(movieCard)
+    // -- data from movies api
+    // console.log(movie.title);
+    // console.log(movie.showtimes);
+    // console.log(movie.showtimes[0].dateTime);
+    // console.log(movie.showtimes[0].theatre.name);
+    // console.log(movie.showtimes[0].theatre.id);
+    // console.log(movie.entityType);
+    // console.log(movie.genres[0]);
+    // console.log(movie.shortDescription);
+    // console.log(movie.releaseDate);
+    // console.log(movie.advisories);
+    // console.log(movie.directors);
+    // console.log(movie.topCast);
+    // console.log(movie.longDescription);
+
+    // -- data from omdb
+    // console.log(omdb.Title);
+    // console.log(omdb.Runtime);
+    // console.log(omdb.Released);
+    // console.log(omdb.Rated);
+    // console.log(omdb.Plot);
+    // console.log(omdb.Poster);
+
+    // console.log(movie);
+    // console.log(omdb);
+
+    let title = movie.title;
+    let time = moment(movie.showtimes[0].dateTime).format('LT');
+    let theatre = (movie.showtimes[0].theatre.name);
+    let genre = movie.genres[0];
+    let short = movie.shortDescription;
+    let long = movie.longDescription;
+    // let release = moment(movie.releaseDate).format('YYYY');
+    let advisory = movie.advisories;
+    let director = movie.directors;
+    let cast = movie.topCast;
+
+    let runtime = omdb.Runtime;
+    let release = moment(omdb.Released).format('YYYY');
+    let rated = omdb.Rated;
+    let plot = omdb.Plot;
+    let poster = omdb.Poster;
+
+    // image element
+    let imgDiv = $("<div>");
+    let imgElement = $("<img>");
+
+    // // Adding a class
+    imgDiv.addClass("col-lg-4");
+    imgElement.addClass("thumb-movie-chosen");
+
+    // -- movie picture 
+    imgElement.attr("src", poster);
+
+    imgDiv.append(imgElement);
+    movieCard.append(imgDiv);
+
+    // -- description element
+    let desDiv = $("<div>");
+    desDiv.addClass("col-lg-6");
+
+
+    desDiv.append("<h4 class=\"movie-chosen\">" + title + "</h4>");
+    desDiv.append("<h5 class=\"movietheatre-chosen\">" + theatre + "</h5>");
+    desDiv.append("<h5 class=\"movietime-chosen\">Show Time : " + time + "</h5>");
+    desDiv.append("<p class=\"moviedes-chosen\">Genre : " + genre + "</p>");
+    desDiv.append("<p class=\"moviedes-chosen\">Rated : " + rated + "</p>");
+    desDiv.append("<p class=\"moviedes-chosen\">Advisory : " + advisory + "</p>");
+    desDiv.append("<p class=\"movierelease-chosen\">Release : " + release + "</p>");
+    desDiv.append("<p class=\"movierelease-chosen\">Run Time : " + runtime + "</p>");
+    desDiv.append("<p class=\"moviedirector-chosen\">Director : " + director + "</p>");
+    desDiv.append("<p class=\"moviecast-chosen\">Casts : " + cast + "</p>");
+    desDiv.append("<p class=\"movieplot-chosen\">Plot : " + long + "</p>");
+    movieCard.append(desDiv);
+
+    // -- button for Add to Cart
+    // let cartBtn = $("<button>");
+    // cartBtn.addClass("w-100 float-right col-lg-2 btn btn-light btn-lg addBtn h-25 mt-5");
+    // cartBtn.text("Add Event");
+    movieCard.append(cartBtn);
+
+}
