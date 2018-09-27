@@ -315,10 +315,10 @@ function displayMeetupChosen(data) {
 
     let fee;
     if (data.hasOwnProperty('fee')) {
-        fee = data.fee.amount;
+        fee = "$" + data.fee.amount;
     }
     else {
-        fee = 0;
+        fee = "Not Specified";
     }
 
    
@@ -362,7 +362,7 @@ function displayMeetupChosen(data) {
     desDiv.append("<p class=\"meetuptime-chosen\">" + "Time: " + date + " -- " + time + "</p>");
 
     if (fee !== null) {
-        desDiv.append("<p class=\"meetupcost-chosen\">" + "Cost : $" + fee + "</p>");
+        desDiv.append("<p class=\"meetupcost-chosen\">" + "Cost : " + fee + "</p>");
     }
 
     // -- for weblink
