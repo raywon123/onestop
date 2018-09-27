@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet"> -->
+    <title>OneStop</title>
+</head>
+
+<body>
+    <div class="jumbotron jumbotron-fluid" id="jumbotron">
+
+        <div class="container headDisplay">
+            <div class="row" id="jumbotron-1">
+                <div class="col-sm" id="main">(logo here)
+                    <h1 class="display-4">OneStop</h1>
+                </div>
+                <div class="col-sm"></div>
+                <div class="col-sm"></div>
+            </div>
+
+            <div class="container">
+                <div class="row" id="jumbotron-2">
+                    <div class="col-sm" id="main">Your stop for planning your next outing.</div>
+                    <div class="col-sm"></div>
+
+                    <div class="col-sm" id="logon">
+                        <input id="txtEmail" type="text" name="username" placeholder="Username" required>
+                        <input id="btnLogin" type="submit" value="Login"> </div>
+                </div>
+
+                <div class="row" id="jumbotron-3">
+                    <div class="col-sm" id="main"></div>
+                    <div class="col-sm"></div>
+                    <div class="col-sm" id="logon">
+                        <input id="txtPassword" type="password" name="password" placeholder="Password" required>
+                        <input id="btnSignUp" type="submit" value="Signup"> </div>
+                </div>
+
+                <div class="row" id="jumbotron-4">
+                    <div class="col-sm"></div>
+                    <div class="col-sm"></div>
+                    <div class="col-sm" id="user-detail">Welcome User Name (Placeholder)</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container-fluid border border-0">
+        <div class="row" id="header">
+            <div class="col-sm" id="select">
+                <input class="search" placeholder="Choose a city">
+                <button class='search-button'>Submit</button>
+            </div>
+            <div class="col-sm" id="location">Location (Placeholder)</div>
+
+            <div class="col-sm" id="itinerary">
+                <input type='text' class="form-control datetimepicker" placeholder="Dates" />
+                <span class="itin">See Your Itinerary</span>
+            </div>
+        </div>
+
+
+        <div class="row initialDisplay d-none">
+        </div>
+
+    </div>
+
+    <div class="row" id="options">
+        <div class="col-lg-4" id="foodContainer">
+            <h1>Food</h1>
+            <div class="col-sm" id="food">
+
+            </div>
+        </div>
+        <div class="col-lg-4" id="meetupsContainer">
+            <h1>Local Meetups</h1>
+            <div class="col-sm" id="meetups"></div>
+        </div>
+        <div class="col-lg-4" id="moviesContainer">
+            <h1>Movies</h1>
+            <div class="col-sm" id="movies"></div>
+        </div>
+    </div>
+
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+    <script language="javascript" src="https://momentjs.com/downloads/moment.js"></script>
+    <script language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker.min.css">
+    <script src="assets/javascript/app_raymond.js" async defer></script>
+
+
+</body>
+
+</html>
