@@ -309,7 +309,7 @@ function displayMeetupChosen(data) {
         address = data.venue.address_1;
         city = data.venue.city;
     }
-    
+
     let date = moment(data.local_date).format('MM/DD/YY');
     let time = moment(data.local_time, 'HH:mm').format('hh:mm a');
 
@@ -321,7 +321,7 @@ function displayMeetupChosen(data) {
         fee = "Not Specified";
     }
 
-   
+
 
     // image element
     let imgDiv = $("<div>");
@@ -341,14 +341,14 @@ function displayMeetupChosen(data) {
     let desDiv = $("<div>");
     desDiv.addClass("col-lg-6");
 
-    if (groupname !== null ) {
+    if (groupname !== null) {
         desDiv.append("<h5 class=\"meetupgroup-chosen\">" + groupname + "</h5>");
     }
 
     desDiv.append("<h4 class=\"meetupname-chosen\">" + name + "</h4>");
 
-    if ( vname !== null ) {
-        desDiv.append("<p class=\"meetupvenue-chosen\">" +"Location : "+ vname + "</p>");
+    if (vname !== null) {
+        desDiv.append("<p class=\"meetupvenue-chosen\">" + "Location : " + vname + "</p>");
     }
 
     if (address !== null) {
@@ -367,7 +367,7 @@ function displayMeetupChosen(data) {
 
     // -- for weblink
     // desDiv.append("<p class=\"meetuplink-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
-    
+
     meetupCard.append(desDiv);
 
     // -- button for Add to Cart
@@ -586,6 +586,7 @@ function displayFoodChosen(data) {
     desDiv.append("<p class=\"foodtype-chosen\">" + "Cuisine : " + type + "</p>");
     desDiv.append("<p class=\"foodrating-chosen\">" + "Rating : " + rating + "/5.0</p>");
     desDiv.append("<p class=\"foodcost-chosen\">" + "Cost for Two : $" + cost + "</p>");
+    // -- for weblink to menu
     // desDiv.append("<p class=\"foodmenu-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
     foodCard.append(desDiv);
 
@@ -619,8 +620,26 @@ function movieApi(date) {
         // console.log('movieArray: ', movieArray);
         // console.log('25 movies: ', moviesLimit);
 
+        // -- data for movies
+        // console.log(data);
+        // console.log(data[0].title);
+        // console.log(data[0].showtimes);
+        // console.log(data[0].showtimes[0].dateTime);
+        // console.log(data[0].showtimes[0].theatre.name);
+        // console.log(data[0].showtimes[0].theatre.id);
+        // console.log(data[0].entityType);
+        // console.log(data[0].genres[0]);
+        // console.log(data[0].shortDescription);
+        // console.log(data[0].releaseDate);
+        // console.log(data[0].ratings[0].code);
+        // console.log(data[0].advisories);
+        // console.log(data[0].directors);
+        // console.log(data[0].topCast);
+        // console.log(data[0].longDescription);
+
+
         let movieTimeFormat = moment("2018-09-26T11:00", 'YYYY-MM-DDTHH:mm').format('LT');
-        console.log('MOVIE TIME FORMAT: ', movieTimeFormat)
+        //console.log('MOVIE TIME FORMAT: ', movieTimeFormat)
 
         for (let n = 0; n < moviesLimit.length; n++) {
             let movieTitles = moviesLimit[n].title;
@@ -651,9 +670,12 @@ function movieApi(date) {
             $.get(omdbURL).then(data => {
                 plot = data.Plot;
                 poster = data.Poster;
-                console.log("POSTER: ", poster);
-                console.log('PLOT: ', plot)
-                console.log('data response: ', data.Response)
+
+                // console.log(data);
+
+                // console.log("POSTER: ", poster);
+                // console.log('PLOT: ', plot)
+                // console.log('data response: ', data.Response)
                 if (data.Response === "False") {
                     //movieButtons.html omits 'plot' and 'poster' from the DOM
                     movieButtons.html('<h4><em>' + movieTitles + '</em></h4><h5>' + theatreNames + '</h5><h6>' + newMovieTime + '</h6>');
@@ -665,10 +687,7 @@ function movieApi(date) {
             })
 
             $('#movies').append(movieButtons);
-
         }
-
-
     })
 }
 
