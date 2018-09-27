@@ -270,35 +270,9 @@ function displayMeetupChosen(data) {
     // foodCard.empty();
 
     // data 
-    let name = data.name;
-
-    let description = "";
-    if (data.hasOwnProperty('description')) {
-        description = data.description;
-    }
-
-    vname = "";
-    address = "";
-    city = "";
-    if (data.hasOwnProperty('venue')) {
-        let vname = data.venue.name;
-        let address = data.venue.address_1;
-        let city = data.venue.city;
-    }
-    
-    let date = moment(data.local_date).format('MM/DD/YY');
-    let time = moment(data.local_time, 'HH:mm').format('hh:mm a');
-
-    let fee;
-    if (data.hasOwnProperty('fee')) {
-        fee = data.fee.amount;
-    }
-    else {
-        fee = 0;
-    }
-
     // -- Not all events have all the data
     // -- detailed event:
+    // console.log(data.group.name);
     // console.log(data.name);
     // console.log(data.description);
     // console.log(data.venue.name);
@@ -315,6 +289,40 @@ function displayMeetupChosen(data) {
     //  console.log(data.local_time);
     //  console.log(data.link);
 
+    let name = data.name;
+
+    let groupname = "";
+    if (data.hasOwnProperty('group')) {
+        groupname = data.group.name;
+    }
+
+    let description = "";
+    if (data.hasOwnProperty('description')) {
+        description = data.description;
+    }
+
+    let vname = "";
+    let address = "";
+    let city = "";
+    if (data.hasOwnProperty('venue')) {
+        vname = data.venue.name;
+        address = data.venue.address_1;
+        city = data.venue.city;
+    }
+    
+    let date = moment(data.local_date).format('MM/DD/YY');
+    let time = moment(data.local_time, 'HH:mm').format('hh:mm a');
+
+    let fee;
+    if (data.hasOwnProperty('fee')) {
+        fee = data.fee.amount;
+    }
+    else {
+        fee = 0;
+    }
+
+   
+
     // image element
     let imgDiv = $("<div>");
     let imgElement = $("<img>");
@@ -324,7 +332,7 @@ function displayMeetupChosen(data) {
     imgElement.addClass("thumb-meetup-chosen");
 
     // -- event picture (placeholder)
-    imgElement.attr("src", "assets/images/meetup_default.png");
+    imgElement.attr("src", "assets/images/meetup_default_bw.png");
 
     imgDiv.append(imgElement);
     meetupCard.append(imgDiv);
@@ -333,14 +341,20 @@ function displayMeetupChosen(data) {
     let desDiv = $("<div>");
     desDiv.addClass("col-lg-6");
 
-    desDiv.append("<h5 class=\"meetupname-chosen\">" + name + "</h5>");
-
-    if (vname !== null) {
-        desDiv.append("<p class=\"meetupvenue-chosen\">" + vname + "</p>");
+    if (groupname !== null ) {
+        desDiv.append("<h5 class=\"meetupgroup-chosen\">" + groupname + "</h5>");
     }
+
+    desDiv.append("<h4 class=\"meetupname-chosen\">" + name + "</h4>");
+
+    if ( vname !== null ) {
+        desDiv.append("<p class=\"meetupvenue-chosen\">" +"Location : "+ vname + "</p>");
+    }
+
     if (address !== null) {
         desDiv.append("<p class=\"meetupaddress-chosen\">" + "Address : " + address + ", " + city + "</p>");
     }
+
     if (description !== null) {
         desDiv.append("<p class=\"meetupdes-chosen\">" + "Description : " + description + "</p>");
     }
@@ -350,7 +364,10 @@ function displayMeetupChosen(data) {
     if (fee !== null) {
         desDiv.append("<p class=\"meetupcost-chosen\">" + "Cost : $" + fee + "</p>");
     }
+
+    // -- for weblink
     // desDiv.append("<p class=\"meetuplink-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
+    
     meetupCard.append(desDiv);
 
     // -- button for Add to Cart
@@ -564,10 +581,10 @@ function displayFoodChosen(data) {
     let desDiv = $("<div>");
     desDiv.addClass("col-lg-6");
 
-    desDiv.append("<h5 class=\"foodname-chosen\">" + name + "</h5>");
+    desDiv.append("<h4 class=\"foodname-chosen\">" + name + "</h4>");
     desDiv.append("<p class=\"foodaddress-chosen\">" + address + "</p>");
     desDiv.append("<p class=\"foodtype-chosen\">" + "Cuisine : " + type + "</p>");
-    desDiv.append("<p class=\"foodrating-chosen\">" + "Rating : " + rating + "</p>");
+    desDiv.append("<p class=\"foodrating-chosen\">" + "Rating : " + rating + "/5.0</p>");
     desDiv.append("<p class=\"foodcost-chosen\">" + "Cost for Two : $" + cost + "</p>");
     // desDiv.append("<p class=\"foodmenu-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
     foodCard.append(desDiv);
