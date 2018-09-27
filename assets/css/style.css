@@ -154,6 +154,23 @@ button {
     margin: 0 3px;
 }
 
+.initialDisplay {
+    background: rgb(97, 219, 209);
+    margin-left: 3px;
+    margin-right: 3px;
+    color: white;
+    font-size: 18px;
+
+}
+
+.btn {
+    background: #6c757d;
+    padding: 6px;
+    border-radius: 4px;
+    color: white;
+
+}
+
 #modal-register, #modal-signin {
     color: black;
 }
@@ -172,11 +189,14 @@ button {
         text-align: center;
         margin-bottom: 8px;
     }
-    /* Date Picker  */
-    .datetimepicker {
-        width: 70px;
-        background: white;
-        border: 1px solid #555;
-        color: #6c757d;
-    }
+
+
+/* Date Picker  */
+.datetimepicker {
+    width: 70px;
+    background: white;
+    border: 1px solid #555;
+    color:  #6c757d;
 }
+
+
