@@ -85,6 +85,9 @@ $(document).ready(function () {
             scrollTop: $(".headDisplay").offset().top
         },
             'slow');
+
+
+        displayMeetup(meetupObject[key]);
         //set up ajax function for pulling event data
         //change button color to show active
     })
@@ -122,7 +125,7 @@ $(document).ready(function () {
             $("#itineraryContent").removeClass("d-none");
             $("#location").text("Austin, Texas");
 
-            
+
             console.log("loggedin")
             $(".content").removeClass("d-none");
 
@@ -175,11 +178,9 @@ $(document).ready(function () {
             // })
 
             $(".addBtn").on('click', function () {
+                console.log("clicked")
                 let Date = moment(clickedObject.Date).format('MM-DD-YYYY')
                 if (clickedObject.Type == "Meetup") {
-
-
-
                     database.ref().child(Date).push({
                         Type: clickedObject.Type,
                         Name: clickedObject.Name,
@@ -195,6 +196,8 @@ $(document).ready(function () {
                         Name: clickedObject.Name
                     })
                 }
+
+                DatabaseToItinerary();
             });
 
             $(function () {
@@ -259,24 +262,15 @@ $(document).ready(function () {
                 console.log(foodObject.restaurants[foodindex]);
 
             });
-            //functions for calendar and schedule to populate
-            // let events = [];
-            // function makeEvent(databaseObject) {
-            //     databaseObject.forEach(function(i) {
-            //         events[i] = {
-            //             title: i.title,
-            //             start: i.start
-            //         }
-            //     })
-            // }
+
             DatabaseToItinerary();
             console.log(databaseObject)
             // // makeEvent();
             // console.log("events", events)
-            
+
             //Simulate an async call
-            setTimeout(function() {
-              $('#calendar').fullCalendar('addEventSource', databaseObject);
+            setTimeout(function () {
+                $('#calendar').fullCalendar('addEventSource', databaseObject);
             }, 500);
 
             $("#calendar").fullCalendar({
@@ -562,7 +556,7 @@ function displayFoodChosen(data) {
 
     let foodCard = $(".initialDisplay");
 
-    // foodCard.empty();
+    foodCard.empty();
 
     // data 
     let thumb_picture = data.restaurant.thumb;
@@ -599,14 +593,14 @@ function displayFoodChosen(data) {
     // note: not all restaurants have pictures
     imgElement.attr("src", thumb_picture);
     if (thumb_picture === "") {
-         imgElement.attr("src", "assets/images/food_default.png");
-     }
-     else {
-         imgElement.attr("src", thumb_picture);
+        imgElement.attr("src", "assets/images/food_default.png");
     }
-    
-     imgDiv.append(imgElement);
-     foodCard.append(imgDiv);
+    else {
+        imgElement.attr("src", thumb_picture);
+    }
+
+    imgDiv.append(imgElement);
+    foodCard.append(imgDiv);
 
     // -- description element
     let desDiv = $("<div>");
@@ -614,7 +608,7 @@ function displayFoodChosen(data) {
 
     desDiv.append("<p class=\"foodname-chosen\">" + name + "</p>");
     desDiv.append("<p class=\"foodaddress-chosen\">" + address + "</p>");
-    desDiv.append("<p class=\"foodtype-chosen\">" +  "Cuisine : " + type + "</p>");
+    desDiv.append("<p class=\"foodtype-chosen\">" + "Cuisine : " + type + "</p>");
     desDiv.append("<p class=\"foodrating-chosen\">" + "Rating : " + rating + "</p>");
     desDiv.append("<p class=\"foodcost-chosen\">" + "Cost for Two : $" + cost + "</p>");
     // desDiv.append("<p class=\"foodmenu-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
@@ -691,7 +685,7 @@ function movieApi(date) {
                 }
                 else {
                     //movieButtons.html displays data from OMDB
-                    movieButtons.html('<h4><em>' + movieTitles + '</em></h4><h5>'+plot+'</h5><img src="'+poster+'">' + theatreNames + '</h5><h6>' + newMovieTime + '</h6>');
+                    movieButtons.html('<h4><em>' + movieTitles + '</em></h4><h5>' + plot + '</h5><img src="' + poster + '">' + theatreNames + '</h5><h6>' + newMovieTime + '</h6>');
                 }
             })
 
@@ -756,24 +750,64 @@ function itinerary() {
 function DatabaseToItinerary() {
 
     let datesRef = database.ref();
-        
-    datesRef.on('child_added', function(childsnap) {
+
+    datesRef.on('child_added', function (childsnap) {
         // console.log(childsnap.ref.key);
         // console.log(childsnap.val());
         childsnap.forEach(function (grandchildsnap) {
             // console.log(grandchildsnap.val())
             // console.log(childsnap.ref.key)
             let objectContainer = {};
-            objectContainer = 
+            objectContainer =
                 {
                     title: grandchildsnap.val().Name,
                     start: childsnap.ref.key
                 }
-            
+
             databaseObject.push(objectContainer)
         })
-        
-})
-    
-console.log(databaseObject)
+
+    })
+
+    console.log(databaseObject)
 }
+
+function displayMeetup(data) {
+
+    let meetupCards = $(".initialDisplay");
+    meetupCards.empty();
+
+    //pulling data
+    console.log(data)
+
+    // image element
+    let imgDiv = $("<div>");
+    let imgMeetup = $("<img>");
+
+    // // Adding a class
+    imgDiv.addClass("col-lg-3");
+    imgMeetup.addClass("meetupImg");
+    imgDiv.addClass("my-auto")
+
+    imgMeetup.attr("src", "assets/images/meetup.jpg");
+    imgDiv.append(imgMeetup);
+    meetupCards.append(imgDiv);
+
+    // -- description element
+    let desDiv = $("<div>");
+    desDiv.addClass("col-lg-7");
+
+    desDiv.append("<h2 class=\"meetup-name text-center\">" + data.name + "</h1>");
+    if(data.venue)desDiv.append("<h6 class=\"foodaddress-chosen\">" + data.venue.name + "</h6>");
+
+    desDiv.append("<span class=\" text-left \">" + "Description : " + data.description + "</span>");
+    // desDiv.append("<p class=\"foodmenu-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
+    meetupCards.append(desDiv);
+
+    // -- button for Add to Cart
+    let cartBtn = $("<button>");
+    cartBtn.addClass("w-100 float-right col-lg-2 btn btn-light btn-lg addBtn h-25 mt-5");
+    cartBtn.text("Add Event").addClass("my-auto", "mr-2");
+    meetupCards.append(cartBtn);
+
+};

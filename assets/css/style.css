@@ -200,3 +200,7 @@ button {
     background: #444;
     color: white;
 }
+
+.meetupImg {
+    height: 300px;
+}
