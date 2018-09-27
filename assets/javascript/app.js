@@ -9,6 +9,7 @@ var config = {
 firebase.initializeApp(config);
 
 //variables
+let database = firebase.database();
 let data;
 let datepick = "";
 let dateUsed = moment().format('YYYY-MM-DDTHH:mm');
@@ -25,6 +26,8 @@ let lat_meetup = "30.299699783325195";
 let lon_meetup = "-97.7223892211914";
 let isMeetupChosen = false;
 
+let clickedObject = {};
+
 function initialApp() {
     $("#food").empty();
     $("#meetups").empty();
@@ -40,144 +43,198 @@ $(document).ready(function () {
     // movieApi(movieDateUsed);
     initialApp();
 
-    $('#food').on('click', function () {
-        console.log('food clicked');
-        //set up ajax function for pulling restaurant data
-        //change button color to show active
-    })
-    $('#meetups').on('click', '.meetupKey', function () {
-        console.log($(this).data("key"));
-        let key = $(this).data("key");
-        console.log(meetupObject[key])
-        $('.initialDisplay').removeClass("d-none");
-        $('html,body').animate({
-            scrollTop: $(".headDisplay").offset().top
-        },
-            'slow');
-        //set up ajax function for pulling event data
-        //change button color to show active
-    })
-    $('#movies').on('click', function () {
-        console.log('movies clicked');
-        $('.initialDisplay').removeClass("d-none");
-        $('html,body').animate({
-            scrollTop: $(".headDisplay").offset().top
-        },
-            'slow');
-        //set up ajax fun
-        //set up ajax function for pulling movie data
-        //change button color to show active
-    })
-
-    // -- Calendar Date Picker begins ----
-    // $('.dates').on('click', function () {
-    //     console.log('dates clicked');
-    //     //display calendar
-    //     //save date
-    // })
-
-    $(function () {
-        $('.datetimepicker').datetimepicker(
-            {
-                format: 'MM/DD',
-            });
-    });
-
-    $(".datetimepicker").on("dp.change", function (e) {
-        // $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-        // console.log(e.date);
-        // console.log(e.date._d);
-
-        console.log(moment(e.date._d).format('YYYYMMDD'));
-        datepick = e.date._d;
-        //converting to utc for meetup api
-        dateUsed = moment(datepick, 'MM/DD/YYYY').format('YYYY-MM-DDTHH:mm')
-        meetupApi(dateUsed);
-        console.log(dateUsed);
-        movieDateUsed = moment(datepick, 'MM/DD/YYYY').format('YYYY-MM-DD')
-        movieApi(movieDateUsed);
-    });
-
-    // console.log(moment(datepick).format('YYYYMMDD'));
-
-    // --- Calendar Date Picker ends -------
-
-    $('.itinerary').on('click', function () {
-        console.log('itinerary clicked');
-        //go to itinerary page
-        //divide each into yes, maybe or saving for later
-    })
-
-    $('.search-button').on('click', function () {
-        console.log('search clicked');
-        let response = $('.search').val();
-        console.log(response);
-        $('.location').html(response);
-        $('.search').val('');
-        //get city data, populate results for food/events/movies
-
-    })
-
-
-    // using daynamicly created food buttons
-
-    $("#food").on("click", ".foodchoice", function () {
-
-        let foodindex = $(this).data('foodindex');
-        $('.initialDisplay').removeClass("d-none");
-        $('html,body').animate({
-            scrollTop: $(".headDisplay").offset().top
-        },
-            'slow');
-        console.log(foodindex);
-        console.log(foodObject.restaurants[foodindex]);
-
-    });
-})
-
-
-//google auth
-$(document).ready(function () {
-    //get elements
-    const txtEmail = document.getElementById('txtEmail');
-    const txtPassword = document.getElementById('txtPassword');
-    const btnLogin = document.getElementById('btnLogin');
-    const btnSignUp = document.getElementById('btnSignUp');
-
-    //add login event
-    $("#btnLogin").on("click", e => {
-        const txtEmail = $("#txtEmail").val();
-        const txtPassword = $("#txtPassword").val();
-        const auth = firebase.auth();
-
-        //sign in
-        const promise = auth.signInWithEmailAndPassword(txtEmail, txtPassword);
-        promise.catch(e => console.log(e.message))
-    });
-
-    //Add signup event
-    $("#btnSignUp").on("click", e => {
-
-        //TODO : CHECK FOR REAL EMAIL
-        const txtEmail = $("#txtEmail").val();
-        const txtPassword = $("#txtPassword").val();
-        const auth = firebase.auth();
-
-        //sign in
-        const promise = auth.createUserWithEmailAndPassword(txtEmail, txtPassword);
-        promise.catch(e => console.log(e.message))
-    })
-
     //realtime listener
     firebase.auth().onAuthStateChanged(firebaseUser => {
         if (firebaseUser) {
-            console.log(firebaseUser)
-        } else {
+            DatabaseToItinerary();
+            console.log("loggedin")
+            $(".content").removeClass("d-none");
+
+
+            $('#food').on('click', function () {
+                console.log('food clicked');
+                //set up ajax function for pulling restaurant data
+                //change button color to show active
+            })
+
+            $('#meetups').on('click', '.meetupKey', function () {
+                clickedObject = {};
+                console.log($(this).data("key"));
+                let key = $(this).data("key");
+                console.log(meetupObject[key])
+                $('.initialDisplay').removeClass("d-none");
+                $('html,body').animate({
+                    scrollTop: $(".headDisplay").offset().top
+                },
+                    'slow');
+                let time = moment(meetupObject[key].local_time, 'HH:mm').format('hh:mm a')
+                clickedObject = {
+                    Date: dateUsed,
+                    Type: "Meetup",
+                    Name: meetupObject[key].name,
+                    Location: meetupObject[key].venue.address_1,
+                    Time: time,
+                    link: meetupObject[key].link
+                };
+
+            })
+            $('#movies').on('click', function () {
+                console.log('movies clicked');
+                clickedObject = {};
+                $('.initialDisplay').removeClass("d-none");
+                $('html,body').animate({
+                    scrollTop: $(".headDisplay").offset().top
+                },
+                    'slow');
+                //set up ajax fun
+                //set up ajax function for pulling movie data
+                //change button color to show active
+            })
+
+            // -- Calendar Date Picker begins ----
+            // $('.dates').on('click', function () {
+            //     console.log('dates clicked');
+            //     //display calendar
+            //     //save date
+            // })
+
+            $(".addBtn").on('click', function () {
+                let Date = moment(clickedObject.Date).format('MM-DD-YYYY')
+                if (clickedObject.Type == "Meetup") {
+                    database.ref().child(Date).push({
+                        Type: clickedObject.Type,
+                        Name: clickedObject.Name,
+                        Location: clickedObject.Location,
+                        Time: clickedObject.Time,
+                        link: clickedObject.link
+
+                    })
+                }
+                if (clickedObject.Type == "Food") {
+                    database.ref().child(Date).push({
+                        Type: clickedObject.Type,
+                        Name: clickedObject.Name
+                    })
+                }
+            });
+
+            $(function () {
+                $('.datetimepicker').datetimepicker(
+                    {
+                        format: 'MM/DD',
+                    });
+            });
+
+            $(".datetimepicker").on("dp.change", function (e) {
+                // $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+                // console.log(e.date);
+                // console.log(e.date._d);
+
+                console.log(moment(e.date._d).format('YYYYMMDD'));
+                datepick = e.date._d;
+                //converting to utc for meetup api
+                dateUsed = moment(datepick, 'MM/DD/YYYY').format('YYYY-MM-DDTHH:mm')
+                meetupApi(dateUsed);
+                console.log(dateUsed);
+                movieDateUsed = moment(datepick, 'MM/DD/YYYY').format('YYYY-MM-DD')
+                movieApi(movieDateUsed);
+            });
+
+            // console.log(moment(datepick).format('YYYYMMDD'));
+
+            // --- Calendar Date Picker ends -------
+
+            $('.itinerary').on('click', function () {
+                console.log('itinerary clicked');
+                //go to itinerary page
+                //divide each into yes, maybe or saving for later
+            })
+
+            $('.search-button').on('click', function () {
+                console.log('search clicked');
+                let response = $('.search').val();
+                console.log(response);
+                $('.location').html(response);
+                $('.search').val('');
+                //get city data, populate results for food/events/movies
+
+            })
+
+
+            // using daynamicly created food buttons
+
+            $("#food").on("click", ".foodchoice", function () {
+
+                let foodindex = $(this).data('foodindex');
+                $('.initialDisplay').removeClass("d-none");
+                $('html,body').animate({
+                    scrollTop: $(".headDisplay").offset().top
+                },
+                    'slow');
+                clickedObject = {
+                    Type: "Food",
+                    Name: foodObject.restaurants[foodindex].restaurant.name,
+                    Date: dateUsed
+                };
+                console.log(foodindex);
+                console.log(foodObject.restaurants[foodindex]);
+
+            });
+
+            //modal itinerary code
+            $('#calendar').fullCalendar({
+                header: {
+                    left: '',
+                    center: 'prev title next',
+                    right: ''
+                }
+            })
+
+            //itinerary click event
+            $("#itinerary").on("click", e => {
+
+            })
+
+        }
+
+        else {
             console.log("not logged in")
+
+            //get elements
+            const txtEmail = document.getElementById('txtEmail');
+            const txtPassword = document.getElementById('txtPassword');
+            const btnLogin = document.getElementById('btnLogin');
+            const btnSignUp = document.getElementById('btnSignUp');
+
+            //add login event
+            $("#btnLogin").on("click", e => {
+                const txtEmail = $("#txtEmail").val();
+                const txtPassword = $("#txtPassword").val();
+                const auth = firebase.auth();
+
+                //sign in
+                const promise = auth.signInWithEmailAndPassword(txtEmail, txtPassword);
+                promise.catch(e => console.log(e.message))
+            });
+
+
+
+            //Add signup event
+            $("#btnSignUp").on("click", e => {
+
+                //TODO : CHECK FOR REAL EMAIL
+                const txtEmail = $("#txtEmail").val();
+                const txtPassword = $("#txtPassword").val();
+                const auth = firebase.auth();
+
+                //sign in
+                const promise = auth.createUserWithEmailAndPassword(txtEmail, txtPassword);
+                promise.catch(e => console.log(e.message))
+            })
         }
     })
-});
 
+})
 //GETS MEETUP API
 function meetupApi(date) {
     let queryUrl = "https://api.meetup.com/find/upcoming_events?photo-host=public&order=time&start_date_range=" + date + "&page=10&text=austin&sign=true&key=883432577b254a175d755a767f1467";
@@ -484,18 +541,27 @@ function movieApi(date) {
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 function distance(lat1, lon1, lat2, lon2, unit) {
-	var radlat1 = Math.PI * lat1/180
-	var radlat2 = Math.PI * lat2/180
-	var theta = lon1-lon2
-	var radtheta = Math.PI * theta/180
-	var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-	if (dist > 1) {
-		dist = 1;
-	}
-	dist = Math.acos(dist)
-	dist = dist * 180/Math.PI
-	dist = dist * 60 * 1.1515
-	if (unit=="K") { dist = dist * 1.609344 }
-	if (unit=="N") { dist = dist * 0.8684 }
-	return dist
+    var radlat1 = Math.PI * lat1 / 180
+    var radlat2 = Math.PI * lat2 / 180
+    var theta = lon1 - lon2
+    var radtheta = Math.PI * theta / 180
+    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    if (dist > 1) {
+        dist = 1;
+    }
+    dist = Math.acos(dist)
+    dist = dist * 180 / Math.PI
+    dist = dist * 60 * 1.1515
+    if (unit == "K") { dist = dist * 1.609344 }
+    if (unit == "N") { dist = dist * 0.8684 }
+    return dist
+}
+
+function itinerary() {
+
+}
+
+function DatabaseToItinerary() {
+    database.ref().on('value', snap =>
+        console.log(snap.val()));
 }
