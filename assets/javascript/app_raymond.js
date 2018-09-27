@@ -20,6 +20,8 @@ let food_limit = 10;
 let foodObject = {};
 
 let meetupObject = [];
+let movieObject = {};
+let omdbObject = {};
 
 let lat_meetup = "30.299699783325195";
 let lon_meetup = "-97.7223892211914";
@@ -85,20 +87,27 @@ $(document).ready(function () {
         displayMeetupChosen(meetupObject[key]);
         //set up ajax function for pulling event data
         //change button color to show active
-    })
-    $('#movies').on('click', function () {
-        console.log('movies clicked');
+    });
+
+    $('#movies').on('click', '.movieChosen',  function () {
+        // console.log('movies clicked');
+        console.log($(this).data("movieindex"));
+        let index = $(this).data("movieindex");
+        console.log(movieObject[index]);
+
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
             scrollTop: $(".headDisplay").offset().top
         },
             'slow');
+
+
         //set up ajax fun
         //set up ajax function for pulling movie data
         //change button color to show active
-    })
+    });
 
-    // --- Daynamically created Buttons clicked - food, meetup, movies  ends
+    // --- Daynamically created Buttons clicked - food, meetup, movies -- ends
 
     // -- Calendar Date Picker begins ----
     // $('.dates').on('click', function () {
@@ -620,8 +629,10 @@ function movieApi(date) {
         // console.log('movieArray: ', movieArray);
         // console.log('25 movies: ', moviesLimit);
 
-        // -- data for movies
+        movieObject = data;
         // console.log(data);
+
+        // -- data for movies
         // console.log(data[0].title);
         // console.log(data[0].showtimes);
         // console.log(data[0].showtimes[0].dateTime);
@@ -648,8 +659,9 @@ function movieApi(date) {
             // console.log('movieTitles: ', movieTitles);
 
             let movieButtons = $('<button>');
-            movieButtons.addClass('movie-btn');
+            movieButtons.addClass('movie-btn movieChosen');
             movieButtons.attr('data-movies', movieTitles);
+            movieButtons.attr('data-movieindex', n);
             let movieTimes = moviesLimit[n].showtimes;
             let movieHour;
             let newMovieTime;
@@ -670,7 +682,8 @@ function movieApi(date) {
             $.get(omdbURL).then(data => {
                 plot = data.Plot;
                 poster = data.Poster;
-
+              
+                omdbObject = data;
                 // console.log(data);
 
                 // console.log("POSTER: ", poster);
