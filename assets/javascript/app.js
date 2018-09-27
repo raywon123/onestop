@@ -101,6 +101,9 @@ $(document).ready(function () {
             $(".addBtn").on('click', function () {
                 let Date = moment(clickedObject.Date).format('MM-DD-YYYY')
                 if (clickedObject.Type == "Meetup") {
+
+
+
                     database.ref().child(Date).push({
                         Type: clickedObject.Type,
                         Name: clickedObject.Name,
@@ -181,14 +184,25 @@ $(document).ready(function () {
 
             });
 
-            //modal itinerary code
-            $('#calendar').fullCalendar({
+            $("#doctor-calendar").fullCalendar({
                 header: {
-                    left: '',
-                    center: 'prev title next',
-                    right: ''
-                }
-            })
+                    left: 'prev',
+                    center: 'title',
+                    right: 'next'
+                },
+                defaultView: 'agendaDay'
+            });
+
+            $('#doc-cal').on('shown.bs.modal', function () {
+                $("#doctor-calendar").fullCalendar('render');
+            });
+
+            $("#button").on("click", function () {
+                $("#doc-cal").modal(open).show();;
+            });
+
+
+
 
             //itinerary click event
             $("#itinerary").on("click", e => {
