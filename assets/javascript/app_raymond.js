@@ -21,7 +21,7 @@ let foodObject = {};
 
 let meetupObject = [];
 let movieObject = {};
-let omdbObject = {};
+let omdbObject = [];
 
 let lat_meetup = "30.299699783325195";
 let lon_meetup = "-97.7223892211914";
@@ -94,6 +94,7 @@ $(document).ready(function () {
         console.log($(this).data("movieindex"));
         let index = $(this).data("movieindex");
         console.log(movieObject[index]);
+        console.log(omdbObject[index]);
 
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
@@ -610,6 +611,7 @@ function displayFoodChosen(data) {
 //GET Movies API data
 function movieApi(date) {
     $('#movies').empty();
+    omdbObject = [];
     let movieQueryUrl = "2http://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=p54wc8q9rw4m9bezu48fs7cg";
     //if error on movieQueryURL persists, try this key:p54wc8q9rw4m9bezu48fs7cg
     // console.log('movieQueryUrl: ', movieQueryUrl)
@@ -683,8 +685,14 @@ function movieApi(date) {
                 plot = data.Plot;
                 poster = data.Poster;
               
-                omdbObject = data;
+                omdbObject.push(JSON.stringify(data));
                 // console.log(data);
+
+                // -- data
+                // console.log(data.Title);
+                // console.log(data.Runtime);
+                // console.log(data.Plot);
+                // console.log(data.Poster);
 
                 // console.log("POSTER: ", poster);
                 // console.log('PLOT: ', plot)
