@@ -122,7 +122,7 @@ $(document).ready(function () {
             $("#itineraryContent").removeClass("d-none");
             $("#location").text("Austin, Texas");
 
-            DatabaseToItinerary();
+            
             console.log("loggedin")
             $(".content").removeClass("d-none");
 
@@ -259,6 +259,25 @@ $(document).ready(function () {
                 console.log(foodObject.restaurants[foodindex]);
 
             });
+            //functions for calendar and schedule to populate
+            // let events = [];
+            // function makeEvent(databaseObject) {
+            //     databaseObject.forEach(function(i) {
+            //         events[i] = {
+            //             title: i.title,
+            //             start: i.start
+            //         }
+            //     })
+            // }
+            DatabaseToItinerary();
+            console.log(databaseObject)
+            // // makeEvent();
+            // console.log("events", events)
+            
+            //Simulate an async call
+            setTimeout(function() {
+              $('#calendar').fullCalendar('addEventSource', databaseObject);
+            }, 500);
 
             $("#calendar").fullCalendar({
                 header: {
@@ -632,7 +651,7 @@ function movieApi(date) {
         // console.log('25 movies: ', moviesLimit);
 
         let movieTimeFormat = moment("2018-09-26T11:00", 'YYYY-MM-DDTHH:mm').format('LT');
-        console.log('MOVIE TIME FORMAT: ', movieTimeFormat)
+        // console.log('MOVIE TIME FORMAT: ', movieTimeFormat)
 
         for (let n = 0; n < moviesLimit.length; n++) {
             let movieTitles = moviesLimit[n].title;
@@ -663,9 +682,9 @@ function movieApi(date) {
             $.get(omdbURL).then(data => {
                 plot = data.Plot;
                 poster = data.Poster;
-                console.log("POSTER: ", poster);
-                console.log('PLOT: ', plot)
-                console.log('data response: ', data.Response)
+                // console.log("POSTER: ", poster);
+                // console.log('PLOT: ', plot)
+                // console.log('data response: ', data.Response)
                 if (data.Response === "False") {
                     //movieButtons.html omits 'plot' and 'poster' from the DOM
                     movieButtons.html('<h4><em>' + movieTitles + '</em></h4><h5>' + theatreNames + '</h5><h6>' + newMovieTime + '</h6>');
@@ -744,14 +763,17 @@ function DatabaseToItinerary() {
         childsnap.forEach(function (grandchildsnap) {
             // console.log(grandchildsnap.val())
             // console.log(childsnap.ref.key)
-            databaseObject.push(
+            let objectContainer = {};
+            objectContainer = 
                 {
-                title: grandchildsnap.val().Name,
-                start: childsnap.ref.key
-            }
-        )
+                    title: grandchildsnap.val().Name,
+                    start: childsnap.ref.key
+                }
+            
+            databaseObject.push(objectContainer)
         })
+        
 })
     
-    
+console.log(databaseObject)
 }
