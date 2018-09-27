@@ -62,7 +62,7 @@ $(document).ready(function () {
             scrollTop: $(".headDisplay").offset().top
         },
             'slow');
-        console.log(foodindex);
+        // console.log(foodindex);
         console.log(foodObject.restaurants[foodindex]);
         displayFoodChosen(foodObject.restaurants[foodindex]);
 
@@ -85,6 +85,8 @@ $(document).ready(function () {
             scrollTop: $(".headDisplay").offset().top
         },
             'slow');
+
+        displayMeetupChosen(meetupObject[key]);
         //set up ajax function for pulling event data
         //change button color to show active
     })
@@ -167,6 +169,7 @@ $(document).ready(function () {
                 //change button color to show active
             })
 
+ 
             // -- Calendar Date Picker begins ----
             // $('.dates').on('click', function () {
             //     console.log('dates clicked');
@@ -391,6 +394,106 @@ function meetupApi(date) {
     })
 }
 
+// function used for when user click the meetup, it will display more info
+function displayMeetupChosen(data) {
+
+    let meetupCard = $(".initialDisplay");
+
+    // foodCard.empty();
+
+    // data 
+    let name = data.name;
+
+    let description = "";
+    if (data.hasOwnProperty('description')) {
+        description = data.description;
+    }
+
+    vname = "";
+    address = "";
+    city = "";
+    if (data.hasOwnProperty('venue')) {
+        let vname = data.venue.name;
+        let address = data.venue.address_1;
+        let city = data.venue.city;
+    }
+    
+    let date = moment(data.local_date).format('MM/DD/YY');
+    let time = moment(data.local_time, 'HH:mm').format('hh:mm a');
+
+    let fee;
+    if (data.hasOwnProperty('fee')) {
+        fee = data.fee.amount;
+    }
+    else {
+        fee = 0;
+    }
+
+    // -- Not all events have all the data
+    // -- detailed event:
+    // console.log(data.name);
+    // console.log(data.description);
+    // console.log(data.venue.name);
+    // console.log(data.venue.address_1);
+    // console.log(data.venue.city);
+    // console.log(data.local_date);
+    // console.log(data.local_time);
+    // console.log(data.fee.amount);
+    // console.log(data.link);
+
+    // -- non-detailed event:
+    //  console.log(data.name);
+    //  console.log(data.local_date);
+    //  console.log(data.local_time);
+    //  console.log(data.link);
+
+    // image element
+    let imgDiv = $("<div>");
+    let imgElement = $("<img>");
+
+    // // Adding a class
+    imgDiv.addClass("col-lg-4");
+    imgElement.addClass("thumb-meetup-chosen");
+
+    // -- event picture (placeholder)
+    imgElement.attr("src", "assets/images/meetup_default.png");
+
+    imgDiv.append(imgElement);
+    meetupCard.append(imgDiv);
+
+    // -- description element
+    let desDiv = $("<div>");
+    desDiv.addClass("col-lg-6");
+
+    desDiv.append("<h5 class=\"meetupname-chosen\">" + name + "</h5>");
+
+    if (vname !== null) {
+        desDiv.append("<p class=\"meetupvenue-chosen\">" + vname + "</p>");
+    }
+    if (address !== null) {
+        desDiv.append("<p class=\"meetupaddress-chosen\">" + "Address : " + address + ", " + city + "</p>");
+    }
+    if (description !== null) {
+        desDiv.append("<p class=\"meetupdes-chosen\">" + "Description : " + description + "</p>");
+    }
+
+    desDiv.append("<p class=\"meetuptime-chosen\">" + "Time: " + date + " -- " + time + "</p>");
+
+    if (fee !== null) {
+        desDiv.append("<p class=\"meetupcost-chosen\">" + "Cost : $" + fee + "</p>");
+    }
+    // desDiv.append("<p class=\"meetuplink-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
+    meetupCard.append(desDiv);
+
+    // -- button for Add to Cart
+    let cartBtn = $("<button>");
+    cartBtn.addClass("w-100 float-right col-lg-2 btn btn-light btn-lg addBtn h-25 mt-5");
+    cartBtn.text("Add Event");
+    meetupCard.append(cartBtn);
+
+
+}
+
 // -- Zomato API - begins
 
 function searchZomato(location, lat, lon) {
@@ -580,22 +683,22 @@ function displayFoodChosen(data) {
     // note: not all restaurants have pictures
     imgElement.attr("src", thumb_picture);
     if (thumb_picture === "") {
-         imgElement.attr("src", "assets/images/food_default.png");
-     }
-     else {
-         imgElement.attr("src", thumb_picture);
+        imgElement.attr("src", "assets/images/food_default.png");
     }
-    
-     imgDiv.append(imgElement);
-     foodCard.append(imgDiv);
+    else {
+        imgElement.attr("src", thumb_picture);
+    }
+
+    imgDiv.append(imgElement);
+    foodCard.append(imgDiv);
 
     // -- description element
     let desDiv = $("<div>");
     desDiv.addClass("col-lg-6");
 
-    desDiv.append("<p class=\"foodname-chosen\">" + name + "</p>");
+    desDiv.append("<h5 class=\"foodname-chosen\">" + name + "</h5>");
     desDiv.append("<p class=\"foodaddress-chosen\">" + address + "</p>");
-    desDiv.append("<p class=\"foodtype-chosen\">" +  "Cuisine : " + type + "</p>");
+    desDiv.append("<p class=\"foodtype-chosen\">" + "Cuisine : " + type + "</p>");
     desDiv.append("<p class=\"foodrating-chosen\">" + "Rating : " + rating + "</p>");
     desDiv.append("<p class=\"foodcost-chosen\">" + "Cost for Two : $" + cost + "</p>");
     // desDiv.append("<p class=\"foodmenu-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
@@ -612,7 +715,7 @@ function displayFoodChosen(data) {
 //GET Movies API data
 function movieApi(date) {
     $('#movies').empty();
-    let movieQueryUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=p54wc8q9rw4m9bezu48fs7cg";
+    let movieQueryUrl = "2http://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=p54wc8q9rw4m9bezu48fs7cg";
     //if error on movieQueryURL persists, try this key:p54wc8q9rw4m9bezu48fs7cg
     // console.log('movieQueryUrl: ', movieQueryUrl)
     let movieData = [];
@@ -672,7 +775,7 @@ function movieApi(date) {
                 }
                 else {
                     //movieButtons.html displays data from OMDB
-                    movieButtons.html('<h4><em>' + movieTitles + '</em></h4><h5>'+plot+'</h5><img src="'+poster+'">' + theatreNames + '</h5><h6>' + newMovieTime + '</h6>');
+                    movieButtons.html('<h4><em>' + movieTitles + '</em></h4><h5>' + plot + '</h5><img src="' + poster + '">' + theatreNames + '</h5><h6>' + newMovieTime + '</h6>');
                 }
             })
 
