@@ -89,12 +89,12 @@ $(document).ready(function () {
         //change button color to show active
     });
 
-    $('#movies').on('click', '.movieChosen',  function () {
+    $('#movies').on('click', '.movieChosen', function () {
         // console.log('movies clicked');
-        console.log($(this).data("movieindex"));
+        // console.log($(this).data("movieindex"));
         let index = $(this).data("movieindex");
-        console.log(movieObject[index]);
-        console.log(omdbObject[index]);
+        // console.log(movieObject[index]);
+        // console.log(omdbObject[index]);
 
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
@@ -102,7 +102,7 @@ $(document).ready(function () {
         },
             'slow');
 
-
+        displayMovieChosen(movieObject[index], omdbObject[index]);
         //set up ajax fun
         //set up ajax function for pulling movie data
         //change button color to show active
@@ -612,7 +612,7 @@ function displayFoodChosen(data) {
 function movieApi(date) {
     $('#movies').empty();
     omdbObject = [];
-    let movieQueryUrl = "2http://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=p54wc8q9rw4m9bezu48fs7cg";
+    let movieQueryUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=p54wc8q9rw4m9bezu48fs7cg";
     //if error on movieQueryURL persists, try this key:p54wc8q9rw4m9bezu48fs7cg
     // console.log('movieQueryUrl: ', movieQueryUrl)
     let movieData = [];
@@ -634,7 +634,7 @@ function movieApi(date) {
         movieObject = data;
         // console.log(data);
 
-        // -- data for movies
+        // -- data from movies api
         // console.log(data[0].title);
         // console.log(data[0].showtimes);
         // console.log(data[0].showtimes[0].dateTime);
@@ -644,7 +644,6 @@ function movieApi(date) {
         // console.log(data[0].genres[0]);
         // console.log(data[0].shortDescription);
         // console.log(data[0].releaseDate);
-        // console.log(data[0].ratings[0].code);
         // console.log(data[0].advisories);
         // console.log(data[0].directors);
         // console.log(data[0].topCast);
@@ -684,11 +683,12 @@ function movieApi(date) {
             $.get(omdbURL).then(data => {
                 plot = data.Plot;
                 poster = data.Poster;
-              
-                omdbObject.push(JSON.stringify(data));
+
+
+                omdbObject[n] = JSON.stringify(data);
                 // console.log(data);
 
-                // -- data
+                // -- data from omdb
                 // console.log(data.Title);
                 // console.log(data.Runtime);
                 // console.log(data.Plot);
@@ -712,6 +712,96 @@ function movieApi(date) {
     })
 }
 
+// function used for when user click the meetup, it will display more info
+function displayMovieChosen(movie, omdbS) {
+
+    let movieCard = $(".initialDisplay");
+    let omdb = JSON.parse(omdbS);
+
+    // -- data from movies api
+    // console.log(movie.title);
+    // console.log(movie.showtimes);
+    // console.log(movie.showtimes[0].dateTime);
+    // console.log(movie.showtimes[0].theatre.name);
+    // console.log(movie.showtimes[0].theatre.id);
+    // console.log(movie.entityType);
+    // console.log(movie.genres[0]);
+    // console.log(movie.shortDescription);
+    // console.log(movie.releaseDate);
+    // console.log(movie.advisories);
+    // console.log(movie.directors);
+    // console.log(movie.topCast);
+    // console.log(movie.longDescription);
+
+    // -- data from omdb
+    // console.log(omdb.Title);
+    // console.log(omdb.Runtime);
+    // console.log(omdb.Released);
+    // console.log(omdb.Rated);
+    // console.log(omdb.Plot);
+    // console.log(omdb.Poster);
+
+    // console.log(movie);
+    // console.log(omdb);
+
+    let title = movie.title;
+    let time = moment(movie.showtimes[0].dateTime).format('LT');
+    let theatre = (movie.showtimes[0].theatre.name);
+    let genre = movie.genres[0];
+    let short = movie.shortDescription;
+    let long = movie.longDescription;
+    // let release = moment(movie.releaseDate).format('YYYY');
+    let advisory = movie.advisories;
+    let director = movie.directors;
+    let cast = movie.topCast;
+
+    let runtime = omdb.Runtime;
+    let release = moment(omdb.Released).format('YYYY');
+    let rated = omdb.Rated;
+    let plot = omdb.Plot;
+    let poster = omdb.Poster;
+
+    // image element
+    let imgDiv = $("<div>");
+    let imgElement = $("<img>");
+
+    // // Adding a class
+    imgDiv.addClass("col-lg-4");
+    imgElement.addClass("thumb-movie-chosen");
+
+    // -- movie picture 
+    imgElement.attr("src", poster);
+
+    imgDiv.append(imgElement);
+    movieCard.append(imgDiv);
+
+    // -- description element
+    let desDiv = $("<div>");
+    desDiv.addClass("col-lg-6");
+
+
+    desDiv.append("<h4 class=\"movie-chosen\">" + title + "</h4>");
+    desDiv.append("<h5 class=\"movietheatre-chosen\">" + theatre + "</h5>");
+    desDiv.append("<h5 class=\"movietime-chosen\">Show Time : " + time + "</h5>");
+    desDiv.append("<p class=\"moviedes-chosen\">Genre : " + genre + "</p>");
+    desDiv.append("<p class=\"moviedes-chosen\">Rated : " + rated + "</p>");
+    desDiv.append("<p class=\"moviedes-chosen\">Advisory : " + advisory + "</p>");
+    desDiv.append("<p class=\"movierelease-chosen\">Release : " + release + "</p>");
+    desDiv.append("<p class=\"movierelease-chosen\">Run Time : " + runtime + "</p>");
+    desDiv.append("<p class=\"moviedirector-chosen\">Director : " + director + "</p>");
+    desDiv.append("<p class=\"moviecast-chosen\">Casts : " + cast + "</p>");
+    desDiv.append("<p class=\"movieplot-chosen\">Plot : " + long + "</p>");
+    movieCard.append(desDiv);
+
+    // -- button for Add to Cart
+    let cartBtn = $("<button>");
+    cartBtn.addClass("w-100 float-right col-lg-2 btn btn-light btn-lg addBtn h-25 mt-5");
+    cartBtn.text("Add Event");
+    movieCard.append(cartBtn);
+
+}
+
+// 
 // -- geo distance function
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //:::                                                                         :::
