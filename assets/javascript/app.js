@@ -484,7 +484,7 @@ function displayFoodChosen(data) {
 //GET Movies API data
 function movieApi(date) {
     $('#movies').empty();
-    let movieQueryUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=szt5azey9rbbjqc8jypd7cvw";
+    let movieQueryUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=p54wc8q9rw4m9bezu48fs7cg";
     //if error on movieQueryURL persists, try this key:p54wc8q9rw4m9bezu48fs7cg
     // console.log('movieQueryUrl: ', movieQueryUrl)
     let movieData = [];
@@ -530,7 +530,23 @@ function movieApi(date) {
             }
             // console.log('movieTimes: ', movieTimes);
 
-            movieButtons.html('<h4><em>' + movieTitles + '</em></h4><h5>' + theatreNames + '</h5><h6>' + newMovieTime + '</h6>');
+            let omdbURL = "https://www.omdbapi.com/?t=" + movieTitles + "&plot=short&apikey=trilogy";
+
+            $.get(omdbURL).then(data => {
+                plot = data.Plot;
+                poster = data.Poster;
+                console.log("POSTER: ", poster);
+                console.log('PLOT: ', plot)
+                console.log('data response: ', data.Response)
+                if (data.Response === "False") {
+                    //movieButtons.html omits 'plot' and 'poster' from the DOM
+                    movieButtons.html('<h4><em>' + movieTitles + '</em></h4><h5>' + theatreNames + '</h5><h6>' + newMovieTime + '</h6>');
+                }
+                else {
+                    //movieButtons.html displays data from OMDB
+                    movieButtons.html('<h4><em>' + movieTitles + '</em></h4><h5>'+plot+'</h5><img src="'+poster+'">' + theatreNames + '</h5><h6>' + newMovieTime + '</h6>');
+                }
+            })
 
             $('#movies').append(movieButtons);
 
