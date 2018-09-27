@@ -1,5 +1,5 @@
 body, HTML {
-    background: black;  
+    background: black;
 }
 
 #jumbotron {
@@ -32,9 +32,9 @@ body, HTML {
 }
 
 #setup {
-
-  padding: 10px; 
+    padding: 10px;
 }
+
 .home {
     width: 100px;
     text-align: center;
@@ -42,13 +42,14 @@ body, HTML {
     color: white;
     float: right;
 }
+
 a {
     text-decoration: none !important;
     color: white;
 }
+
 a:hover {
     color: #6c757d;
-
 }
 
 button {
@@ -85,11 +86,7 @@ button {
     padding: 3px;*/
 }
 
-
-#food,
-.dates,
-#meetups,
-#movies {
+#food, .dates, #meetups, #movies {
     padding: 10px;
     background: #C0C0C0;
     border-radius: 3px;
@@ -148,7 +145,7 @@ button {
 }
 
 .itin {
-
+    color: white;
 }
 
 #header {
@@ -187,12 +184,12 @@ button {
     max-width: 200px;
 }
 
-@media only screen and (max-width: 760px),
-(min-device-width: 768px) and (max-device-width: 1024px) {
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
     #select, #location, .form-control, #itinerary, {
         text-align: center;
         margin-bottom: 8px;
     }
+
 
 /* Date Picker  */
 .datetimepicker {
@@ -202,4 +199,4 @@ button {
     color:  #6c757d;
 }
 
-}
+
