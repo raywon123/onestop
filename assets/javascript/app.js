@@ -35,6 +35,7 @@ function initialApp() {
     $("#food").empty();
     $("#meetups").empty();
     $("#movies").empty();
+    $(".addBtn").hide();
     searchZomato("Austin", lat, lon);
     meetupApi(dateUsed);
     movieApi(movieDateUsed);
@@ -59,7 +60,7 @@ $(document).ready(function () {
         let foodindex = $(this).data('foodindex');
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
-            scrollTop: $(".headDisplay").offset().top
+            scrollTop: $("#location").offset().top
         },
             'slow');
         console.log(foodindex);
@@ -71,6 +72,7 @@ $(document).ready(function () {
     $('#meetups').on('click', '.meetupKey', function () {
         console.log($(this).data("key"));
         let key = $(this).data("key");
+        $(".addBtn").show();
         console.log(meetupObject[key]);
 
         // console.log(meetupObject[key].group.lat);
@@ -82,7 +84,7 @@ $(document).ready(function () {
 
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
-            scrollTop: $(".headDisplay").offset().top
+            scrollTop: $("#location").offset().top
         },
             'slow');
 
@@ -95,7 +97,7 @@ $(document).ready(function () {
         console.log('movies clicked');
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
-            scrollTop: $(".headDisplay").offset().top
+            scrollTop: $("#location").offset().top
         },
             'slow');
         //set up ajax fun
@@ -124,6 +126,7 @@ $(document).ready(function () {
             $("#options").removeClass("d-none")
             $("#itineraryContent").removeClass("d-none");
             $("#location").text("Austin, Texas");
+            $(".loginRow").hide();
 
 
             console.log("loggedin")
@@ -143,7 +146,7 @@ $(document).ready(function () {
                 console.log(meetupObject[key])
                 $('.initialDisplay').removeClass("d-none");
                 $('html,body').animate({
-                    scrollTop: $(".headDisplay").offset().top
+                    scrollTop: $("#location").offset().top
                 },
                     'slow');
                 let time = moment(meetupObject[key].local_time, 'HH:mm').format('hh:mm a')
@@ -162,7 +165,7 @@ $(document).ready(function () {
                 clickedObject = {};
                 $('.initialDisplay').removeClass("d-none");
                 $('html,body').animate({
-                    scrollTop: $(".headDisplay").offset().top
+                    scrollTop: $("#location").offset().top
                 },
                     'slow');
                 //set up ajax fun
@@ -179,6 +182,7 @@ $(document).ready(function () {
 
             $(".addBtn").on('click', function () {
                 console.log("clicked")
+                $("#calendar").toggle('fade-in');
                 let Date = moment(clickedObject.Date).format('MM-DD-YYYY')
                 if (clickedObject.Type == "Meetup") {
                     database.ref().child(Date).push({
@@ -198,6 +202,8 @@ $(document).ready(function () {
                 }
 
                 DatabaseToItinerary();
+                $('#calendar').fullCalendar('removeEvents');
+                $('#calendar').fullCalendar('addEventSource', databaseObject);
             });
 
             $(function () {
@@ -248,9 +254,10 @@ $(document).ready(function () {
             $("#food").on("click", ".foodchoice", function () {
 
                 let foodindex = $(this).data('foodindex');
+                $(".addBtn").show();
                 $('.initialDisplay').removeClass("d-none");
                 $('html,body').animate({
-                    scrollTop: $(".headDisplay").offset().top
+                    scrollTop: $("#location").offset().top
                 },
                     'slow');
                 clickedObject = {
@@ -298,6 +305,7 @@ $(document).ready(function () {
 
         else {
             $("#location").text("Please Login or Sign up");
+
             console.log("not logged in")
 
             //get elements
@@ -615,10 +623,7 @@ function displayFoodChosen(data) {
     foodCard.append(desDiv);
 
     // -- button for Add to Cart
-    let cartBtn = $("<button>");
-    cartBtn.addClass("w-100 float-right col-lg-2 btn btn-light btn-lg addBtn h-25 mt-5");
-    cartBtn.text("Add Event").addClass("my-auto", "mr-2");
-    foodCard.append(cartBtn);
+    
 
 };
 
@@ -747,8 +752,8 @@ function itinerary() {
 
 }
 
-function DatabaseToItinerary() {
-
+function DatabaseToItinerary() {    
+    databaseObject = [];
     let datesRef = database.ref();
 
     datesRef.on('child_added', function (childsnap) {
@@ -761,7 +766,8 @@ function DatabaseToItinerary() {
             objectContainer =
                 {
                     title: grandchildsnap.val().Name,
-                    start: childsnap.ref.key
+                    start: childsnap.ref.key,
+                    allDay: true
                 }
 
             databaseObject.push(objectContainer)
@@ -805,9 +811,6 @@ function displayMeetup(data) {
     meetupCards.append(desDiv);
 
     // -- button for Add to Cart
-    let cartBtn = $("<button>");
-    cartBtn.addClass("w-100 float-right col-lg-2 btn btn-light btn-lg addBtn h-25 mt-5");
-    cartBtn.text("Add Event").addClass("my-auto", "mr-2");
-    meetupCards.append(cartBtn);
+    
 
 };
