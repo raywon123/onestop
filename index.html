@@ -22,7 +22,7 @@
 <body>
     <div class="jumbotron jumbotron-fluid" id="jumbotron">
 
-        <div class="container headDisplay d-none">
+        <div class="container headDisplay">
             <div class="row" id="jumbotron-1">
                 <div class="col-sm" id="main">(logo here)
                     <h1 class="display-4">OneStop</h1>
@@ -60,47 +60,20 @@
     </div>
 
     <div class="container-fluid border border-0 content">
-        <div class="row  d-none" id="header">
+        <div class="row" id="header">
             <div class="col-sm " id="select">
                 <input class="search" placeholder="Choose a city">
                 <button class='search-button'>Submit</button>
             </div>
-            <div class="col-sm" id="location">Location (Placeholder)</div>
+            <div class="col-sm display-4" id="location">Location (Placeholder)</div>
 
-            <div class="col-sm" id="itinerary">
+            <div class="col-sm d-none" id="itineraryContent">
                 <input type='text' class="form-control datetimepicker" placeholder="Dates" />
-                <button id="itinerary" data-toggle="modal" data-target="#mymodal">Itinerary</button>
+                <button id="itinerary" class="btn btn-lg">Itinerary</button>
             </div>
         </div>
 
-        <!-- Button trigger modal -->
-        <button id="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-            Launch Calendar
-        </button>
-
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Doctor's Appointments</h4>
-                    </div>
-
-                    <div class="modal-body">
-                        <div class="doctor-detail-wrap">
-                            <div id="calendar"></div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <!-- <input type="submit" class="btn btn-warning" id="doc-update" value="Update"> -->
-                        <button type="button" class="btn btn-default" id="plist-close" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
 
         <div class="mx-5 row initialDisplay d-none my-2 ">
             <div class="col-lg-2 mt-2">
@@ -117,6 +90,10 @@
             </div>
             <button type="button" class="w-100 float-right col-lg-2 btn btn-light btn-lg addBtn h-25 mt-5"> Add Event</button>
 
+        </div>
+
+        <div class="itineraryCalendar row m-2">
+            <div id="calendar" class=""></div>
         </div>
 
         <div class="row d-none" id="options">

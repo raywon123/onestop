@@ -27,6 +27,7 @@ let lon_meetup = "-97.7223892211914";
 let isMeetupChosen = false;
 
 let clickedObject = {};
+let databaseObject = [];
 
 function initialApp() {
     $("#food").empty();
@@ -46,6 +47,10 @@ $(document).ready(function () {
     //realtime listener
     firebase.auth().onAuthStateChanged(firebaseUser => {
         if (firebaseUser) {
+            $("#options").removeClass("d-none")
+            $("#itineraryContent").removeClass("d-none");
+            $("#location").text("Austin");
+
             DatabaseToItinerary();
             console.log("loggedin")
             $(".content").removeClass("d-none");
@@ -184,34 +189,31 @@ $(document).ready(function () {
 
             });
 
-            $("#doctor-calendar").fullCalendar({
+            $("#calendar").fullCalendar({
                 header: {
                     left: 'prev',
-                    center: 'title',
+                    center: ' title ',
                     right: 'next'
                 },
-                defaultView: 'agendaDay'
+                height: 400,
+                themeSystem: 'jquery-ui',
+                themeButtonIcons: {
+                    prev: 'circle-triangle-w',
+                    next: 'circle-triangle-e',
+                    prevYear: 'seek-prev',
+                    nextYear: 'seek-next'
+                }
             });
-
-            $('#doc-cal').on('shown.bs.modal', function () {
-                $("#doctor-calendar").fullCalendar('render');
-            });
-
-            $("#button").on("click", function () {
-                $("#doc-cal").modal(open).show();;
-            });
-
-
-
 
             //itinerary click event
             $("#itinerary").on("click", e => {
-
+                $("#calendar").toggle('fade-in');
             })
 
         }
 
         else {
+            $("#location").text("Please Login or Sign up");
             console.log("not logged in")
 
             //get elements
@@ -576,6 +578,23 @@ function itinerary() {
 }
 
 function DatabaseToItinerary() {
-    database.ref().on('value', snap =>
-        console.log(snap.val()));
+
+    let datesRef = database.ref();
+        
+    datesRef.on('child_added', function(childsnap) {
+        // console.log(childsnap.ref.key);
+        // console.log(childsnap.val());
+        childsnap.forEach(function (grandchildsnap) {
+            // console.log(grandchildsnap.val())
+            // console.log(childsnap.ref.key)
+            databaseObject.push(
+                {
+                title: grandchildsnap.val().Name,
+                start: childsnap.ref.key
+            }
+        )
+        })
+})
+    
+    
 }

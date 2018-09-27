@@ -180,3 +180,8 @@ button {
         color: #6c757d;
     }
 }
+
+#calendar {
+    background: #444;
+    color: white;
+}
