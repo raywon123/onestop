@@ -126,7 +126,7 @@ $(document).ready(function () {
             $("#options").removeClass("d-none")
             $("#itineraryContent").removeClass("d-none");
             $("#location").text("Austin, Texas");
-            $(".loginRow").hide();
+            $(".loginRow").hide("slow");
 
 
             console.log("loggedin")
@@ -182,7 +182,7 @@ $(document).ready(function () {
 
             $(".addBtn").on('click', function () {
                 console.log("clicked")
-                $("#calendar").toggle('fade-in');
+                $("#calendar").show('fade-in');
                 let Date = moment(clickedObject.Date).format('MM-DD-YYYY')
                 if (clickedObject.Type == "Meetup") {
                     database.ref().child(Date).push({
