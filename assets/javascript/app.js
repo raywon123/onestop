@@ -417,8 +417,6 @@ function displayFoodChosen(data) {
 
     // foodCard.empty();
 
-
-
     // data 
     let thumb_picture = data.restaurant.thumb;
     let name = data.restaurant.name;
@@ -431,15 +429,15 @@ function displayFoodChosen(data) {
     let type = data.restaurant.cuisines;
 
 
-    console.log(data.restaurant.thumb);
-    console.log(data.restaurant.name);
-    console.log(data.restaurant.location.address);
-    console.log(data.restaurant.price_range);
-    console.log(data.restaurant.average_cost_for_two);
-    console.log(data.restaurant.user_rating.aggregate_rating);
-    console.log(data.restaurant.phone_numbers);
-    console.log(data.restaurant.menu_url);
-    console.log(data.restaurant.cuisines);
+    // console.log(data.restaurant.thumb);
+    // console.log(data.restaurant.name);
+    // console.log(data.restaurant.location.address);
+    // console.log(data.restaurant.price_range);
+    // console.log(data.restaurant.average_cost_for_two);
+    // console.log(data.restaurant.user_rating.aggregate_rating);
+    // console.log(data.restaurant.phone_numbers);
+    // console.log(data.restaurant.menu_url);
+    // console.log(data.restaurant.cuisines);
 
 
     // image element
@@ -449,9 +447,6 @@ function displayFoodChosen(data) {
     // // Adding a class
     imgDiv.addClass("col-lg-4");
     imgElement.addClass("thumb-food-chosen");
-
-    // // Adding a data-attribute with a value of index i
-    // imgButton.attr("data-foodindex", i);
 
     // -- food picture
     // note: not all restaurants have pictures
