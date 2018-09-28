@@ -843,7 +843,7 @@ function displayFoodChosen(data) {
     let desDiv = $("<div>");
     desDiv.addClass("col-lg-6");
 
-    desDiv.append("<p class=\"foodname-chosen\">" + name + "</p>");
+    desDiv.append("<h2 class=\"foodname-chosen\">" + name + "</h2>");
     desDiv.append("<p class=\"foodaddress-chosen\">" + address + "</p>");
     desDiv.append("<p class=\"foodtype-chosen\">" + "Cuisine : " + type + "</p>");
     desDiv.append("<p class=\"foodrating-chosen\">" + "Rating : " + rating + "/5.0</p>");
@@ -1068,7 +1068,7 @@ function displayMovieChosen(movie, omdbS) {
     desDiv.addClass("col-lg-6");
 
 
-    desDiv.append("<h4 class=\"movie-chosen\">" + title + "</h4>");
+    desDiv.append("<h2 class=\"movie-chosen\">" + title + "</h2>");
     desDiv.append("<h5 class=\"movietheatre-chosen\">" + theatre + "</h5>");
     desDiv.append("<h5 class=\"movietime-chosen\">Show Time : " + time + "</h5>");
     desDiv.append("<p class=\"moviedes-chosen\">Genre : " + genre + "</p>");
