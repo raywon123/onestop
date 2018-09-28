@@ -700,7 +700,7 @@ function movieApi(date) {
                 }
                 else {
                     //movieButtons.html displays data from OMDB
-                    movieButtons.html('<h4><em>' + movieTitles + '</em></h4><h5>' + plot + '</h5><img src="' + poster + '">' + theatreNames + '</h5><h6>' + newMovieTime + '</h6>');
+                    movieButtons.html('<h4><em>' + movieTitles + '</em></h4><h5>' + plot + '</h5><img src="' + poster + '"></h5><h5>' + theatreNames + '</h5><h6>' + newMovieTime + '</h6>');
                 }
             })
 
