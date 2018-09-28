@@ -700,7 +700,7 @@ function movieApi(date) {
         // console.log('Initial data: ', data);
 
         // -- hardcode movie json ( remove this if you want live data )
-        data = hardcode_moviejson;
+        data = hardcode_movie_json2;
 
         let moviesLimit = data.slice(0, 25);
         let movieArray = [];
