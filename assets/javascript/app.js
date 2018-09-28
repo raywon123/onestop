@@ -180,7 +180,7 @@ $(document).ready(function () {
             })
             $('#movies').on('click', '.movieChosen', function () {
                 // console.log('movies clicked');
-                
+
                 $('.initialDisplay').removeClass("d-none");
                 $('html,body').animate({
                     scrollTop: $("#location").offset().top
@@ -216,6 +216,14 @@ $(document).ready(function () {
 
                 //ASK ANDREW
                 let datesRef = database.ref("user").child(currentuser);
+                datesRef.child(Date).on('value', function (snapshot) {
+                    snapshot.forEach(function (snapchild) {
+                        if (snapchild.val().Name == clickedObject.Name) {
+                            clickedObject = {};
+                        }
+                    })
+                })
+
                 if (clickedObject.Type == "Meetup") {
                     datesRef.child(Date).push({
                         Type: clickedObject.Type,
@@ -243,6 +251,7 @@ $(document).ready(function () {
                 DatabaseToItinerary();
                 $('#calendar').fullCalendar('removeEvents');
                 $('#calendar').fullCalendar('addEventSource', databaseObject);
+
             });
 
             $(function () {
@@ -820,7 +829,7 @@ function DatabaseToItinerary() {
 
     })
 
-    console.log(databaseObject)
+    // console.log(databaseObject)
 }
 
 function displayMeetup(data) {
