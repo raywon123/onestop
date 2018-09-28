@@ -940,7 +940,7 @@ function displayMeetup(data) {
     imgElement.addClass("thumb-meetup-chosen");
 
     // -- event picture (placeholder)
-    imgElement.attr("src", "assets/images/meetup_300x300.jpg");
+    imgElement.attr("src", "assets/images/meetup_200x200.jpg");
 
     imgDiv.append(imgElement);
     meetupCards.append(imgDiv);
