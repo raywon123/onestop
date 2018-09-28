@@ -32,6 +32,7 @@ let isMeetupChosen = false;
 
 let clickedObject = {};
 let databaseObject = [];
+let currentuser;
 
 function initialApp() {
     $("#food").empty();
@@ -138,6 +139,8 @@ $(document).ready(function () {
     //realtime listener
     firebase.auth().onAuthStateChanged(firebaseUser => {
         if (firebaseUser) {
+            currentuser = firebaseUser.uid;
+
             $("#options").removeClass("d-none")
             $("#itineraryContent").removeClass("d-none");
             $("#location").text("Austin, Texas");
@@ -156,9 +159,9 @@ $(document).ready(function () {
 
             $('#meetups').on('click', '.meetupKey', function () {
                 clickedObject = {};
-                console.log($(this).data("key"));
+                // console.log($(this).data("key"));
                 let key = $(this).data("key");
-                console.log(meetupObject[key])
+                // console.log(meetupObject[key])
                 $('.initialDisplay').removeClass("d-none");
                 $('html,body').animate({
                     scrollTop: $("#location").offset().top
@@ -176,7 +179,7 @@ $(document).ready(function () {
 
             })
             $('#movies').on('click', '.movieChosen', function () {
-                console.log('movies clicked');
+                // console.log('movies clicked');
                 
                 $('.initialDisplay').removeClass("d-none");
                 $('html,body').animate({
@@ -212,9 +215,9 @@ $(document).ready(function () {
                 // })
 
                 //ASK ANDREW
-
+                let datesRef = database.ref("user").child(currentuser);
                 if (clickedObject.Type == "Meetup") {
-                    database.ref().child(Date).push({
+                    datesRef.child(Date).push({
                         Type: clickedObject.Type,
                         Name: clickedObject.Name,
                         Location: clickedObject.Location,
@@ -224,14 +227,14 @@ $(document).ready(function () {
                     })
                 }
                 if (clickedObject.Type == "Food") {
-                    database.ref().child(Date).push({
+                    datesRef.child(Date).push({
                         Type: clickedObject.Type,
                         Name: clickedObject.Name
                     })
                 }
 
                 if (clickedObject.Type == "Movies") {
-                    database.ref().child(Date).push({
+                    datesRef.child(Date).push({
                         Type: clickedObject.Type,
                         Name: clickedObject.Name
                     })
@@ -254,12 +257,12 @@ $(document).ready(function () {
                 // console.log(e.date);
                 // console.log(e.date._d);
 
-                console.log(moment(e.date._d).format('YYYYMMDD'));
+                // console.log(moment(e.date._d).format('YYYYMMDD'));
                 datepick = e.date._d;
                 //converting to utc for meetup api
                 dateUsed = moment(datepick, 'MM/DD/YYYY').format('YYYY-MM-DDTHH:mm')
                 meetupApi(dateUsed);
-                console.log(dateUsed);
+                // console.log(dateUsed);
                 movieDateUsed = moment(datepick, 'MM/DD/YYYY').format('YYYY-MM-DD')
                 movieApi(movieDateUsed);
             });
@@ -277,7 +280,7 @@ $(document).ready(function () {
             $('.search-button').on('click', function () {
                 console.log('search clicked');
                 let response = $('.search').val();
-                console.log(response);
+                // console.log(response);
                 $('.location').html(response);
                 $('.search').val('');
                 //get city data, populate results for food/events/movies
@@ -301,13 +304,13 @@ $(document).ready(function () {
                     Name: foodObject.restaurants[foodindex].restaurant.name,
                     Date: dateUsed
                 };
-                console.log(foodindex);
-                console.log(foodObject.restaurants[foodindex]);
+                // console.log(foodindex);
+                // console.log(foodObject.restaurants[foodindex]);
 
             });
 
             DatabaseToItinerary();
-            console.log(databaseObject)
+            // console.log(databaseObject)
             // // makeEvent();
             // console.log("events", events)
 
@@ -392,7 +395,7 @@ function meetupApi(date) {
         success: function (result) {
 
             meetupObject = [];
-            console.log(result);
+            // console.log(result);
             meetupObject.push.apply(meetupObject, result.data.events);
             // console.log(data);
 
@@ -722,7 +725,7 @@ function movieApi(date) {
                 plot = data.Plot;
                 poster = data.Poster;
                 omdbObject[n] = JSON.stringify(data);
-                console.log(data)
+                // console.log(data)
                 // console.log("POSTER: ", poster);
                 // console.log('PLOT: ', plot)
                 // console.log('data response: ', data.Response)
@@ -796,7 +799,7 @@ function itinerary() {
 
 function DatabaseToItinerary() {
     databaseObject = [];
-    let datesRef = database.ref();
+    let datesRef = database.ref("user").child(currentuser);
 
     datesRef.on('child_added', function (childsnap) {
         // console.log(childsnap.ref.key);
