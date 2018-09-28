@@ -31,6 +31,10 @@ body, HTML {
     border: none;
 }
 
+#logon {
+    color: black;
+}
+
 #setup {
     padding: 10px;
 }
