@@ -667,8 +667,9 @@ function displayFoodChosen(data) {
     desDiv.append("<p class=\"foodname-chosen\">" + name + "</p>");
     desDiv.append("<p class=\"foodaddress-chosen\">" + address + "</p>");
     desDiv.append("<p class=\"foodtype-chosen\">" + "Cuisine : " + type + "</p>");
-    desDiv.append("<p class=\"foodrating-chosen\">" + "Rating : " + rating + "</p>");
+    desDiv.append("<p class=\"foodrating-chosen\">" + "Rating : " + rating + "/5.0</p>");
     desDiv.append("<p class=\"foodcost-chosen\">" + "Cost for Two : $" + cost + "</p>");
+    // -- for weblink to menu
     // desDiv.append("<p class=\"foodmenu-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
     foodCard.append(desDiv);
 
@@ -848,33 +849,135 @@ function displayMeetup(data) {
     //pulling data
     // console.log(data)
 
+    // --- Vande's code -- begins --
     // image element
-    let imgDiv = $("<div>");
-    let imgMeetup = $("<img>");
+    // let imgDiv = $("<div>");
+    // let imgMeetup = $("<img>");
 
     // // Adding a class
-    imgDiv.addClass("col-lg-3");
-    imgMeetup.addClass("meetupImg");
-    imgDiv.addClass("my-auto")
+    // imgDiv.addClass("col-lg-3");
+    // imgMeetup.addClass("meetupImg");
+    // imgDiv.addClass("my-auto")
 
-    imgMeetup.attr("src", "assets/images/meetup.jpg");
-    imgDiv.append(imgMeetup);
+    // imgMeetup.attr("src", "assets/images/meetup.jpg");
+    // imgDiv.append(imgMeetup);
+    // meetupCards.append(imgDiv);
+
+    // -- description element
+    // let desDiv = $("<div>");
+    // desDiv.addClass("col-lg-7");
+
+    // desDiv.append("<h2 class=\"meetup-name text-center\">" + data.name + "</h1>");
+    // if (data.venue) desDiv.append("<h6 class=\"foodaddress-chosen\">" + data.venue.name + "</h6>");
+
+    // desDiv.append("<span class=\" text-left \">" + "Description : " + data.description + "</span>");
+    // desDiv.append("<p class=\"foodmenu-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
+    // meetupCards.append(desDiv);
+
+    // --- Vande's code -- ends --
+
+    // --- Raymond's code -- begins --
+
+    // data 
+    // -- Not all events have all the data
+    // -- detailed event:
+    // console.log(data.group.name);
+    // console.log(data.name);
+    // console.log(data.description);
+    // console.log(data.venue.name);
+    // console.log(data.venue.address_1);
+    // console.log(data.venue.city);
+    // console.log(data.local_date);
+    // console.log(data.local_time);
+    // console.log(data.fee.amount);
+    // console.log(data.link);
+
+    // -- non-detailed event:
+    //  console.log(data.name);
+    //  console.log(data.local_date);
+    //  console.log(data.local_time);
+    //  console.log(data.link);
+
+    let name = data.name;
+
+    let groupname = "";
+    if (data.hasOwnProperty('group')) {
+        groupname = data.group.name;
+    }
+
+    let description = "";
+    if (data.hasOwnProperty('description')) {
+        description = data.description;
+    }
+
+    let vname = "";
+    let address = "";
+    let city = "";
+    if (data.hasOwnProperty('venue')) {
+        vname = data.venue.name;
+        address = data.venue.address_1;
+        city = data.venue.city;
+    }
+
+    let date = moment(data.local_date).format('MM/DD/YY');
+    let time = moment(data.local_time, 'HH:mm').format('hh:mm a');
+
+    let fee;
+    if (data.hasOwnProperty('fee')) {
+        fee = "$" + data.fee.amount;
+    }
+    else {
+        fee = "Not Specified";
+    }
+
+
+    // image element
+    let imgDiv = $("<div>");
+    let imgElement = $("<img>");
+
+    // // Adding a class
+    imgDiv.addClass("col-lg-4");
+    imgElement.addClass("thumb-meetup-chosen");
+
+    // -- event picture (placeholder)
+    imgElement.attr("src", "assets/images/meetup_300x300.jpg");
+
+    imgDiv.append(imgElement);
     meetupCards.append(imgDiv);
 
     // -- description element
     let desDiv = $("<div>");
-    desDiv.addClass("col-lg-7");
+    desDiv.addClass("col-lg-6");
 
-    desDiv.append("<h2 class=\"meetup-name text-center\">" + data.name + "</h1>");
-    if (data.venue) desDiv.append("<h6 class=\"foodaddress-chosen\">" + data.venue.name + "</h6>");
+    if (groupname !== null) {
+        desDiv.append("<h3 class=\"meetupgroup-chosen\">" + groupname + "</h3>");
+    }
 
-    desDiv.append("<span class=\" text-left \">" + "Description : " + data.description + "</span>");
-    // desDiv.append("<p class=\"foodmenu-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
+    desDiv.append("<h2 class=\"meetupname-chosen\">" + name + "</h2>");
+
+    if (vname !== null) {
+        desDiv.append("<p class=\"meetupvenue-chosen\">" + "Location : " + vname + "</p>");
+    }
+
+    if (address !== null) {
+        desDiv.append("<p class=\"meetupaddress-chosen\">" + "Address : " + address + ", " + city + "</p>");
+    }
+    desDiv.append("<p class=\"meetuptime-chosen\">" + "Time: " + date + " -- " + time + "</p>");
+
+    if (description !== null) {
+        desDiv.append("<p class=\"meetupdes-chosen\">" + "Description : " + description + "</p>");
+    }
+
+    // if (fee !== null) {
+    //     desDiv.append("<p class=\"meetupcost-chosen\">" + "Cost : " + fee + "</p>");
+    // }
+
+    // -- for weblink
+    // desDiv.append("<p class=\"meetuplink-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
+
     meetupCards.append(desDiv);
 
-    // -- button for Add to Cart
-
-
+    // --- Raymond's code -- ends --
 };
 
 
