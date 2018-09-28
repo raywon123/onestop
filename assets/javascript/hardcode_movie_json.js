@@ -1,5 +1,5 @@
-// http://data.tmsapi.com/v1.1/movies/showings?startDate=2018-09-26&zip=78704&api_key=szt5azey9rbbjqc8jypd7cvw
-let hardcode_moviejson =
+// http://data.tmsapi.com/v1.1/movies/showings?startDate=2018-09-26&zip=78704&api_key=
+let hardcode_movie_json =
 [
     {
         "tmsId": "EV000009241123",
