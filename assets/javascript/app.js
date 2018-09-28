@@ -670,7 +670,7 @@ function displayFoodChosen(data) {
 function movieApi(date) {
     $('#movies').empty();
     omdbObject = [];
-    let movieQueryUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=acy2x82ygb3ce5v3v36f8b7p";
+    let movieQueryUrl = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=acy2x82ygb3ce5v3v36f8b7p";
     //if error on movieQueryURL persists, try this key:p54wc8q9rw4m9bezu48fs7cg
     // console.log('movieQueryUrl: ', movieQueryUrl)
 
