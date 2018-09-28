@@ -100,17 +100,21 @@ $(document).ready(function () {
         let index = $(this).data("movieindex");
         $(".addBtn").show();
         displayMovieChosen(movieObject[index], omdbObject[index]);
-        console.log(omdbObject[index])
+        // console.log(omdbObject[index])
         clickedObject = {};
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
             scrollTop: $("#location").offset().top
         },
             'slow');
-            
-        displayMovieChosen(movieObject[index], omdbObject[index]);
-        console.log(movieObject[index])
-        console.log(omdbObject[index])
+
+        clickedObject = {
+            Date: dateUsed,
+            Type: "Movies",
+            Name: movieObject[index].title
+        };
+        // console.log(clickedObject[index].Title)
+        // console.log(omdbObject[index])
         //set up ajax fun
         //set up ajax function for pulling movie data
         //change button color to show active
@@ -171,14 +175,15 @@ $(document).ready(function () {
                 };
 
             })
-            $('#movies').on('click','.movieChosen', function () {
+            $('#movies').on('click', '.movieChosen', function () {
                 console.log('movies clicked');
-                clickedObject = {};
+                
                 $('.initialDisplay').removeClass("d-none");
                 $('html,body').animate({
                     scrollTop: $("#location").offset().top
                 },
                     'slow');
+
                 //set up ajax fun
                 //set up ajax function for pulling movie data
                 //change button color to show active
@@ -199,12 +204,12 @@ $(document).ready(function () {
                 console.log("clicked")
                 $("#calendar").show('fade-in');
                 let Date = moment(clickedObject.Date).format('YYYY-MM-DDTHH:mm')
-                database.ref().child(Date).on('value', function (snapshot) {
-                    snapshot.forEach(function (snapchild) {
-                        console.log(snapchild.val().Name);
-                        if (snapchild.val().Name == clickedObject.Name) return;
-                    })
-                })
+                // database.ref().child(Date).on('value', function (snapshot) {
+                //     snapshot.forEach(function (snapchild) {
+                //         console.log(snapchild.val().Name);
+                //         if (snapchild.val().Name == clickedObject.Name) return;
+                //     })
+                // })
 
                 //ASK ANDREW
 
@@ -219,6 +224,13 @@ $(document).ready(function () {
                     })
                 }
                 if (clickedObject.Type == "Food") {
+                    database.ref().child(Date).push({
+                        Type: clickedObject.Type,
+                        Name: clickedObject.Name
+                    })
+                }
+
+                if (clickedObject.Type == "Movies") {
                     database.ref().child(Date).push({
                         Type: clickedObject.Type,
                         Name: clickedObject.Name
