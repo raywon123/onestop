@@ -16,7 +16,6 @@ let dateUsed = moment().format('YYYY-MM-DDTHH:mm');
 let movieDateUsed = moment(dateUsed).format('YYYY-MM-DD');
 console.log(dateUsed);
 console.log(movieDateUsed);
-// console.log(hardcode_moviejson);
 
 let food_limit = 10;
 let foodObject = {};
@@ -67,18 +66,18 @@ $(document).ready(function () {
             scrollTop: $("#location").offset().top
         },
             'slow');
-        console.log(foodindex);
-        console.log(foodObject.restaurants[foodindex]);
+        // console.log(foodindex);
+        // console.log(foodObject.restaurants[foodindex]);
         displayFoodChosen(foodObject.restaurants[foodindex]);
 
     });
 
     $('#meetups').on('click', '.meetupKey', function () {
-        console.log($(this).data("key"));
+        // console.log($(this).data("key"));
         let key = $(this).data("key");
         $(".addBtn").show();
-        console.log(meetupObject[key]);
 
+        // console.log(meetupObject[key]);
         // console.log(meetupObject[key].group.lat);
         // console.log(meetupObject[key].group.lon);
         lat = meetupObject[key].group.lat;
@@ -96,7 +95,8 @@ $(document).ready(function () {
         displayMeetup(meetupObject[key]);
         //set up ajax function for pulling event data
         //change button color to show active
-    })
+    });
+
     $('#movies').on('click', '.movieChosen', function () {
         console.log('movies clicked');
         let index = $(this).data("movieindex");
@@ -120,7 +120,7 @@ $(document).ready(function () {
         //set up ajax fun
         //set up ajax function for pulling movie data
         //change button color to show active
-    })
+    });
 
     // --- Daynamically created Buttons clicked - food, meetup, movies  ends
 
@@ -152,11 +152,32 @@ $(document).ready(function () {
             $(".content").removeClass("d-none");
 
 
-            $('#food').on('click', function () {
-                console.log('food clicked');
-                //set up ajax function for pulling restaurant data
-                //change button color to show active
-            })
+            // $('#food').on('click', function () {
+            //     console.log('food clicked');
+            //     //set up ajax function for pulling restaurant data
+            //     //change button color to show active
+            // })
+
+            // Daynamically created Buttons clicked - food, meetup, movies - begins
+
+            $("#food").on("click", ".foodchoice", function () {
+
+                let foodindex = $(this).data('foodindex');
+                $(".addBtn").show();
+                $('.initialDisplay').removeClass("d-none");
+                $('html,body').animate({
+                    scrollTop: $("#location").offset().top
+                },
+                    'slow');
+                clickedObject = {
+                    Type: "Food",
+                    Name: foodObject.restaurants[foodindex].restaurant.name,
+                    Date: dateUsed
+                };
+                // console.log(foodindex);
+                // console.log(foodObject.restaurants[foodindex]);
+
+            });
 
             $('#meetups').on('click', '.meetupKey', function () {
                 clickedObject = {};
@@ -178,7 +199,8 @@ $(document).ready(function () {
                     link: meetupObject[key].link
                 };
 
-            })
+            });
+
             $('#movies').on('click', '.movieChosen', function () {
                 // console.log('movies clicked');
 
@@ -191,7 +213,7 @@ $(document).ready(function () {
                 //set up ajax fun
                 //set up ajax function for pulling movie data
                 //change button color to show active
-            })
+            });
 
             // -- Calendar Date Picker begins ----
             // $('.dates').on('click', function () {
@@ -297,27 +319,6 @@ $(document).ready(function () {
 
             })
 
-
-            // using daynamicly created food buttons
-
-            $("#food").on("click", ".foodchoice", function () {
-
-                let foodindex = $(this).data('foodindex');
-                $(".addBtn").show();
-                $('.initialDisplay').removeClass("d-none");
-                $('html,body').animate({
-                    scrollTop: $("#location").offset().top
-                },
-                    'slow');
-                clickedObject = {
-                    Type: "Food",
-                    Name: foodObject.restaurants[foodindex].restaurant.name,
-                    Date: dateUsed
-                };
-                // console.log(foodindex);
-                // console.log(foodObject.restaurants[foodindex]);
-
-            });
 
             DatabaseToItinerary();
             // console.log(databaseObject)
@@ -699,8 +700,7 @@ function movieApi(date) {
         // console.log('Initial data: ', data);
 
         // -- hardcode movie json ( remove this if you want live data )
-        data = hardcode_moviejson;
-        console.log(data);
+        data = hardcode_movie_json2;
 
         let moviesLimit = data.slice(0, 25);
         let movieArray = [];
@@ -846,7 +846,7 @@ function displayMeetup(data) {
     meetupCards.empty();
 
     //pulling data
-    console.log(data)
+    // console.log(data)
 
     // image element
     let imgDiv = $("<div>");
