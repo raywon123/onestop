@@ -609,74 +609,6 @@ function displayZomato(data) {
 };
 // -- Zomato API ends ----
 
-// function used for when user click the food, it will display more info
-function displayFoodChosen(data) {
-
-    let foodCard = $(".initialDisplay");
-
-    foodCard.empty();
-
-    // data 
-    let thumb_picture = data.restaurant.thumb;
-    let name = data.restaurant.name;
-    let address = data.restaurant.location.address;
-    let price_range = data.restaurant.price_range;
-    let cost = data.restaurant.average_cost_for_two;
-    let rating = data.restaurant.user_rating.aggregate_rating;
-    let phone = data.restaurant.phone_numbers; // not work
-    let menu_url = data.restaurant.menu_url;
-    let type = data.restaurant.cuisines;
-
-
-    // console.log(data.restaurant.thumb);
-    // console.log(data.restaurant.name);
-    // console.log(data.restaurant.location.address);
-    // console.log(data.restaurant.price_range);
-    // console.log(data.restaurant.average_cost_for_two);
-    // console.log(data.restaurant.user_rating.aggregate_rating);
-    // console.log(data.restaurant.phone_numbers);
-    // console.log(data.restaurant.menu_url);
-    // console.log(data.restaurant.cuisines);
-
-
-    // image element
-    let imgDiv = $("<div>");
-    let imgElement = $("<img>");
-
-    // // Adding a class
-    imgDiv.addClass("col-lg-4");
-    imgElement.addClass("thumb-food-chosen");
-
-    // -- food picture
-    // note: not all restaurants have pictures
-    imgElement.attr("src", thumb_picture);
-    if (thumb_picture === "") {
-        imgElement.attr("src", "assets/images/food_default.png");
-    }
-    else {
-        imgElement.attr("src", thumb_picture);
-    }
-
-    imgDiv.append(imgElement);
-    foodCard.append(imgDiv);
-
-    // -- description element
-    let desDiv = $("<div>");
-    desDiv.addClass("col-lg-6");
-
-    desDiv.append("<p class=\"foodname-chosen\">" + name + "</p>");
-    desDiv.append("<p class=\"foodaddress-chosen\">" + address + "</p>");
-    desDiv.append("<p class=\"foodtype-chosen\">" + "Cuisine : " + type + "</p>");
-    desDiv.append("<p class=\"foodrating-chosen\">" + "Rating : " + rating + "/5.0</p>");
-    desDiv.append("<p class=\"foodcost-chosen\">" + "Cost for Two : $" + cost + "</p>");
-    // -- for weblink to menu
-    // desDiv.append("<p class=\"foodmenu-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
-    foodCard.append(desDiv);
-
-    // -- button for Add to Cart
-
-
-};
 
 //GET Movies API data
 function movieApi(date) {
@@ -841,6 +773,76 @@ function DatabaseToItinerary() {
     // console.log(databaseObject)
 }
 
+// function used for when user click the food, it will display more info
+function displayFoodChosen(data) {
+
+    let foodCard = $(".initialDisplay");
+
+    foodCard.empty();
+
+    // data 
+    let thumb_picture = data.restaurant.thumb;
+    let name = data.restaurant.name;
+    let address = data.restaurant.location.address;
+    let price_range = data.restaurant.price_range;
+    let cost = data.restaurant.average_cost_for_two;
+    let rating = data.restaurant.user_rating.aggregate_rating;
+    let phone = data.restaurant.phone_numbers; // not work
+    let menu_url = data.restaurant.menu_url;
+    let type = data.restaurant.cuisines;
+
+
+    // console.log(data.restaurant.thumb);
+    // console.log(data.restaurant.name);
+    // console.log(data.restaurant.location.address);
+    // console.log(data.restaurant.price_range);
+    // console.log(data.restaurant.average_cost_for_two);
+    // console.log(data.restaurant.user_rating.aggregate_rating);
+    // console.log(data.restaurant.phone_numbers);
+    // console.log(data.restaurant.menu_url);
+    // console.log(data.restaurant.cuisines);
+
+
+    // image element
+    let imgDiv = $("<div>");
+    let imgElement = $("<img>");
+
+    // // Adding a class
+    imgDiv.addClass("col-lg-4");
+    imgElement.addClass("thumb-food-chosen");
+
+    // -- food picture
+    // note: not all restaurants have pictures
+    imgElement.attr("src", thumb_picture);
+    if (thumb_picture === "") {
+        imgElement.attr("src", "assets/images/food_default.png");
+    }
+    else {
+        imgElement.attr("src", thumb_picture);
+    }
+
+    imgDiv.append(imgElement);
+    foodCard.append(imgDiv);
+
+    // -- description element
+    let desDiv = $("<div>");
+    desDiv.addClass("col-lg-6");
+
+    desDiv.append("<p class=\"foodname-chosen\">" + name + "</p>");
+    desDiv.append("<p class=\"foodaddress-chosen\">" + address + "</p>");
+    desDiv.append("<p class=\"foodtype-chosen\">" + "Cuisine : " + type + "</p>");
+    desDiv.append("<p class=\"foodrating-chosen\">" + "Rating : " + rating + "/5.0</p>");
+    desDiv.append("<p class=\"foodcost-chosen\">" + "Cost for Two : $" + cost + "</p>");
+    // -- for weblink to menu
+    // desDiv.append("<p class=\"foodmenu-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
+    foodCard.append(desDiv);
+
+    // -- button for Add to Cart
+
+
+}
+
+
 function displayMeetup(data) {
 
     let meetupCards = $(".initialDisplay");
@@ -978,7 +980,7 @@ function displayMeetup(data) {
     meetupCards.append(desDiv);
 
     // --- Raymond's code -- ends --
-};
+}
 
 
 // function used for when user click the meetup, it will display more info
