@@ -95,15 +95,22 @@ $(document).ready(function () {
         //set up ajax function for pulling event data
         //change button color to show active
     })
-    $('#movies').on('click', function () {
+    $('#movies').on('click', '.movieChosen', function () {
         console.log('movies clicked');
         let index = $(this).data("movieindex");
+        $(".addBtn").show();
         displayMovieChosen(movieObject[index], omdbObject[index]);
+        console.log(omdbObject[index])
+        clickedObject = {};
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
             scrollTop: $("#location").offset().top
         },
             'slow');
+            
+        displayMovieChosen(movieObject[index], omdbObject[index]);
+        console.log(movieObject[index])
+        console.log(omdbObject[index])
         //set up ajax fun
         //set up ajax function for pulling movie data
         //change button color to show active
@@ -164,7 +171,7 @@ $(document).ready(function () {
                 };
 
             })
-            $('#movies').on('click', function () {
+            $('#movies').on('click','.movieChosen', function () {
                 console.log('movies clicked');
                 clickedObject = {};
                 $('.initialDisplay').removeClass("d-none");
@@ -192,10 +199,10 @@ $(document).ready(function () {
                 console.log("clicked")
                 $("#calendar").show('fade-in');
                 let Date = moment(clickedObject.Date).format('YYYY-MM-DDTHH:mm')
-                database.ref().child(Date).on('value', function(snapshot) {
-                    snapshot.forEach(function(snapchild) {
+                database.ref().child(Date).on('value', function (snapshot) {
+                    snapshot.forEach(function (snapchild) {
                         console.log(snapchild.val().Name);
-                        if(snapchild.val().Name == clickedObject.Name) return;
+                        if (snapchild.val().Name == clickedObject.Name) return;
                     })
                 })
 
@@ -303,8 +310,8 @@ $(document).ready(function () {
                     center: ' title ',
                     right: 'next'
                 },
-                height: 400,    
-                themeSystem:'bootstrap3',  
+                height: 400,
+                themeSystem: 'bootstrap3',
                 themeButtonIcons: {
                     prev: 'circle-triangle-w',
                     next: 'circle-triangle-e',
@@ -640,18 +647,19 @@ function displayFoodChosen(data) {
     foodCard.append(desDiv);
 
     // -- button for Add to Cart
-    
+
 
 };
 
 //GET Movies API data
 function movieApi(date) {
     $('#movies').empty();
+    omdbObject = [];
     let movieQueryUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=acy2x82ygb3ce5v3v36f8b7p";
     //if error on movieQueryURL persists, try this key:p54wc8q9rw4m9bezu48fs7cg
     // console.log('movieQueryUrl: ', movieQueryUrl)
-    
-    omdbObject = [];
+
+
     let movieData = [];
     let movieLimit = movieData.slice(0, 24);
     // console.log('movieLimit', movieLimit);
@@ -702,6 +710,7 @@ function movieApi(date) {
                 plot = data.Plot;
                 poster = data.Poster;
                 omdbObject[n] = JSON.stringify(data);
+                console.log(data)
                 // console.log("POSTER: ", poster);
                 // console.log('PLOT: ', plot)
                 // console.log('data response: ', data.Response)
@@ -773,7 +782,7 @@ function itinerary() {
 
 }
 
-function DatabaseToItinerary() {    
+function DatabaseToItinerary() {
     databaseObject = [];
     let datesRef = database.ref();
 
@@ -825,14 +834,14 @@ function displayMeetup(data) {
     desDiv.addClass("col-lg-7");
 
     desDiv.append("<h2 class=\"meetup-name text-center\">" + data.name + "</h1>");
-    if(data.venue)desDiv.append("<h6 class=\"foodaddress-chosen\">" + data.venue.name + "</h6>");
+    if (data.venue) desDiv.append("<h6 class=\"foodaddress-chosen\">" + data.venue.name + "</h6>");
 
     desDiv.append("<span class=\" text-left \">" + "Description : " + data.description + "</span>");
     // desDiv.append("<p class=\"foodmenu-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
     meetupCards.append(desDiv);
 
     // -- button for Add to Cart
-    
+
 
 };
 
@@ -840,10 +849,11 @@ function displayMeetup(data) {
 // function used for when user click the meetup, it will display more info
 function displayMovieChosen(movie, omdbS) {
 
+    console.log(omdbS)
     let movieCard = $(".initialDisplay");
     let omdb = JSON.parse(omdbS);
-    console.log(omdb)
-    console.log(movieCard)
+    movieCard.empty();
+    // console.log(movieCard)
     // -- data from movies api
     // console.log(movie.title);
     // console.log(movie.showtimes);
@@ -922,7 +932,7 @@ function displayMovieChosen(movie, omdbS) {
     // -- button for Add to Cart
     // let cartBtn = $("<button>");
     // cartBtn.addClass("w-100 float-right col-lg-2 btn btn-light btn-lg addBtn h-25 mt-5");
-    // cartBtn.text("Add Event");
-    movieCard.append(cartBtn);
+    // // cartBtn.text("Add Event");
+    // movieCard.append(cartBtn);
 
 }

@@ -101,7 +101,7 @@ $(document).ready(function () {
             scrollTop: $(".headDisplay").offset().top
         },
             'slow');
-
+        console.log(omdbObject[index])
         displayMovieChosen(movieObject[index], omdbObject[index]);
         //set up ajax fun
         //set up ajax function for pulling movie data
@@ -686,7 +686,7 @@ function movieApi(date) {
 
 
                 omdbObject[n] = JSON.stringify(data);
-                // console.log(data);
+                console.log(data);
 
                 // -- data from omdb
                 // console.log(data.Title);
@@ -717,6 +717,7 @@ function displayMovieChosen(movie, omdbS) {
 
     let movieCard = $(".initialDisplay");
     let omdb = JSON.parse(omdbS);
+    movieCard.empty();
 
     // -- data from movies api
     // console.log(movie.title);
