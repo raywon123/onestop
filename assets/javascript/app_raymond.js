@@ -9,7 +9,6 @@ var config = {
 firebase.initializeApp(config);
 
 //variables
-let database = firebase.database();
 let data;
 let datepick = "";
 let dateUsed = moment().format('YYYY-MM-DDTHH:mm');
@@ -30,14 +29,10 @@ let lat = lat_meetup;
 let lon = lon_meetup;
 let isMeetupChosen = false;
 
-let clickedObject = {};
-let databaseObject = [];
-
 function initialApp() {
     $("#food").empty();
     $("#meetups").empty();
     $("#movies").empty();
-    $(".addBtn").hide();
     searchZomato("Austin", lat, lon);
     meetupApi(dateUsed);
     movieApi(movieDateUsed);
@@ -62,10 +57,10 @@ $(document).ready(function () {
         let foodindex = $(this).data('foodindex');
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
-            scrollTop: $("#location").offset().top
+            scrollTop: $(".headDisplay").offset().top
         },
             'slow');
-        console.log(foodindex);
+        // console.log(foodindex);
         console.log(foodObject.restaurants[foodindex]);
         displayFoodChosen(foodObject.restaurants[foodindex]);
 
@@ -74,7 +69,6 @@ $(document).ready(function () {
     $('#meetups').on('click', '.meetupKey', function () {
         console.log($(this).data("key"));
         let key = $(this).data("key");
-        $(".addBtn").show();
         console.log(meetupObject[key]);
 
         // console.log(meetupObject[key].group.lat);
@@ -86,37 +80,35 @@ $(document).ready(function () {
 
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
-            scrollTop: $("#location").offset().top
+            scrollTop: $(".headDisplay").offset().top
         },
             'slow');
 
-
-        displayMeetup(meetupObject[key]);
+        displayMeetupChosen(meetupObject[key]);
         //set up ajax function for pulling event data
         //change button color to show active
-    })
+    });
+
     $('#movies').on('click', '.movieChosen', function () {
-        console.log('movies clicked');
+        // console.log('movies clicked');
+        // console.log($(this).data("movieindex"));
         let index = $(this).data("movieindex");
-        $(".addBtn").show();
-        displayMovieChosen(movieObject[index], omdbObject[index]);
-        console.log(omdbObject[index])
-        clickedObject = {};
+        // console.log(movieObject[index]);
+        // console.log(omdbObject[index]);
+
         $('.initialDisplay').removeClass("d-none");
         $('html,body').animate({
-            scrollTop: $("#location").offset().top
+            scrollTop: $(".headDisplay").offset().top
         },
             'slow');
-            
-        displayMovieChosen(movieObject[index], omdbObject[index]);
-        console.log(movieObject[index])
         console.log(omdbObject[index])
+        displayMovieChosen(movieObject[index], omdbObject[index]);
         //set up ajax fun
         //set up ajax function for pulling movie data
         //change button color to show active
-    })
+    });
 
-    // --- Daynamically created Buttons clicked - food, meetup, movies  ends
+    // --- Daynamically created Buttons clicked - food, meetup, movies -- ends
 
     // -- Calendar Date Picker begins ----
     // $('.dates').on('click', function () {
@@ -131,242 +123,86 @@ $(document).ready(function () {
                 format: 'MM/DD',
             });
     });
+
+    $(".datetimepicker").on("dp.change", function (e) {
+        // $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+        // console.log(e.date);
+        // console.log(e.date._d);
+
+        console.log(moment(e.date._d).format('YYYYMMDD'));
+        datepick = e.date._d;
+        //converting to utc for meetup api
+        dateUsed = moment(datepick, 'MM/DD/YYYY').format('YYYY-MM-DDTHH:mm')
+        meetupApi(dateUsed);
+        console.log(dateUsed);
+        movieDateUsed = moment(datepick, 'MM/DD/YYYY').format('YYYY-MM-DD')
+        movieApi(movieDateUsed);
+    });
+
+    // console.log(moment(datepick).format('YYYYMMDD'));
+
+    // --- Calendar Date Picker ends -------
+
+    $('.itinerary').on('click', function () {
+        console.log('itinerary clicked');
+        //go to itinerary page
+        //divide each into yes, maybe or saving for later
+    })
+
+    $('.search-button').on('click', function () {
+        console.log('search clicked');
+        let response = $('.search').val();
+        console.log(response);
+        $('.location').html(response);
+        $('.search').val('');
+        //get city data, populate results for food/events/movies
+
+    })
+})
+
+
+//google auth
+$(document).ready(function () {
+    //get elements
+    const txtEmail = document.getElementById('txtEmail');
+    const txtPassword = document.getElementById('txtPassword');
+    const btnLogin = document.getElementById('btnLogin');
+    const btnSignUp = document.getElementById('btnSignUp');
+
+    //add login event
+    $("#btnLogin").on("click", e => {
+        const txtEmail = $("#txtEmail").val();
+        const txtPassword = $("#txtPassword").val();
+        const auth = firebase.auth();
+
+        //sign in
+        const promise = auth.signInWithEmailAndPassword(txtEmail, txtPassword);
+        promise.catch(e => console.log(e.message))
+    });
+
+    //Add signup event
+    $("#btnSignUp").on("click", e => {
+
+        //TODO : CHECK FOR REAL EMAIL
+        const txtEmail = $("#txtEmail").val();
+        const txtPassword = $("#txtPassword").val();
+        const auth = firebase.auth();
+
+        //sign in
+        const promise = auth.createUserWithEmailAndPassword(txtEmail, txtPassword);
+        promise.catch(e => console.log(e.message))
+    })
+
     //realtime listener
     firebase.auth().onAuthStateChanged(firebaseUser => {
         if (firebaseUser) {
-            $("#options").removeClass("d-none")
-            $("#itineraryContent").removeClass("d-none");
-            $("#location").text("Austin, Texas");
-            $(".loginRow").hide("slow   ");
-
-
-            console.log("loggedin")
-            $(".content").removeClass("d-none");
-
-
-            $('#food').on('click', function () {
-                console.log('food clicked');
-                //set up ajax function for pulling restaurant data
-                //change button color to show active
-            })
-
-            $('#meetups').on('click', '.meetupKey', function () {
-                clickedObject = {};
-                console.log($(this).data("key"));
-                let key = $(this).data("key");
-                console.log(meetupObject[key])
-                $('.initialDisplay').removeClass("d-none");
-                $('html,body').animate({
-                    scrollTop: $("#location").offset().top
-                },
-                    'slow');
-                let time = moment(meetupObject[key].local_time, 'HH:mm').format('hh:mm a')
-                clickedObject = {
-                    Date: dateUsed,
-                    Type: "Meetup",
-                    Name: meetupObject[key].name,
-                    Location: meetupObject[key].venue.address_1,
-                    Time: time,
-                    link: meetupObject[key].link
-                };
-
-            })
-            $('#movies').on('click','.movieChosen', function () {
-                console.log('movies clicked');
-                clickedObject = {};
-                $('.initialDisplay').removeClass("d-none");
-                $('html,body').animate({
-                    scrollTop: $("#location").offset().top
-                },
-                    'slow');
-                //set up ajax fun
-                //set up ajax function for pulling movie data
-                //change button color to show active
-            })
-
-            // -- Calendar Date Picker begins ----
-            // $('.dates').on('click', function () {
-            //     console.log('dates clicked');
-            //     //display calendar
-            //     //save date
-            // })
-
-            $(".addBtn").on('click', function () {
-                $('html,body').animate({
-                    scrollTop: $("#calendar").offset().top
-                },
-                    'fast');
-                console.log("clicked")
-                $("#calendar").show('fade-in');
-                let Date = moment(clickedObject.Date).format('YYYY-MM-DDTHH:mm')
-                database.ref().child(Date).on('value', function (snapshot) {
-                    snapshot.forEach(function (snapchild) {
-                        console.log(snapchild.val().Name);
-                        if (snapchild.val().Name == clickedObject.Name) return;
-                    })
-                })
-
-                //ASK ANDREW
-
-                if (clickedObject.Type == "Meetup") {
-                    database.ref().child(Date).push({
-                        Type: clickedObject.Type,
-                        Name: clickedObject.Name,
-                        Location: clickedObject.Location,
-                        Time: clickedObject.Time,
-                        link: clickedObject.link
-
-                    })
-                }
-                if (clickedObject.Type == "Food") {
-                    database.ref().child(Date).push({
-                        Type: clickedObject.Type,
-                        Name: clickedObject.Name
-                    })
-                }
-
-                DatabaseToItinerary();
-                $('#calendar').fullCalendar('removeEvents');
-                $('#calendar').fullCalendar('addEventSource', databaseObject);
-            });
-
-            $(function () {
-                $('.datetimepicker').datetimepicker(
-                    {
-                        format: 'MM/DD',
-                    });
-            });
-
-            $(".datetimepicker").on("dp.change", function (e) {
-                // $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-                // console.log(e.date);
-                // console.log(e.date._d);
-
-                console.log(moment(e.date._d).format('YYYYMMDD'));
-                datepick = e.date._d;
-                //converting to utc for meetup api
-                dateUsed = moment(datepick, 'MM/DD/YYYY').format('YYYY-MM-DDTHH:mm')
-                meetupApi(dateUsed);
-                console.log(dateUsed);
-                movieDateUsed = moment(datepick, 'MM/DD/YYYY').format('YYYY-MM-DD')
-                movieApi(movieDateUsed);
-            });
-
-            // console.log(moment(datepick).format('YYYYMMDD'));
-
-            // --- Calendar Date Picker ends -------
-
-            $('.itinerary').on('click', function () {
-                console.log('itinerary clicked');
-                //go to itinerary page
-                //divide each into yes, maybe or saving for later
-            })
-
-            $('.search-button').on('click', function () {
-                console.log('search clicked');
-                let response = $('.search').val();
-                console.log(response);
-                $('.location').html(response);
-                $('.search').val('');
-                //get city data, populate results for food/events/movies
-
-            })
-
-
-            // using daynamicly created food buttons
-
-            $("#food").on("click", ".foodchoice", function () {
-
-                let foodindex = $(this).data('foodindex');
-                $(".addBtn").show();
-                $('.initialDisplay').removeClass("d-none");
-                $('html,body').animate({
-                    scrollTop: $("#location").offset().top
-                },
-                    'slow');
-                clickedObject = {
-                    Type: "Food",
-                    Name: foodObject.restaurants[foodindex].restaurant.name,
-                    Date: dateUsed
-                };
-                console.log(foodindex);
-                console.log(foodObject.restaurants[foodindex]);
-
-            });
-
-            DatabaseToItinerary();
-            console.log(databaseObject)
-            // // makeEvent();
-            // console.log("events", events)
-
-            //Simulate an async call
-            setTimeout(function () {
-                $('#calendar').fullCalendar('addEventSource', databaseObject);
-            }, 500);
-
-            $("#calendar").fullCalendar({
-                header: {
-                    left: 'prev',
-                    center: ' title ',
-                    right: 'next'
-                },
-                height: 400,
-                themeSystem: 'bootstrap3',
-                themeButtonIcons: {
-                    prev: 'circle-triangle-w',
-                    next: 'circle-triangle-e',
-                    prevYear: 'seek-prev',
-                    nextYear: 'seek-next'
-                }
-            });
-
-            //itinerary click event
-            $("#itinerary").on("click", e => {
-                $("#calendar").toggle('fade-in');
-            })
-
-        }
-
-        else {
-            $("#location").text("Please Login or Sign up");
-
+            console.log(firebaseUser)
+        } else {
             console.log("not logged in")
-
-            //get elements
-            const txtEmail = document.getElementById('txtEmail');
-            const txtPassword = document.getElementById('txtPassword');
-            const btnLogin = document.getElementById('btnLogin');
-            const btnSignUp = document.getElementById('btnSignUp');
-
-            //add login event
-            $("#btnLogin").on("click", e => {
-                const txtEmail = $("#txtEmail").val();
-                const txtPassword = $("#txtPassword").val();
-                const auth = firebase.auth();
-
-                //sign in
-                const promise = auth.signInWithEmailAndPassword(txtEmail, txtPassword);
-                promise.catch(e => console.log(e.message))
-            });
-
-
-
-            //Add signup event
-            $("#btnSignUp").on("click", e => {
-
-                //TODO : CHECK FOR REAL EMAIL
-                const txtEmail = $("#txtEmail").val();
-                const txtPassword = $("#txtPassword").val();
-                const auth = firebase.auth();
-
-                //sign in
-                const promise = auth.createUserWithEmailAndPassword(txtEmail, txtPassword);
-                promise.catch(e => console.log(e.message))
-            })
         }
     })
+});
 
-})
 //GETS MEETUP API
 function meetupApi(date) {
     let queryUrl = "https://api.meetup.com/find/upcoming_events?photo-host=public&order=time&start_date_range=" + date + "&page=10&text=austin&sign=true&key=883432577b254a175d755a767f1467";
@@ -434,6 +270,123 @@ function meetupApi(date) {
             $('#meetups').append(group);
         }
     })
+}
+
+// function used for when user click the meetup, it will display more info
+function displayMeetupChosen(data) {
+
+    let meetupCard = $(".initialDisplay");
+
+    // foodCard.empty();
+
+    // data 
+    // -- Not all events have all the data
+    // -- detailed event:
+    // console.log(data.group.name);
+    // console.log(data.name);
+    // console.log(data.description);
+    // console.log(data.venue.name);
+    // console.log(data.venue.address_1);
+    // console.log(data.venue.city);
+    // console.log(data.local_date);
+    // console.log(data.local_time);
+    // console.log(data.fee.amount);
+    // console.log(data.link);
+
+    // -- non-detailed event:
+    //  console.log(data.name);
+    //  console.log(data.local_date);
+    //  console.log(data.local_time);
+    //  console.log(data.link);
+
+    let name = data.name;
+
+    let groupname = "";
+    if (data.hasOwnProperty('group')) {
+        groupname = data.group.name;
+    }
+
+    let description = "";
+    if (data.hasOwnProperty('description')) {
+        description = data.description;
+    }
+
+    let vname = "";
+    let address = "";
+    let city = "";
+    if (data.hasOwnProperty('venue')) {
+        vname = data.venue.name;
+        address = data.venue.address_1;
+        city = data.venue.city;
+    }
+
+    let date = moment(data.local_date).format('MM/DD/YY');
+    let time = moment(data.local_time, 'HH:mm').format('hh:mm a');
+
+    let fee;
+    if (data.hasOwnProperty('fee')) {
+        fee = "$" + data.fee.amount;
+    }
+    else {
+        fee = "Not Specified";
+    }
+
+
+
+    // image element
+    let imgDiv = $("<div>");
+    let imgElement = $("<img>");
+
+    // // Adding a class
+    imgDiv.addClass("col-lg-4");
+    imgElement.addClass("thumb-meetup-chosen");
+
+    // -- event picture (placeholder)
+    imgElement.attr("src", "assets/images/meetup_default_bw.png");
+
+    imgDiv.append(imgElement);
+    meetupCard.append(imgDiv);
+
+    // -- description element
+    let desDiv = $("<div>");
+    desDiv.addClass("col-lg-6");
+
+    if (groupname !== null) {
+        desDiv.append("<h5 class=\"meetupgroup-chosen\">" + groupname + "</h5>");
+    }
+
+    desDiv.append("<h4 class=\"meetupname-chosen\">" + name + "</h4>");
+
+    if (vname !== null) {
+        desDiv.append("<p class=\"meetupvenue-chosen\">" + "Location : " + vname + "</p>");
+    }
+
+    if (address !== null) {
+        desDiv.append("<p class=\"meetupaddress-chosen\">" + "Address : " + address + ", " + city + "</p>");
+    }
+
+    if (description !== null) {
+        desDiv.append("<p class=\"meetupdes-chosen\">" + "Description : " + description + "</p>");
+    }
+
+    desDiv.append("<p class=\"meetuptime-chosen\">" + "Time: " + date + " -- " + time + "</p>");
+
+    if (fee !== null) {
+        desDiv.append("<p class=\"meetupcost-chosen\">" + "Cost : " + fee + "</p>");
+    }
+
+    // -- for weblink
+    // desDiv.append("<p class=\"meetuplink-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
+
+    meetupCard.append(desDiv);
+
+    // -- button for Add to Cart
+    let cartBtn = $("<button>");
+    cartBtn.addClass("w-100 float-right col-lg-2 btn btn-light btn-lg addBtn h-25 mt-5");
+    cartBtn.text("Add Event");
+    meetupCard.append(cartBtn);
+
+
 }
 
 // -- Zomato API - begins
@@ -588,7 +541,7 @@ function displayFoodChosen(data) {
 
     let foodCard = $(".initialDisplay");
 
-    foodCard.empty();
+    // foodCard.empty();
 
     // data 
     let thumb_picture = data.restaurant.thumb;
@@ -638,16 +591,20 @@ function displayFoodChosen(data) {
     let desDiv = $("<div>");
     desDiv.addClass("col-lg-6");
 
-    desDiv.append("<p class=\"foodname-chosen\">" + name + "</p>");
+    desDiv.append("<h4 class=\"foodname-chosen\">" + name + "</h4>");
     desDiv.append("<p class=\"foodaddress-chosen\">" + address + "</p>");
     desDiv.append("<p class=\"foodtype-chosen\">" + "Cuisine : " + type + "</p>");
-    desDiv.append("<p class=\"foodrating-chosen\">" + "Rating : " + rating + "</p>");
+    desDiv.append("<p class=\"foodrating-chosen\">" + "Rating : " + rating + "/5.0</p>");
     desDiv.append("<p class=\"foodcost-chosen\">" + "Cost for Two : $" + cost + "</p>");
+    // -- for weblink to menu
     // desDiv.append("<p class=\"foodmenu-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
     foodCard.append(desDiv);
 
     // -- button for Add to Cart
-
+    let cartBtn = $("<button>");
+    cartBtn.addClass("w-100 float-right col-lg-2 btn btn-light btn-lg addBtn h-25 mt-5");
+    cartBtn.text("Add Event");
+    foodCard.append(cartBtn);
 
 };
 
@@ -655,11 +612,9 @@ function displayFoodChosen(data) {
 function movieApi(date) {
     $('#movies').empty();
     omdbObject = [];
-    let movieQueryUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=acy2x82ygb3ce5v3v36f8b7p";
+    let movieQueryUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDateUsed + "&zip=78704&api_key=p54wc8q9rw4m9bezu48fs7cg";
     //if error on movieQueryURL persists, try this key:p54wc8q9rw4m9bezu48fs7cg
     // console.log('movieQueryUrl: ', movieQueryUrl)
-
-
     let movieData = [];
     let movieLimit = movieData.slice(0, 24);
     // console.log('movieLimit', movieLimit);
@@ -675,9 +630,28 @@ function movieApi(date) {
         movieArray.push(moviesLimit);
         // console.log('movieArray: ', movieArray);
         // console.log('25 movies: ', moviesLimit);
+
         movieObject = data;
+        // console.log(data);
+
+        // -- data from movies api
+        // console.log(data[0].title);
+        // console.log(data[0].showtimes);
+        // console.log(data[0].showtimes[0].dateTime);
+        // console.log(data[0].showtimes[0].theatre.name);
+        // console.log(data[0].showtimes[0].theatre.id);
+        // console.log(data[0].entityType);
+        // console.log(data[0].genres[0]);
+        // console.log(data[0].shortDescription);
+        // console.log(data[0].releaseDate);
+        // console.log(data[0].advisories);
+        // console.log(data[0].directors);
+        // console.log(data[0].topCast);
+        // console.log(data[0].longDescription);
+
+
         let movieTimeFormat = moment("2018-09-26T11:00", 'YYYY-MM-DDTHH:mm').format('LT');
-        // console.log('MOVIE TIME FORMAT: ', movieTimeFormat)
+        //console.log('MOVIE TIME FORMAT: ', movieTimeFormat)
 
         for (let n = 0; n < moviesLimit.length; n++) {
             let movieTitles = moviesLimit[n].title;
@@ -709,8 +683,17 @@ function movieApi(date) {
             $.get(omdbURL).then(data => {
                 plot = data.Plot;
                 poster = data.Poster;
+
+
                 omdbObject[n] = JSON.stringify(data);
-                console.log(data)
+                console.log(data);
+
+                // -- data from omdb
+                // console.log(data.Title);
+                // console.log(data.Runtime);
+                // console.log(data.Plot);
+                // console.log(data.Poster);
+
                 // console.log("POSTER: ", poster);
                 // console.log('PLOT: ', plot)
                 // console.log('data response: ', data.Response)
@@ -725,135 +708,17 @@ function movieApi(date) {
             })
 
             $('#movies').append(movieButtons);
-
         }
-
-
     })
 }
-
-// -- geo distance function
-//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-//:::                                                                         :::
-//:::  This routine calculates the distance between two points (given the     :::
-//:::  latitude/longitude of those points). It is being used to calculate     :::
-//:::  the distance between two locations using GeoDataSource (TM) prodducts  :::
-//:::                                                                         :::
-//:::  Definitions:                                                           :::
-//:::    South latitudes are negative, east longitudes are positive           :::
-//:::                                                                         :::
-//:::  Passed to function:                                                    :::
-//:::    lat1, lon1 = Latitude and Longitude of point 1 (in decimal degrees)  :::
-//:::    lat2, lon2 = Latitude and Longitude of point 2 (in decimal degrees)  :::
-//:::    unit = the unit you desire for results                               :::
-//:::           where: 'M' is statute miles (default)                         :::
-//:::                  'K' is kilometers                                      :::
-//:::                  'N' is nautical miles                                  :::
-//:::                                                                         :::
-//:::  Worldwide cities and other features databases with latitude longitude  :::
-//:::  are available at https://www.geodatasource.com                          :::
-//:::                                                                         :::
-//:::  For enquiries, please contact sales@geodatasource.com                  :::
-//:::                                                                         :::
-//:::  Official Web site: https://www.geodatasource.com                        :::
-//:::                                                                         :::
-//:::               GeoDataSource.com (C) All Rights Reserved 2017            :::
-//:::                                                                         :::
-//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-function distance(lat1, lon1, lat2, lon2, unit) {
-    var radlat1 = Math.PI * lat1 / 180
-    var radlat2 = Math.PI * lat2 / 180
-    var theta = lon1 - lon2
-    var radtheta = Math.PI * theta / 180
-    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-    if (dist > 1) {
-        dist = 1;
-    }
-    dist = Math.acos(dist)
-    dist = dist * 180 / Math.PI
-    dist = dist * 60 * 1.1515
-    if (unit == "K") { dist = dist * 1.609344 }
-    if (unit == "N") { dist = dist * 0.8684 }
-    return dist
-}
-
-function itinerary() {
-
-}
-
-function DatabaseToItinerary() {
-    databaseObject = [];
-    let datesRef = database.ref();
-
-    datesRef.on('child_added', function (childsnap) {
-        // console.log(childsnap.ref.key);
-        // console.log(childsnap.val());
-        childsnap.forEach(function (grandchildsnap) {
-            // console.log(grandchildsnap.val())
-            // console.log(childsnap.ref.key)
-            let objectContainer = {};
-            objectContainer =
-                {
-                    title: grandchildsnap.val().Name,
-                    start: childsnap.ref.key,
-                    allDay: true
-                }
-
-            databaseObject.push(objectContainer)
-        })
-
-    })
-
-    console.log(databaseObject)
-}
-
-function displayMeetup(data) {
-
-    let meetupCards = $(".initialDisplay");
-    meetupCards.empty();
-
-    //pulling data
-    console.log(data)
-
-    // image element
-    let imgDiv = $("<div>");
-    let imgMeetup = $("<img>");
-
-    // // Adding a class
-    imgDiv.addClass("col-lg-3");
-    imgMeetup.addClass("meetupImg");
-    imgDiv.addClass("my-auto")
-
-    imgMeetup.attr("src", "assets/images/meetup.jpg");
-    imgDiv.append(imgMeetup);
-    meetupCards.append(imgDiv);
-
-    // -- description element
-    let desDiv = $("<div>");
-    desDiv.addClass("col-lg-7");
-
-    desDiv.append("<h2 class=\"meetup-name text-center\">" + data.name + "</h1>");
-    if (data.venue) desDiv.append("<h6 class=\"foodaddress-chosen\">" + data.venue.name + "</h6>");
-
-    desDiv.append("<span class=\" text-left \">" + "Description : " + data.description + "</span>");
-    // desDiv.append("<p class=\"foodmenu-chosen\"><button type=\"button\" class=\"btn-dark\">" + "<a href =\"" + menu_url + "\">Menu</a></button></p>");
-    meetupCards.append(desDiv);
-
-    // -- button for Add to Cart
-
-
-};
-
 
 // function used for when user click the meetup, it will display more info
 function displayMovieChosen(movie, omdbS) {
 
-    console.log(omdbS)
     let movieCard = $(".initialDisplay");
     let omdb = JSON.parse(omdbS);
     movieCard.empty();
-    // console.log(movieCard)
+
     // -- data from movies api
     // console.log(movie.title);
     // console.log(movie.showtimes);
@@ -930,9 +795,56 @@ function displayMovieChosen(movie, omdbS) {
     movieCard.append(desDiv);
 
     // -- button for Add to Cart
-    // let cartBtn = $("<button>");
-    // cartBtn.addClass("w-100 float-right col-lg-2 btn btn-light btn-lg addBtn h-25 mt-5");
-    // // cartBtn.text("Add Event");
-    // movieCard.append(cartBtn);
+    let cartBtn = $("<button>");
+    cartBtn.addClass("w-100 float-right col-lg-2 btn btn-light btn-lg addBtn h-25 mt-5");
+    cartBtn.text("Add Event");
+    movieCard.append(cartBtn);
 
+}
+
+// 
+// -- geo distance function
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//:::                                                                         :::
+//:::  This routine calculates the distance between two points (given the     :::
+//:::  latitude/longitude of those points). It is being used to calculate     :::
+//:::  the distance between two locations using GeoDataSource (TM) prodducts  :::
+//:::                                                                         :::
+//:::  Definitions:                                                           :::
+//:::    South latitudes are negative, east longitudes are positive           :::
+//:::                                                                         :::
+//:::  Passed to function:                                                    :::
+//:::    lat1, lon1 = Latitude and Longitude of point 1 (in decimal degrees)  :::
+//:::    lat2, lon2 = Latitude and Longitude of point 2 (in decimal degrees)  :::
+//:::    unit = the unit you desire for results                               :::
+//:::           where: 'M' is statute miles (default)                         :::
+//:::                  'K' is kilometers                                      :::
+//:::                  'N' is nautical miles                                  :::
+//:::                                                                         :::
+//:::  Worldwide cities and other features databases with latitude longitude  :::
+//:::  are available at https://www.geodatasource.com                          :::
+//:::                                                                         :::
+//:::  For enquiries, please contact sales@geodatasource.com                  :::
+//:::                                                                         :::
+//:::  Official Web site: https://www.geodatasource.com                        :::
+//:::                                                                         :::
+//:::               GeoDataSource.com (C) All Rights Reserved 2017            :::
+//:::                                                                         :::
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+function distance(lat1, lon1, lat2, lon2, unit) {
+    var radlat1 = Math.PI * lat1 / 180
+    var radlat2 = Math.PI * lat2 / 180
+    var theta = lon1 - lon2
+    var radtheta = Math.PI * theta / 180
+    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    if (dist > 1) {
+        dist = 1;
+    }
+    dist = Math.acos(dist)
+    dist = dist * 180 / Math.PI
+    dist = dist * 60 * 1.1515
+    if (unit == "K") { dist = dist * 1.609344 }
+    if (unit == "N") { dist = dist * 0.8684 }
+    return dist
 }

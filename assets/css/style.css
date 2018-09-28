@@ -1,7 +1,12 @@
+body, HTML {
+    background: black;
+}
+
 #jumbotron {
     background: url("../images/pexels-photo-356830.jpeg");
     opacity: 0.75;
     color: white;
+    margin-bottom: 0px;
 }
 
 .logo {
@@ -27,9 +32,9 @@
 }
 
 #setup {
-
-  padding: 10px; 
+    padding: 10px;
 }
+
 .home {
     width: 100px;
     text-align: center;
@@ -37,13 +42,14 @@
     color: white;
     float: right;
 }
+
 a {
     text-decoration: none !important;
     color: white;
 }
+
 a:hover {
     color: #6c757d;
-
 }
 
 button {
@@ -60,6 +66,10 @@ button {
 .search-button {
     width: 80px;
     text-align: center;
+    background: #6c757d;
+    padding: 4px;
+    border-radius: 4px;
+    color: white;
 }
 
 .search-bar {
@@ -76,23 +86,22 @@ button {
     padding: 3px;*/
 }
 
-
-#food,
-.dates,
-#meetups,
-#movies {
-
+#food, .dates, #meetups, #movies {
     padding: 10px;
     background: #C0C0C0;
     border-radius: 3px;
-   
     text-align: center;
     color: white;
 }
+
 .form-control {
-    width: 70px;
+    width: 71px;
     text-align: center;
+    padding: 4px;
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
+
 #location {
     /*padding: 11px;*/
     text-transform: capitalize;
@@ -100,9 +109,10 @@ button {
 }
 
 .user-dates, .itin {
-    margin-right: 10px;
+    width: 80px;
+    text-align: center;
     background: #6c757d;
-    padding: 4px;
+    padding: 6px;
     border-radius: 4px;
     color: white;
 }
@@ -117,7 +127,7 @@ button {
 }
 
 #foodContainer {
-    background: url("../images/food.jpg");
+    background-color: rgb(73, 74, 77);
     text-align: center;
     color: white;
 }
@@ -129,18 +139,34 @@ button {
 }
 
 #moviesContainer {
-    background: url("../images/movies.jpg");
+    background-color: rgb(73, 74, 77);
     text-align: center;
+    color: white;
 }
 
-.itin {
-
+.itinerary {
+    color: white;
 }
 
 #header {
     background: rgb(97, 219, 209);
     padding: 10px;
     margin: 0 3px;
+}
+
+.initialDisplay {
+    background: #444;
+    margin-left: 3px;
+    margin-right: 3px;
+    color: white;
+    font-size: 18px;
+}
+
+.btn {
+    background: #6c757d;
+    padding: 6px;
+    border-radius: 4px;
+    color: white;
 }
 
 #modal-register, #modal-signin {
@@ -156,22 +182,25 @@ button {
     max-width: 200px;
 }
 
-@media only screen and (max-width: 760px),
-(min-device-width: 768px) and (max-device-width: 1024px) {
-    #select, #location, .form-control, #itinerary {
-      
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+    #select, #location, .form-control, #itinerary, {
         text-align: center;
         margin-bottom: 8px;
     }
-/* Date Picker  */
-.datetimepicker {
-    width: 70px;
-    background: white;
-    border: 1px solid #555;
-    color:  #6c757d;
+    /* Date Picker  */
+    .datetimepicker {
+        width: 70px;
+        background: white;
+        border: 1px solid #555;
+        color: #6c757d;
+    }
 }
 
-.hide {
-    display: none;
+#calendar {
+    background: #444;
+    color: white;
 }
+
+.meetupImg {
+    height: 300px;
 }

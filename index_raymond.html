@@ -9,11 +9,6 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/1.6.4/fullcalendar.print.css" type="text/css" rel="stylesheet"
-    />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.1/fullcalendar.min.css" type="text/css" rel="stylesheet"
-    />
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet"> -->
     <title>OneStop</title>
@@ -36,7 +31,7 @@
                     <div class="col-sm" id="main">Your stop for planning your next outing.</div>
                     <div class="col-sm"></div>
 
-                    <div class="col-sm loginRow" id="logon">
+                    <div class="col-sm" id="logon">
                         <input id="txtEmail" type="text" name="username" placeholder="Username" required>
                         <input id="btnLogin" type="submit" value="Login"> </div>
                 </div>
@@ -44,7 +39,7 @@
                 <div class="row" id="jumbotron-3">
                     <div class="col-sm" id="main"></div>
                     <div class="col-sm"></div>
-                    <div class="col-sm loginRow" id="logon">
+                    <div class="col-sm" id="logon">
                         <input id="txtPassword" type="password" name="password" placeholder="Password" required>
                         <input id="btnSignUp" type="submit" value="Signup"> </div>
                 </div>
@@ -52,76 +47,65 @@
                 <div class="row" id="jumbotron-4">
                     <div class="col-sm"></div>
                     <div class="col-sm"></div>
-                    <div class="col-sm loginRow" id="user-detail">Welcome User Name (Placeholder)</div>
+                    <div class="col-sm" id="user-detail">Welcome User Name (Placeholder)</div>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <div class="container-fluid border border-0 content">
+    <div class="container-fluid border border-0">
         <div class="row" id="header">
-            <div class="col-sm " id="select">
-                <!-- <input class="search" placeholder="Choose a city">
-                <button class='search-button'>Submit</button> -->
+            <div class="col-sm" id="select">
+                <input class="search" placeholder="Choose a city">
+                <button class='search-button'>Submit</button>
             </div>
-            <div class="col-sm display-4 text-center" id="location">Location (Placeholder)</div>
+            <div class="col-sm" id="location">Location (Placeholder)</div>
 
-            <div class="col-sm d-none" id="itineraryContent">
-                <input type='text' class="form-control datetimepicker btn btn-lg btn-light w-100 mt-1" placeholder="Dates" />
-                <button id="itinerary" class="btn btn-lg">Itinerary</button>
-                <button class="btn btn-light btn-lg addBtn mt-2">Add Event</button>
+            <div class="col-sm" id="itinerary">
+                <input type='text' class="form-control datetimepicker" placeholder="Dates" />
+                <span class="itin">See Your Itinerary</span>
             </div>
         </div>
 
-            <div class="row initialDisplay d-none">
-                
-                
-            </div>
-            
-            
-        
 
-        <div class="itineraryCalendar row m-2">
-            <div id="calendar" class=""></div>
-        </div>
-
-        <div class="row d-none" id="options">
-            <div class="col-lg-4" id="foodContainer">
-                <h1>Food</h1>
-                <div class="col-sm" id="food">
-
-                </div>
-            </div>
-            <div class="col-lg-4" id="meetupsContainer">
-                <h1>Local Meetups</h1>
-                <div class="col-sm" id="meetups"></div>
-            </div>
-            <div class="col-lg-4" id="moviesContainer">
-                <h1>Movies</h1>
-                <div class="col-sm" id="movies"></div>
-            </div>
+        <div class="row initialDisplay d-none">
         </div>
 
     </div>
 
+    <div class="row" id="options">
+        <div class="col-lg-4" id="foodContainer">
+            <h1>Food</h1>
+            <div class="col-sm" id="food">
+
+            </div>
+        </div>
+        <div class="col-lg-4" id="meetupsContainer">
+            <h1>Local Meetups</h1>
+            <div class="col-sm" id="meetups"></div>
+        </div>
+        <div class="col-lg-4" id="moviesContainer">
+            <h1>Movies</h1>
+            <div class="col-sm" id="movies"></div>
+        </div>
+    </div>
+
+    </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
-    <script language="javascript" src="https://momentjs.com/downloads/moment.js"></script>
-
-    <script src='http://fullcalendar.io/js/fullcalendar-2.1.1/fullcalendar.min.js'></script>
-
     <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
-
+    <script language="javascript" src="https://momentjs.com/downloads/moment.js"></script>
     <script language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker.min.css">
-    <script src="assets/javascript/app.js" async defer></script>
-
+    <script src="assets/javascript/app_raymond.js" async defer></script>
 
 
 </body>
