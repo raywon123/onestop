@@ -632,8 +632,23 @@ function movieApi(date) {
     }).then(function (data) {
         // console.log('Initial data: ', data);
 
-        // -- hardcode movie json ( remove this if you want live data )
+        // -- hardcode movie json - begins ( remove this if you want live data )
         data = hardcode_movie_json2;
+
+        let today = moment().format('YYYY-MM-DD');
+        let nextday = moment(today, 'YYYY-MM-DD').add(1,'days').format('YYYY-MM-DD');
+        let next2day = moment(today, 'YYYY-MM-DD').add(2,'days').format('YYYY-MM-DD');
+        let next3day = moment(today, 'YYYY-MM-DD').add(3,'days').format('YYYY-MM-DD');
+        if (date === nextday) {
+            data = hardcode_movie_json3;
+        }
+        if (date === next2day) {
+            data = hardcode_movie_json4;
+        }
+        if (date === next3day) {
+            data = hardcode_movie_json5;
+        }
+        // -- hardcode movie json - ends
 
         let moviesLimit = data.slice(0, 25);
         let movieArray = [];
