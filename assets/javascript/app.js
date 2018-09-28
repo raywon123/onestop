@@ -16,6 +16,7 @@ let dateUsed = moment().format('YYYY-MM-DDTHH:mm');
 let movieDateUsed = moment(dateUsed).format('YYYY-MM-DD');
 console.log(dateUsed);
 console.log(movieDateUsed);
+// console.log(hardcode_moviejson);
 
 let food_limit = 10;
 let foodObject = {};
@@ -683,6 +684,8 @@ function movieApi(date) {
     //if error on movieQueryURL persists, try this key:p54wc8q9rw4m9bezu48fs7cg
     // console.log('movieQueryUrl: ', movieQueryUrl)
 
+    // this link is for hardcode movie json so ajax will work (remove this if you want live data) 
+    movieQueryUrl = "https://www.omdbapi.com/?t=" + "Matrix" + "&plot=short&apikey=trilogy";
 
     let movieData = [];
     let movieLimit = movieData.slice(0, 24);
@@ -694,6 +697,11 @@ function movieApi(date) {
         method: "GET"
     }).then(function (data) {
         // console.log('Initial data: ', data);
+
+        // -- hardcode movie json ( remove this if you want live data )
+        data = hardcode_moviejson;
+        console.log(data);
+
         let moviesLimit = data.slice(0, 25);
         let movieArray = [];
         movieArray.push(moviesLimit);
